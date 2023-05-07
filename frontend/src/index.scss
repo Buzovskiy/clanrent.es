@@ -1,5 +1,6 @@
 $color-dark-blue: #022031;
 $color-light-blue: rgb(25, 49, 63, 0.8);
+$color-orange: #90632D;
 
 @import "./components/About/style.scss";
 @import "./components/AboutPage/style.scss";
@@ -32,3 +33,5 @@ $color-light-blue: rgb(25, 49, 63, 0.8);
 @import "./components/ServiceList/style.scss";
 @import "./components/Team/style.scss";
 @import "./components/Testimonial/style.scss";
+
+@import "./main-component/App/App.scss";

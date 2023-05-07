@@ -41,7 +41,7 @@
 }
 
 .call-box h2 span {
-  color: #ec3323;
+  color: $color-orange;
 }
 
 .call-box-inner p {
@@ -75,7 +75,7 @@
 
 .call-text p {
   text-transform: capitalize;
-  color: #e04639;
+  color: $color-orange;
   font-size: 17px;
   margin-bottom: 5px;
 }

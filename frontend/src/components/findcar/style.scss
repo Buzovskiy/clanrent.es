@@ -42,7 +42,7 @@ input#timepicker {
 }
 .find-form p input:focus,
 .find-form p select:focus {
-  border: 2px solid #ec3323 !important;
+  border: 2px solid $color-orange !important;
 }
 
 .find-form form p {

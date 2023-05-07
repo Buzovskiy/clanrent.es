@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Container, Row, Col } from "react-bootstrap";
 import { FaCheck } from "react-icons/fa";
 import signature from "../../img/signature.png";
-import Img1 from "../../img/about.png";
+import Img1 from "../../img/about.jpg";
 
 const About = () => {
   const { t } = useTranslation();

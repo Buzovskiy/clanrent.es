@@ -53,7 +53,7 @@
   bottom: -13px;
   width: 18%;
   height: 2px;
-  background: #ec3323;
+  background: $color-orange;
   left: 0;
 }
 
@@ -104,7 +104,7 @@
   background: transparent;
   right: 10px;
   height: 100%;
-  color: #ec3323;
+  color: $color-orange;
   cursor: pointer;
 }
 
@@ -148,7 +148,7 @@
 }
 
 .footer-post-text p {
-  color: #e97369;
+  color: $color-orange;
   font-style: italic;
   font-size: 13px;
 }
@@ -166,7 +166,7 @@
 }
 
 .copyright p svg {
-  fill: #ec3323;
+  fill: $color-orange;
   margin: 0 2px;
 }
 

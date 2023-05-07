@@ -152,7 +152,7 @@ button.gauto-theme-btn {
   background: transparent;
   border-width: 2px;
   border-style: solid;
-  border-color: #ec3323;
+  border-color: $color-orange;
   position: relative;
   margin: 1em;
   display: inline-block;
@@ -172,7 +172,7 @@ button.gauto-theme-btn:after {
   content: "";
   display: block;
   position: absolute;
-  border-color: #ec3323;
+  border-color: $color-orange;
   box-sizing: border-box;
   border-style: solid;
   width: 1em;
@@ -202,22 +202,22 @@ button.gauto-theme-btn:hover:before,
 button.gauto-theme-btn:hover:after {
   width: calc(100% + 12px);
   height: calc(100% + 12px);
-  border-color: #ec3323;
+  border-color: $color-orange;
 }
 
 .gauto-btn:hover,
 button.gauto-theme-btn:hover {
   color: #fff;
-  background-color: #ec3323;
-  border-color: #ec3323;
+  background-color: $color-orange;
+  border-color: $color-orange;
 }
 
 button.gauto-theme-btn {
-  color: #ec3323;
+  color: $color-orange;
   background: transparent;
   border-width: 2px;
   border-style: solid;
-  border-color: #ec3323;
+  border-color: $color-orange;
   position: relative;
   display: block;
   padding: 8px 15px;
@@ -237,7 +237,7 @@ button.gauto-theme-btn:after {
   content: "";
   display: block;
   position: absolute;
-  border-color: #ec3323;
+  border-color: $color-orange;
   box-sizing: border-box;
   border-style: solid;
   width: 1em;
@@ -265,14 +265,14 @@ button.gauto-theme-btn:hover:before,
 button.gauto-theme-btn:hover:after {
   width: calc(100% + 12px);
   height: calc(100% + 12px);
-  border-color: #ec3323;
+  border-color: $color-orange;
 }
 
 .gauto-btn:hover,
 button.gauto-theme-btn:hover {
   color: #fff;
-  background-color: #ec3323;
-  border-color: #ec3323;
+  background-color: $color-orange;
+  border-color: $color-orange;
 }
 
 .site-heading {
@@ -284,7 +284,7 @@ button.gauto-theme-btn:hover {
 
 .site-heading h4 {
   font-size: 20px;
-  color: #ec3323;
+  color: $color-orange;
   margin-bottom: 10px;
   display: block;
   font-weight: 500;
@@ -350,8 +350,8 @@ button.gauto-theme-btn:hover {
 }
 
 .btntoTop {
-  background-color: #ec3323;
-  border: 2px solid #ec3323;
+  background-color: $color-orange;
+  border: 2px solid $color-orange;
   border-radius: 5px;
   bottom: 70px;
   cursor: pointer;
