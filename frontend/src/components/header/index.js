@@ -54,7 +54,7 @@ const Header = () => {
             <Col md={6}>
               <div className="header-top-left">
                 <p>
-                  {t("need_help")} <FaPhoneAlt /> {t("call")}: +321 123 45 978
+                  {t("need_help")} <FaPhoneAlt /> {t("call")}: +34 692 369 781
                 </p>
               </div>
             </Col>

@@ -43,9 +43,12 @@ const Hero = () => {
                       <div className="slider-text">
                         <h2>{t("hero_slide_title")}</h2>
                         <p>{t("hero_slide_subtitle")}</p>
-                        <Link to="/" onClick={onClick} className="gauto-btn">
+                        <Link to="/car-booking-iframe" className="gauto-btn">
                           {t("researve_now")}
                         </Link>
+                        {/*<Link to="/reservation.html" className="gauto-btn">*/}
+                        {/*  {t("researve_now")}*/}
+                        {/*</Link>*/}
                       </div>
                     </Col>
                   </Row>

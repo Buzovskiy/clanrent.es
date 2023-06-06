@@ -7,6 +7,7 @@ import ServicePage from "../ServicePage";
 import ServiceSingle from "../ServiceDetails";
 import CarListingPage from "../CarListingPage";
 import CarBookingPage from "../CarBookingPage";
+import CarBookingPageIframe from "../CarBookingPageIframe";
 import GalleryPage from "../GalleryPage";
 import ProductPage from "../ProductPage";
 import ProductSinglePage from "../ProductSingle";
@@ -31,6 +32,7 @@ const AllRoute = () => {
           <Route path="/service-single" element={<ServiceSingle />} />
           <Route path="/car-listing" element={<CarListingPage />} />
           <Route path="/car-booking" element={<CarBookingPage />} />
+          <Route path="/car-booking-iframe" element={<CarBookingPageIframe />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/product" element={<ProductPage />} />
           <Route path="/product-single" element={<ProductSinglePage />} />

@@ -6,7 +6,7 @@
 }
 
 .find-box {
-  background: #fff url(../../img/find-box-bg.png) no-repeat scroll 0 0;
+  background: #fff url(../../img/find-box-bg.png) no-repeat scroll 0 81%;
   padding: 30px;
   position: relative;
   z-index: 999;
@@ -118,12 +118,12 @@ input#timepicker {
 
 @media (min-width: 992px) and (max-width: 1169px) {
   .find-box {
-    background: #fff url(../../img/find-box-bg.png) no-repeat scroll -45px 0px;
+    background: #fff url(../../img/find-box-bg.png) no-repeat scroll -45px 81%;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .find-box {
-    background: #fff url(../../img/find-box-bg.png) no-repeat scroll -120px 0;
+    background: #fff url(../../img/find-box-bg.png) no-repeat scroll -120px 81%;
   }
   .find-text {
     margin-top: 25px;
