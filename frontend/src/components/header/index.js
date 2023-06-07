@@ -54,7 +54,7 @@ const Header = () => {
             <Col md={6}>
               <div className="header-top-left">
                 <p>
-                  {t("need_help")} <FaPhoneAlt /> {t("call")}: +34 692 369 781
+                  {t("need_help")} <FaPhoneAlt /> {t("call")}: +34 607 366 983
                 </p>
               </div>
             </Col>
@@ -111,8 +111,8 @@ const Header = () => {
                     <img src={globe} alt="globe" />
                   </div>
                   <div className="header-promo-info">
-                    <h3>Newyork, USA</h3>
-                    <p>{t("melbourne_city")}</p>
+                    <h3>Alicante, Spain</h3>
+                    <p>C. Juan de Villanueva, 18, Elche</p>
                   </div>
                 </div>
                 <div className="single-header-promo">

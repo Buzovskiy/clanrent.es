@@ -49,7 +49,7 @@ const About = () => {
                   <img src={signature} alt="signature" />
                 </div>
                 <div className="signature-right">
-                  <h3>Robertho Garcia</h3>
+                  <h3>Jose Manuel</h3>
                   <p>{t("president")}</p>
                 </div>
               </div>
