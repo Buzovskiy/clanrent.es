@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import decouple
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-64(uc9&5kg_zsgbq2yh^yw=5x1yl46m-b671h8-m&a4m-4tk-+'
+SECRET_KEY = decouple.config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = decouple.config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = decouple.config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
 
 
 # Application definition
@@ -75,8 +76,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': decouple.config('DEFAULT_DB_ENGINE', default='django.db.backends.sqlite3'),
+        'NAME': decouple.config('DEFAULT_DB_NAME', default=BASE_DIR / 'db.sqlite3'),
+        'USER': decouple.config('DEFAULT_DB_USER'),
+        'PASSWORD': decouple.config('DEFAULT_DB_PASSWORD'),
+        'HOST': decouple.config('DEFAULT_DB_HOST', default='localhost'),
+        'PORT': decouple.config('DEFAULT_DB_PORT', default='5432'),
     }
 }
 
@@ -121,3 +126,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOWED_ORIGINS = decouple.config('CORS_ALLOWED_ORIGINS', cast=lambda v: [s.strip() for s in v.split(',')])
+
+RENTSYST_CLIENT_ID = decouple.config('RENTSYST_CLIENT_ID')
+RENTSYST_CLIENT_SECRET = decouple.config('RENTSYST_CLIENT_SECRET')
+
