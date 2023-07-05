@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import {useTranslation} from "react-i18next";
 import Header from "../../components/header";
 import Hero from "../../components/hero";
 import FindCar from "../../components/findcar";
@@ -13,11 +14,12 @@ import Blog from "../../components/Blog";
 import Footer from "../../components/Footer";
 
 const HomePage = () => {
+    const {t} = useTranslation();
   return (
     <Fragment>
       <Header />
       <Hero />
-      <FindCar />
+      <FindCar t={t}/>
       <About />
       <Service />
       <Promo />
