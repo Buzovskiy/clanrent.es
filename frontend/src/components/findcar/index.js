@@ -19,8 +19,12 @@ class FindCar extends Component {
    constructor(props) {
       super(props);
       this.state = {
-         pickup_location: '',
-         return_location: '',
+         form_data: {
+            pickup_location: '',
+            return_location: '',
+            rental_start_date: '',
+            rental_end_date: '',
+         }
       }
    }
 
@@ -57,30 +61,36 @@ class FindCar extends Component {
    handleChange = (e) => {
       let {name, value} = e.target;
       // this.checkFieldErrors(e.target);
-      // if (e.target.type === "checkbox") {
-      //    name = e.target.name;
-      //    value = this.state.formFields.hasOwnProperty(name) ? this.state.formFields[name] : [];
-      //    value = value.filter(item => item !== e.target.value);
-      //    if (e.target.checked) value.push(e.target.value);
-      // }
-      // const formFields = {...this.state.formFields, [name]: value};
-      // this.setState({formFields});
+      const form_data = {...this.state.form_data, [name]: value};
+      this.setState({form_data},
+         // () => {
+         //    console.log(this.state.form_data);
+         // }
+      );
    };
 
-   submitHandler = (e, data2) => {
+   submitHandler = (e) => {
       e.preventDefault();
-      let data = {
-         vehicle_id: '31025',
-         dates: '2023-07-28 12:00 - 2023-07-30 12:00',
-         pickup_location: '7151',
-         return_location: '7151'
-      }
+      // If rental dates and locations not exist don't send request
+      if (!(this.state.form_data.rental_start_date && this.state.form_data.rental_end_date)) return false;
+      if (!(this.state.form_data.pickup_location && this.state.form_data.return_location)) return false;
+
+      let pickup_date_start = this.state.form_data.rental_start_date.replace('T', ' ');
+      let pickup_date_end = this.state.form_data.rental_end_date.replace('T', ' ');
+
+      let params = {
+         dates: `${pickup_date_start} - ${pickup_date_end}`,
+         pickup_location: this.state.form_data.pickup_location,
+         return_location: this.state.form_data.return_location
+      };
+      // console.log(data);
       axios
-         .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, data)
+         .get(`${process.env.REACT_APP_API_LINK}/v1/booking/search/`, {params: params})
          .then((res) => {
-            // console.log(res);
+            console.log(res);
          })
          .catch((error) => { // error is handled in catch block
+            console.log(error);
             // if (error.response) { // status code out of the range of 2xx
             // } else {// Error on setting up the request
             //    let form_errors = [...this.state.form_errors, error.message];
@@ -106,50 +116,65 @@ class FindCar extends Component {
                            </Col>
                            <Col md={8}>
                               <div className="find-form">
-                                 <form onSubmit={(e) => this.submitHandler(e, {field1: 'value1'})}>
+                                 <form onSubmit={(e) => this.submitHandler(e)}>
                                     <Row>
                                        <Col md={4}>
                                           <p>
                                              <input
                                                 type="text"
+                                                name="pickup_location"
                                                 placeholder={t("from_address")}
-                                                value={this.state.pickup_location}
+                                                value={this.state.form_data.pickup_location}
                                                 onChange={this.handleChange}
                                              />
                                           </p>
                                        </Col>
                                        <Col md={4}>
                                           <p>
-                                             <input type="text" placeholder={t("to_address")}/>
-                                          </p>
-                                       </Col>
-                                       <Col md={4}>
-                                          <p>
-                                             <select placeholder={t("SelectCar")}>
-                                                <option>{t("ac_car")}</option>
-                                                <option>{t("non_ac_car")}</option>
-                                             </select>
+                                             <input
+                                                type="text"
+                                                name="return_location"
+                                                placeholder={t("to_address")}
+                                                value={this.state.form_data.return_location}
+                                                onChange={this.handleChange}
+                                             />
                                           </p>
                                        </Col>
                                     </Row>
                                     <Row>
                                        <Col md={4}>
                                           <p>
-                                             <DatePickerComponent
-                                                id="datepicker"
-                                                placeholder={t("journey_date")}
-                                             ></DatePickerComponent>
+                                             <label htmlFor="rental_start_date">{t("rental_start_date")}</label>
+                                             <input
+                                                type="datetime-local"
+                                                id="rental_start_date"
+                                                name="rental_start_date"
+                                                value={this.state.form_data.rental_start_date}
+                                                onChange={this.handleChange}
+                                             />
                                           </p>
                                        </Col>
                                        <Col md={4}>
                                           <p>
-                                             <TimePickerComponent
-                                                id="timepicker"
-                                                placeholder={t("journey_time")}
-                                             ></TimePickerComponent>
+                                             <label htmlFor="rental_end_date">{t("rental_end_date")}</label>
+                                             <input
+                                                type="datetime-local"
+                                                id="rental_end_date"
+                                                name="rental_end_date"
+                                                value={this.state.form_data.rental_end_date}
+                                                onChange={this.handleChange}
+                                             />
                                           </p>
                                        </Col>
-                                       <Col md={4}>
+                                       {/*<Col md={4}>*/}
+                                       {/*   <p>*/}
+                                       {/*      <TimePickerComponent*/}
+                                       {/*         id="timepicker"*/}
+                                       {/*         placeholder={t("journey_time")}*/}
+                                       {/*      ></TimePickerComponent>*/}
+                                       {/*   </p>*/}
+                                       {/*</Col>*/}
+                                       <Col md={4} className={'align-self-end'}>
                                           <p>
                                              <button type="submit" className="gauto-theme-btn">
                                                 {t("find_car")}
