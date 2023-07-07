@@ -1,13 +1,12 @@
 import React, {Component} from "react";
-import {useTranslation} from "react-i18next";
 import {Container, Row, Col} from "react-bootstrap";
 import {registerLicense} from "@syncfusion/ej2-base";
 import axios from "axios";
 
-import {
-   DatePickerComponent,
-   TimePickerComponent,
-} from "@syncfusion/ej2-react-calendars";
+// import {
+//    DatePickerComponent,
+//    TimePickerComponent,
+// } from "@syncfusion/ej2-react-calendars";
 
 
 registerLicense(
@@ -29,6 +28,7 @@ class FindCar extends Component {
    }
 
    componentDidMount() {
+
       axios
          .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`)
          .then((res) => {
@@ -83,20 +83,26 @@ class FindCar extends Component {
          pickup_location: this.state.form_data.pickup_location,
          return_location: this.state.form_data.return_location
       };
-      // console.log(data);
-      axios
-         .get(`${process.env.REACT_APP_API_LINK}/v1/booking/search/`, {params: params})
-         .then((res) => {
-            console.log(res);
-         })
-         .catch((error) => { // error is handled in catch block
-            console.log(error);
-            // if (error.response) { // status code out of the range of 2xx
-            // } else {// Error on setting up the request
-            //    let form_errors = [...this.state.form_errors, error.message];
-            //    this.setState({form_errors});
-            // }
-         });
+
+      console.log(this.props.createSearchParams(params).toString());
+      this.props.navigate({
+         pathname: '/car-listing',
+         search: `?${this.props.createSearchParams(params)}`
+      });
+
+      // axios
+      //    .get(`${process.env.REACT_APP_API_LINK}/v1/booking/search/`, {params: params})
+      //    .then((res) => {
+      //       console.log(res);
+      //    })
+      //    .catch((error) => { // error is handled in catch block
+      //       console.log(error);
+      //       // if (error.response) { // status code out of the range of 2xx
+      //       // } else {// Error on setting up the request
+      //       //    let form_errors = [...this.state.form_errors, error.message];
+      //       //    this.setState({form_errors});
+      //       // }
+      //    });
    };
 
 

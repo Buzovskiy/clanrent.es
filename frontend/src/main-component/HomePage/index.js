@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { useNavigate, createSearchParams } from 'react-router-dom';
 import {useTranslation} from "react-i18next";
 import Header from "../../components/header";
 import Hero from "../../components/hero";
@@ -19,7 +20,7 @@ const HomePage = () => {
     <Fragment>
       <Header />
       <Hero />
-      <FindCar t={t}/>
+      <FindCar t={t} navigate={useNavigate()} createSearchParams={createSearchParams}/>
       <About />
       <Service />
       <Promo />
