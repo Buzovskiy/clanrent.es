@@ -30,23 +30,6 @@ class ApiRequest:
         return result
 
 
-
-
-
-# def post(request, *args, **kwargs):
-#     access_token = request.session.get('rentsyst_access_token')
-#     headers = {'Authorization': f'Bearer {access_token}'}
-#     if 'headers' in kwargs:
-#         headers.update(kwargs['headers'])
-#         kwargs.pop('headers')
-#     result = requests.post(*args, **kwargs, headers=headers)
-#     if result.status_code == 401:
-#         # If not authorized make new request with refreshed token
-#         headers.update({'Authorization': f'Bearer {refresh_token(request)}'})
-#         result = requests.post(*args, **kwargs, headers=headers)
-#     return result
-
-
 credentials = {
     'client_id': settings.RENTSYST_CLIENT_ID,
     'client_secret': settings.RENTSYST_CLIENT_SECRET,

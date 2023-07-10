@@ -27,36 +27,7 @@ class FindCar extends Component {
       }
    }
 
-   componentDidMount() {
-
-      axios
-         .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`)
-         .then((res) => {
-            // console.log(res);
-         })
-         .catch((error) => { // error is handled in catch block
-            // if (error.response) { // status code out of the range of 2xx
-            //    // console.log("Status :" + error.response.status);
-            //    if (error.response.status === 400 && typeof (error.response.data) === 'object') {
-            //       let fields_errors = error.response.data;
-            //       this.setState({fields_errors});
-            //       if (error.response.data.hasOwnProperty('non_field_errors')) {
-            //          let form_errors = [...this.state.form_errors, ...error.response.data.non_field_errors];
-            //          this.setState({form_errors});
-            //       }
-            //    } else {
-            //       let form_errors = [...this.state.form_errors, String(error.response.data)];
-            //       this.setState({form_errors});
-            //    }
-            // } else if (error.request) { // The request was made but no response was received
-            //    let form_errors = [...this.state.form_errors, error.request];
-            //    this.setState({form_errors});
-            // } else {// Error on setting up the request
-            //    let form_errors = [...this.state.form_errors, error.message];
-            //    this.setState({form_errors});
-            // }
-         });
-   }
+   componentDidMount() {}
 
    handleChange = (e) => {
       let {name, value} = e.target;
@@ -89,20 +60,6 @@ class FindCar extends Component {
          pathname: '/car-listing',
          search: `?${this.props.createSearchParams(params)}`
       });
-
-      // axios
-      //    .get(`${process.env.REACT_APP_API_LINK}/v1/booking/search/`, {params: params})
-      //    .then((res) => {
-      //       console.log(res);
-      //    })
-      //    .catch((error) => { // error is handled in catch block
-      //       console.log(error);
-      //       // if (error.response) { // status code out of the range of 2xx
-      //       // } else {// Error on setting up the request
-      //       //    let form_errors = [...this.state.form_errors, error.message];
-      //       //    this.setState({form_errors});
-      //       // }
-      //    });
    };
 
 
