@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Container, Row, Col } from "react-bootstrap";
 
-import img1 from "../../img/toyota-offer-2.png";
+import img1 from "../../img/promo400-213.png";
 
 const Promo = () => {
   const { t } = useTranslation();

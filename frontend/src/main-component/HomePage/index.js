@@ -22,7 +22,7 @@ const HomePage = () => {
       <Hero />
       <FindCar t={t} navigate={useNavigate()} createSearchParams={createSearchParams}/>
       <About />
-      <Service />
+      {/*<Service />*/}
       <Promo />
       <HotOffers />
       <Testimonial />
