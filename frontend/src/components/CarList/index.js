@@ -8,10 +8,6 @@ import {
    FaTachometerAlt,
    FaAngleDoubleRight,
 } from "react-icons/fa";
-import {
-   DatePickerComponent,
-   TimePickerComponent,
-} from "@syncfusion/ej2-react-calendars";
 
 import img2 from "../../img/nissan-offer.png";
 import img3 from "../../img/audi-offer.png";
@@ -25,7 +21,7 @@ class CarList extends Component {
    constructor(props) {
       super(props);
       this.state = {
-         carList: [[{num: 1}, {num: 2}], [{num: 3}, {num: 4}]]
+         carList: []
       }
    }
 
@@ -172,16 +168,18 @@ class CarList extends Component {
                                  </select>
                               </p>
                               <p>
-                                 <DatePickerComponent
-                                    id="datepicker"
-                                    placeholder={t("journey_date")}
-                                 ></DatePickerComponent>
+                                 {/*<DatePickerComponent*/}
+                                 {/*   id="datepicker"*/}
+                                 {/*   placeholder={t("journey_date")}*/}
+                                 {/*></DatePickerComponent>*/}
+                                 <input type="text"/>
                               </p>
                               <p>
-                                 <TimePickerComponent
-                                    id="timepicker"
-                                    placeholder={t("journey_time")}
-                                 ></TimePickerComponent>
+                                 {/*<TimePickerComponent*/}
+                                 {/*   id="timepicker"*/}
+                                 {/*   placeholder={t("journey_time")}*/}
+                                 {/*></TimePickerComponent>*/}
+                                 <input type="text"/>
                               </p>
                               <p>
                                  <button type="submit" className="gauto-theme-btn">

@@ -1,9 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  DatePickerComponent,
-  TimePickerComponent,
-} from "@syncfusion/ej2-react-calendars";
 import { useTranslation } from "react-i18next";
 import { Container, Row, Col } from "react-bootstrap";
 import {

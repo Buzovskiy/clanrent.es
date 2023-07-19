@@ -1,17 +1,6 @@
 import React, {Component} from "react";
 import {Container, Row, Col} from "react-bootstrap";
-import {registerLicense} from "@syncfusion/ej2-base";
 import axios from "axios";
-
-// import {
-//    DatePickerComponent,
-//    TimePickerComponent,
-// } from "@syncfusion/ej2-react-calendars";
-
-
-registerLicense(
-   "ORg4AjUWIQA/Gnt2VVhiQlFadVlJXGFWfVJpTGpQdk5xdV9DaVZUTWY/P1ZhSXxRdk1jXX9cc3dRR2BbWEM="
-);
 
 
 class FindCar extends Component {
@@ -55,7 +44,6 @@ class FindCar extends Component {
          return_location: this.state.form_data.return_location
       };
 
-      console.log(this.props.createSearchParams(params).toString());
       this.props.navigate({
          pathname: '/car-listing',
          search: `?${this.props.createSearchParams(params)}`

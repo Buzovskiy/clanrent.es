@@ -1,9 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  DatePickerComponent,
-  TimePickerComponent,
-} from "@syncfusion/ej2-react-calendars";
 import { useTranslation } from "react-i18next";
 import { Container, Row, Col } from "react-bootstrap";
 import {
@@ -219,19 +215,21 @@ const CarBooking = () => {
                     <Row>
                       <Col md={6}>
                         <p>
-                          <DatePickerComponent
-                            id="datepicker"
-                            placeholder={t("journey_date")}
-                          ></DatePickerComponent>
+                          {/*<DatePickerComponent*/}
+                          {/*  id="datepicker"*/}
+                          {/*  placeholder={t("journey_date")}*/}
+                          {/*></DatePickerComponent>*/}
+                          <input type="text"/>
                         </p>
                       </Col>
                       <Col md={6}>
-                        <p>
-                          <TimePickerComponent
-                            id="timepicker"
-                            placeholder={t("journey_time")}
-                          ></TimePickerComponent>
-                        </p>
+                        {/*<p>*/}
+                        {/*  <TimePickerComponent*/}
+                        {/*    id="timepicker"*/}
+                        {/*    placeholder={t("journey_time")}*/}
+                        {/*  ></TimePickerComponent>*/}
+                        {/*</p>*/}
+                        <input type="text"/>
                       </Col>
                     </Row>
                     <Row>
