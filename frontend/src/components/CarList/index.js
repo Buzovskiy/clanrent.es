@@ -21,7 +21,8 @@ class CarList extends Component {
    constructor(props) {
       super(props);
       this.state = {
-         carList: []
+         carList: [],
+         productObj: {}
       }
    }
 
@@ -49,6 +50,7 @@ class CarList extends Component {
             let car_list_two_dim_array = []
             let i = 0;
             let num_cols = 2 // The number of columns in a row
+            let productObj = {}
             cars.map(item => {
                if (typeof car_list_two_dim_array[i] === 'undefined') car_list_two_dim_array.push([]);
                if (car_list_two_dim_array[i].length > num_cols - 1) {
@@ -56,8 +58,10 @@ class CarList extends Component {
                   car_list_two_dim_array.push([]);
                }
                car_list_two_dim_array[i].push(item);
+               productObj[item.id] = item;
             });
             this.setState({carList: car_list_two_dim_array});
+            this.setState({productObj: productObj});
          })
          .catch((error) => { // error is handled in catch block
             console.log(error);
@@ -90,6 +94,17 @@ class CarList extends Component {
    onClick = (e) => {
       e.preventDefault();
    };
+
+   clickProduct = (e) => {
+      e.preventDefault();
+      let product_id = e.target.dataset.id;
+      let product_obj = JSON.stringify(this.state.productObj[product_id]);
+      localStorage.setItem('product_for_booking', product_obj);
+      console.log(e.target.href);
+      this.props.navigate({
+         pathname: '/car-booking'
+      });
+   }
 
 
    renderCar = (items_row) => {
@@ -124,11 +139,8 @@ class CarList extends Component {
                      {/*</li>*/}
                   </ul>
                   <div className="offer-action">
-                     <Link to="/car-booking" className="offer-btn-1">
+                     <Link to="/car-booking" data-id={item.id} className="offer-btn-1" onClick={this.clickProduct}>
                         {t("rent_car")}
-                     </Link>
-                     <Link to="/car-booking" className="offer-btn-2">
-                        {t("details")}
                      </Link>
                   </div>
                </div>
