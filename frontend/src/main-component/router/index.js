@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 
 import Homepage from "../HomePage";
 import AboutPage from "../AboutPage";
@@ -19,36 +19,38 @@ import ErrorPage from "../ErrorPage";
 import LoginPage from "../LoginPage";
 import RegisterPage from "../RegisterPage";
 import ContactPage from "../ContactPage";
+import ScrollToTop from "../../components/ScrollToTop";
 
 const AllRoute = () => {
-  return (
-    <div>
-      <Router>
-        <Routes>
-          <Route exact path="/" element={<Homepage />} />
-          <Route path="/home" element={<Homepage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/service" element={<ServicePage />} />
-          <Route path="/service-single" element={<ServiceSingle />} />
-          <Route path="/car-listing" element={<CarListingPage />} />
-          <Route path="/car-booking" element={<CarBookingPage />} />
-          <Route path="/car-booking-iframe" element={<CarBookingPageIframe />} />
-          <Route path="/gallery" element={<GalleryPage />} />
-          <Route path="/product" element={<ProductPage />} />
-          <Route path="/product-single" element={<ProductSinglePage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog-single" element={<BlogSinglePage />} />
-          <Route path="/error" element={<ErrorPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route element={<ErrorPage />} />
-        </Routes>
-      </Router>
-    </div>
-  );
+   return (
+      <div>
+         <Router>
+            <Routes>
+               <Route exact path="/" element={<Homepage/>}/>
+               <Route path="/home" element={<Homepage/>}/>
+               <Route path="/about" element={<AboutPage/>}/>
+               <Route path="/service" element={<ServicePage/>}/>
+               <Route path="/service-single" element={<ServiceSingle/>}/>
+               <Route path="/car-listing" element={<CarListingPage/>}/>
+               <Route path="/car-booking" element={<CarBookingPage/>}/>
+               <Route path="/car-booking-iframe" element={<CarBookingPageIframe/>}/>
+               <Route path="/gallery" element={<GalleryPage/>}/>
+               <Route path="/product" element={<ProductPage/>}/>
+               <Route path="/product-single" element={<ProductSinglePage/>}/>
+               <Route path="/cart" element={<CartPage/>}/>
+               <Route path="/checkout" element={<Checkout/>}/>
+               <Route path="/blog" element={<BlogPage/>}/>
+               <Route path="/blog-single" element={<BlogSinglePage/>}/>
+               <Route path="/error" element={<ErrorPage/>}/>
+               <Route path="/login" element={<LoginPage/>}/>
+               <Route path="/register" element={<RegisterPage/>}/>
+               <Route path="/contact" element={<ContactPage/>}/>
+               <Route element={<ErrorPage/>}/>
+            </Routes>
+            <ScrollToTop/>
+         </Router>
+      </div>
+   );
 };
 
 export default AllRoute;
