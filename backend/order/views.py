@@ -12,6 +12,22 @@ def create_view(request):
     return Response(data=r.json(), status=r.status_code)
 
 
+@api_view(['POST'])
+def update_view(request, order_id=None):
+    """v1/order/update/<int:order_id>"""
+    data = request.data
+    r = ApiRequest(request, url=f'https://api.rentsyst.com/v1/order/update/{order_id}', data=data).post()
+    return Response(data=r.json(), status=r.status_code)
+
+
+@api_view(['POST'])
+def confirm_view(request, order_id=None):
+    """v1/order/confirm/<int:order_id>"""
+    data = request.data
+    r = ApiRequest(request, url=f'https://api.rentsyst.com/v1/order/confirm/{order_id}', data=data).post()
+    return Response(data=r.json(), status=r.status_code)
+
+
 # data = {
 #     'vehicle_id': r'31025',
 #     'dates': r'2023-07-28 12:00 - 2023-07-30 12:00',

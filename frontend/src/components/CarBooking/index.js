@@ -29,6 +29,18 @@ class CarBooking extends Component {
          pickup_location: '',
          return_location: '',
          dates: '',
+         form: {
+            first_name: '',
+            last_name: '',
+            email: '',
+            phone: '',
+            country: '',
+            city: 'No specified',
+            address: '',
+            birthday: '2000-01-01',
+            payment_method: '',
+            comment: ''
+         }
       }
    }
 

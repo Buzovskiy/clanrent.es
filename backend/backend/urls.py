@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from company.views import settings_view
-from order.views import create_view
+from order.views import create_view, update_view, confirm_view
 from product.views import show_cars_view
 
 
@@ -25,5 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/company/settings/', settings_view),
     path('v1/order/create/', create_view),
+    path('v1/order/update/<int:order_id>/', update_view),
+    path('v1/order/confirm/<int:order_id>/', confirm_view),
     path('v1/booking/search/', show_cars_view),
 ]
