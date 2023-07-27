@@ -18,6 +18,7 @@ import {
 import img1 from "../../img/booking.jpg";
 import img2 from "../../img/master-card.jpg";
 import img3 from "../../img/paypal.jpg";
+import axios from "axios";
 
 
 class CarBooking extends Component {
@@ -30,11 +31,11 @@ class CarBooking extends Component {
          return_location: '',
          dates: '',
          form: {
-            first_name: '',
-            last_name: '',
-            email: '',
-            phone: '',
-            country: '',
+            first_name: 'Brad',
+            last_name: 'Pitt',
+            email: 'brad@gmail.com',
+            phone: '+3412345678',
+            country: 'Spain',
             city: 'No specified',
             address: '',
             birthday: '2000-01-01',
@@ -57,17 +58,59 @@ class CarBooking extends Component {
       }
    }
 
-   SubmitHandler = (e) => {
-      e.preventDefault();
-   };
+   bookingTheCar = () => {
+      // let params = {
+      //    vehicle_id: this.state.product.id,
+      //    dates: this.state.dates,
+      //    pickup_location: this.state.pickup_location,
+      //    return_location: this.state.return_location,
+      // }
+      let bodyFormData = new FormData();
+      bodyFormData.append('vehicle_id', this.state.product.id);
+      bodyFormData.append('dates', this.state.dates);
+      bodyFormData.append('pickup_location', this.state.pickup_location);
+      bodyFormData.append('return_location', this.state.return_location);
+
+      axios
+         .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData, {
+            // headers: {'Content-Type': 'multipart/form-data'}
+         })
+         .then((res) => {
+            console.log(res);
+            // let cars = res.data['vehicles'];
+            // let car_list_two_dim_array = []
+            // let i = 0;
+            // let num_cols = 2 // The number of columns in a row
+            // let product = {}
+            // cars.map(item => {
+            //    if (typeof car_list_two_dim_array[i] === 'undefined') car_list_two_dim_array.push([]);
+            //    if (car_list_two_dim_array[i].length > num_cols - 1) {
+            //       i++;
+            //       car_list_two_dim_array.push([]);
+            //    }
+            //    car_list_two_dim_array[i].push(item);
+            //    product[item.id] = item;
+            // });
+            // this.setState({carList: car_list_two_dim_array});
+            // this.setState({product: product});
+         })
+         .catch((error) => { // error is handled in catch block
+            console.log(error);
+            // if (error.response) { // status code out of the range of 2xx
+            // } else {// Error on setting up the request
+            //    let form_errors = [...this.state.form_errors, error.message];
+            //    this.setState({form_errors});
+            // }
+         });
+   }
 
    onClick = (e) => {
       e.preventDefault();
+      this.bookingTheCar();
    };
 
    render() {
       const {t} = this.props
-      console.log(this.state.product);
       return (
          <>
             <section className="gauto-car-booking section_70">
@@ -172,7 +215,7 @@ class CarBooking extends Component {
                         <div className="booking-form-left">
                            <div className="single-booking">
                               <h3>{t("car_booking.personal_information")}</h3>
-                              <form onSubmit={this.SubmitHandler}>
+                              <form>
                                  <Row>
                                     <Col md={6}>
                                        <p>
@@ -272,10 +315,10 @@ class CarBooking extends Component {
                                  <Row>
                                     <Col md={12}>
                                        <p>
-                          <textarea
-                             placeholder="Write Here..."
-                             defaultValue={""}
-                          />
+                                         <textarea
+                                            placeholder="Write Here..."
+                                            defaultValue={""}
+                                         />
                                        </p>
                                     </Col>
                                  </Row>

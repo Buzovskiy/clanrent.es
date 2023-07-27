@@ -7,7 +7,11 @@ from backend.api_request import ApiRequest
 @api_view(['POST'])
 def create_view(request):
     """v1/order/create/"""
-    data = request.data
+    data = request.data.copy()
+    # return Response(status=200)
+    company = ApiRequest(request, url='https://api.rentsyst.com/v1/company/settings').get()
+    data['pickup_location'] = company.json()['locations'][0]['id']
+    data['return_location'] = company.json()['locations'][0]['id']
     r = ApiRequest(request, url='https://api.rentsyst.com/v1/order/create', data=data).post()
     return Response(data=r.json(), status=r.status_code)
 
