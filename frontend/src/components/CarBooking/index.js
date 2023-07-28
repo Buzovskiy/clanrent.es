@@ -29,19 +29,19 @@ class CarBooking extends Component {
          product: {},
          pickup_location: '',
          return_location: '',
+         rental_start_date: '',
+         rental_end_date: '',
          dates: '',
-         form: {
-            first_name: 'Brad',
-            last_name: 'Pitt',
-            email: 'brad@gmail.com',
-            phone: '+3412345678',
-            country: 'Spain',
-            city: 'No specified',
-            address: '',
-            birthday: '2000-01-01',
-            payment_method: '',
-            comment: ''
-         }
+         first_name: '',
+         last_name: '',
+         email: '',
+         phone: '',
+         country: 'Spain',
+         city: 'No specified',
+         address: '',
+         birthday: '2000-01-01',
+         payment_method: 'Cart',
+         comment: 'Hola'
       }
    }
 
@@ -49,22 +49,20 @@ class CarBooking extends Component {
       let booking_info = localStorage.getItem('booking_info');
       if (booking_info != null) {
          booking_info = JSON.parse(booking_info);
+         let rental_start_date, rental_end_date;
+         [rental_start_date, rental_end_date] = booking_info.dates.split(' - ')
          this.setState({
             product: booking_info.product,
             pickup_location: booking_info.pickup_location,
             return_location: booking_info.return_location,
+            rental_start_date: rental_start_date,
+            rental_end_date: rental_end_date,
             dates: booking_info.dates,
          })
       }
    }
 
    bookingTheCar = () => {
-      // let params = {
-      //    vehicle_id: this.state.product.id,
-      //    dates: this.state.dates,
-      //    pickup_location: this.state.pickup_location,
-      //    return_location: this.state.return_location,
-      // }
       let bodyFormData = new FormData();
       bodyFormData.append('vehicle_id', this.state.product.id);
       bodyFormData.append('dates', this.state.dates);
@@ -72,41 +70,68 @@ class CarBooking extends Component {
       bodyFormData.append('return_location', this.state.return_location);
 
       axios
-         .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData, {
-            // headers: {'Content-Type': 'multipart/form-data'}
-         })
+         .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData)
          .then((res) => {
             console.log(res);
-            // let cars = res.data['vehicles'];
-            // let car_list_two_dim_array = []
-            // let i = 0;
-            // let num_cols = 2 // The number of columns in a row
-            // let product = {}
-            // cars.map(item => {
-            //    if (typeof car_list_two_dim_array[i] === 'undefined') car_list_two_dim_array.push([]);
-            //    if (car_list_two_dim_array[i].length > num_cols - 1) {
-            //       i++;
-            //       car_list_two_dim_array.push([]);
-            //    }
-            //    car_list_two_dim_array[i].push(item);
-            //    product[item.id] = item;
-            // });
-            // this.setState({carList: car_list_two_dim_array});
-            // this.setState({product: product});
+            let order_id = res['data']['order_id'];
+            let insurance_id = res['data']['insurances'][0].id;
+            let option_id = res['data']['options'][0].id
+            let orderUpdateFormData = new FormData();
+            orderUpdateFormData.append('insurance', insurance_id);
+            orderUpdateFormData.append(`extras[${option_id}]`, 1);
+            axios
+               .post(`${process.env.REACT_APP_API_LINK}/v1/order/update/${order_id}/`, orderUpdateFormData)
+               .then((res) => {
+                  console.log(res);
+                  let order_id = res['data']['order_id'];
+                  let orderConfirmationFormData = new FormData();
+                  orderConfirmationFormData.append('driver[0][first_name]', this.state.first_name);
+                  orderConfirmationFormData.append('driver[0][last_name]', this.state.last_name);
+                  orderConfirmationFormData.append('driver[0][email]', this.state.email);
+                  orderConfirmationFormData.append('driver[0][phone]', this.state.phone);
+                  orderConfirmationFormData.append('driver[0][country]', this.state.country);
+                  orderConfirmationFormData.append('driver[0][city]', this.state.city);
+                  orderConfirmationFormData.append('driver[0][address]', this.state.address);
+                  orderConfirmationFormData.append('driver[0][birthday]', this.state.birthday);
+                  orderConfirmationFormData.append('payment_method', this.state.payment_method);
+                  orderConfirmationFormData.append('comment', this.state.comment);
+                  axios
+                     .post(`${process.env.REACT_APP_API_LINK}/v1/order/confirm/${order_id}/`, orderConfirmationFormData)
+                     .then((res) => {
+                        console.log(res);
+                     })
+                     .catch((error) => { // error is handled in catch block
+                        console.log(error);
+                     });
+               })
+               .catch((error) => { // error is handled in catch block
+                  console.log(error);
+               });
+
          })
          .catch((error) => { // error is handled in catch block
             console.log(error);
-            // if (error.response) { // status code out of the range of 2xx
-            // } else {// Error on setting up the request
-            //    let form_errors = [...this.state.form_errors, error.message];
-            //    this.setState({form_errors});
-            // }
          });
    }
 
    onClick = (e) => {
       e.preventDefault();
       this.bookingTheCar();
+   };
+
+   handleChange = (e) => {
+      let {name, value} = e.target;
+      if (e.target.type === "checkbox") {
+         name = e.target.name;
+         // value = this.state.formFields.hasOwnProperty(name) ? this.state.formFields[name] : [];
+         // value = value.filter(item => item !== e.target.value);
+         // if (e.target.checked) value.push(e.target.value);
+      }
+      this.setState({[name]: value},
+         () => {
+            console.log(this.state[name]);
+         }
+      );
    };
 
    render() {
@@ -222,6 +247,10 @@ class CarBooking extends Component {
                                           <input
                                              type="text"
                                              placeholder={t("car_booking.first_name")}
+                                             name="first_name"
+                                             value={this.state.first_name}
+                                             onChange={this.handleChange}
+
                                           />
                                        </p>
                                     </Col>
@@ -230,6 +259,9 @@ class CarBooking extends Component {
                                           <input
                                              type="text"
                                              placeholder={t("car_booking.last_name")}
+                                             name="last_name"
+                                             value={this.state.last_name}
+                                             onChange={this.handleChange}
                                           />
                                        </p>
                                     </Col>
@@ -240,6 +272,9 @@ class CarBooking extends Component {
                                           <input
                                              type="email"
                                              placeholder={t("car_booking.email")}
+                                             name="email"
+                                             value={this.state.email}
+                                             onChange={this.handleChange}
                                           />
                                        </p>
                                     </Col>
@@ -248,6 +283,9 @@ class CarBooking extends Component {
                                           <input
                                              type="tel"
                                              placeholder={t("car_booking.phn")}
+                                             name="phone"
+                                             value={this.state.phone}
+                                             onChange={this.handleChange}
                                           />
                                        </p>
                                     </Col>
@@ -260,12 +298,52 @@ class CarBooking extends Component {
                                  <Row>
                                     <Col md={6}>
                                        <p>
-                                          <input type="text" placeholder={t("from_address")}/>
+                                          <label htmlFor="">{t("from_address")}</label>
+                                          <input
+                                             type="text"
+                                             placeholder={t("from_address")}
+                                             name="pickup_location"
+                                             value={this.state.pickup_location}
+                                             disabled='disabled'
+                                          />
                                        </p>
                                     </Col>
                                     <Col md={6}>
                                        <p>
-                                          <input type="text" placeholder={t("to_address")}/>
+                                          <label htmlFor="">{t("to_address")}</label>
+                                          <input
+                                             type="text"
+                                             placeholder={t("to_address")}
+                                             name="return_location"
+                                             value={this.state.return_location}
+                                             disabled='disabled'
+                                          />
+                                       </p>
+                                    </Col>
+                                 </Row>
+                                 <Row>
+                                    <Col md={6}>
+                                       <p>
+                                          <label htmlFor="">{t("rental_start_date")}</label>
+                                          <input
+                                             type="text"
+                                             placeholder={t("journey_date")}
+                                             name="rental_start_date"
+                                             value={this.state.rental_start_date}
+                                             disabled='disabled'
+                                          />
+                                       </p>
+                                    </Col>
+                                    <Col md={6}>
+                                       <p>
+                                          <label htmlFor="">{t("rental_end_date")}</label>
+                                          <input
+                                             type="text"
+                                             placeholder={t("journey_date")}
+                                             name="rental_end_date"
+                                             value={this.state.rental_end_date}
+                                             disabled='disabled'
+                                          />
                                        </p>
                                     </Col>
                                  </Row>
@@ -292,26 +370,7 @@ class CarBooking extends Component {
                                        </p>
                                     </Col>
                                  </Row>
-                                 <Row>
-                                    <Col md={6}>
-                                       <p>
-                                          {/*<DatePickerComponent*/}
-                                          {/*  id="datepicker"*/}
-                                          {/*  placeholder={t("journey_date")}*/}
-                                          {/*></DatePickerComponent>*/}
-                                          <input type="text"/>
-                                       </p>
-                                    </Col>
-                                    <Col md={6}>
-                                       {/*<p>*/}
-                                       {/*  <TimePickerComponent*/}
-                                       {/*    id="timepicker"*/}
-                                       {/*    placeholder={t("journey_time")}*/}
-                                       {/*  ></TimePickerComponent>*/}
-                                       {/*</p>*/}
-                                       <input type="text"/>
-                                    </Col>
-                                 </Row>
+
                                  <Row>
                                     <Col md={12}>
                                        <p>

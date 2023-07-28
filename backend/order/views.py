@@ -8,8 +8,9 @@ from backend.api_request import ApiRequest
 def create_view(request):
     """v1/order/create/"""
     data = request.data.copy()
-    # return Response(status=200)
     company = ApiRequest(request, url='https://api.rentsyst.com/v1/company/settings').get()
+    # We don't pass the location data specified by user because they are not valid
+    # We pass valid data
     data['pickup_location'] = company.json()['locations'][0]['id']
     data['return_location'] = company.json()['locations'][0]['id']
     r = ApiRequest(request, url='https://api.rentsyst.com/v1/order/create', data=data).post()
