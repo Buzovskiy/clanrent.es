@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from company.views import settings_view
 from order.views import create_view, update_view, confirm_view
-from product.views import show_cars_view
+from product.views import show_cars_view, company_vehicles_info
 
 
 urlpatterns = [
@@ -28,4 +28,5 @@ urlpatterns = [
     path('v1/order/update/<int:order_id>/', update_view),
     path('v1/order/confirm/<int:order_id>/', confirm_view),
     path('v1/booking/search/', show_cars_view),
+    path('v1/vehicle/index/', company_vehicles_info),
 ]

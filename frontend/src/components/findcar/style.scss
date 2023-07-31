@@ -6,7 +6,12 @@
 }
 
 .find-box {
-  background: #fff url(../../img/find-box-bg.png?v=3) no-repeat scroll 0 81%;
+  //background:  no-repeat scroll 0 81%;
+  background-image: url(../../img/find-box-bg.png?v=3);
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: 0 81%;
+  background-color: $color-dark-blue;
   padding: 30px;
   position: relative;
   z-index: 999;
@@ -26,12 +31,13 @@
 .find-form p select,
 .e-control-wrapper {
   width: 100% !important;
-  border: 2px solid #f0f0ff !important;
+  border: 2px solid $color-light-blue !important;
   padding: 5px 10px;
   height: 45px !important;
-  color: #111 !important;
+  color: white !important;
   -webkit-transition: all 0.4s ease 0s;
   transition: all 0.4s ease 0s;
+  background-color: $color-light-blue;
 }
 input#datepicker,
 input#timepicker {
@@ -118,12 +124,12 @@ input#timepicker {
 
 @media (min-width: 992px) and (max-width: 1169px) {
   .find-box {
-    background: #fff url(../../img/find-box-bg.png) no-repeat scroll -45px 81%;
+    background-position: -45px 81%;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .find-box {
-    background: #fff url(../../img/find-box-bg.png) no-repeat scroll -120px 81%;
+    background-position: -120px 81%;
   }
   .find-text {
     margin-top: 25px;

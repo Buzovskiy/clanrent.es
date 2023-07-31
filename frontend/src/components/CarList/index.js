@@ -8,12 +8,6 @@ import {
    FaTachometerAlt,
    FaAngleDoubleRight,
 } from "react-icons/fa";
-
-import img2 from "../../img/nissan-offer.png";
-import img3 from "../../img/audi-offer.png";
-import img4 from "../../img/bmw-offer.png";
-import img5 from "../../img/toyota-offer-2.png";
-import img6 from "../../img/marcedes-offer.png";
 import axios from "axios";
 
 
@@ -85,19 +79,12 @@ class CarList extends Component {
 
    SubmitHandler = (e) => {
       e.preventDefault();
-      console.log('submit');
-
       let params = {
          dates: 1,
          pickup_location: 2,
          return_location: 3
       };
-      // this.props.navigate({
-      //    pathname: '/car-listing',
-      //    search: `?${this.props.createSearchParams(params)}`
-      // });
       window.location.href = `/car-listing?${this.props.createSearchParams(params)}`;
-      // this.componentDidMount();
    };
 
    onClick = (e) => {

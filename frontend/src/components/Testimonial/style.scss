@@ -22,7 +22,7 @@
 }
 
 .single-testimonial {
-  background: #fff none repeat scroll 0 0;
+  background: black none repeat scroll 0 0;
   padding: 30px;
   margin-top: 30px;
 }
@@ -33,13 +33,13 @@
 
 .testimonial-text svg {
   position: absolute;
-  color: #001238;
+  color: white;
   font-size: 80px;
   font-family: Fontawesome;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0.1;
+  opacity: 0.3;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
 }
 
@@ -63,7 +63,7 @@
 .client-info h3 {
   font-family: "Poppins", sans-serif;
   font-weight: 600;
-  color: #001238;
+  color: $color-orange;
   font-size: 20px;
   text-transform: capitalize;
   margin-bottom: 5px;

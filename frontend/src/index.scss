@@ -1,5 +1,6 @@
 $color-dark-blue: #022031;
-$color-light-blue: rgb(25, 49, 63, 0.8);
+//$color-light-blue: rgb(25, 49, 63, 0.8);
+$color-light-blue: rgb(48 72 87);
 $color-orange: #90632D;
 
 @import "./components/About/style.scss";
@@ -35,3 +36,11 @@ $color-orange: #90632D;
 @import "./components/Testimonial/style.scss";
 
 @import "./main-component/App/App.scss";
+
+::placeholder{
+  color: white;
+}
+
+input {
+  color-scheme: dark;
+}

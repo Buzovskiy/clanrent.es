@@ -24,7 +24,7 @@ const HomePage = () => {
       <About />
       {/*<Service />*/}
       <Promo />
-      <HotOffers />
+      <HotOffers t={t} navigate={useNavigate()}/>
       <Testimonial />
       <Team />
       <Help />

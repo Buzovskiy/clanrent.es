@@ -13,3 +13,10 @@ def show_cars_view(request):
     }
     r = ApiRequest(request, url='https://api.rentsyst.com/v1/booking/search', params=params).get()
     return Response(data=r.json(), status=r.status_code)
+
+
+@api_view(['GET'])
+def company_vehicles_info(request):
+    """v1/vehicle/index/"""
+    r = ApiRequest(request, url='https://api.rentsyst.com/v1/vehicle/index').get()
+    return Response(data=r.json(), status=r.status_code)

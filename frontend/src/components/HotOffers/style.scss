@@ -36,6 +36,7 @@
   font-size: 14px;
   position: relative;
   z-index: 1;
+  background-color: unset;
 }
 
 #offerTab li.nav-item .nav-link:after {
@@ -103,7 +104,7 @@
 
 .offer-text h3 {
   font-size: 23px;
-  color: #001238;
+  color: white;
   letter-spacing: 1px;
   margin-bottom: 10px;
   -webkit-transition: all 0.4s ease 0s;
@@ -115,7 +116,7 @@
 }
 
 .offer-text h4 {
-  color: $color-dark-blue;
+  color: $color-orange;
   font-size: 18px;
   text-transform: capitalize;
   margin-top: 8px;
