@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {Container, Row, Col} from "react-bootstrap";
+import makeTwoDimensionalArr from "../../main-component/utils";
 import {
    FaCar,
    FaCogs,
@@ -9,6 +10,7 @@ import {
    FaAngleDoubleRight,
 } from "react-icons/fa";
 import axios from "axios";
+import {CategoryItem} from "./categoryItem";
 
 
 class CarList extends Component {
@@ -51,18 +53,13 @@ class CarList extends Component {
          .then((res) => {
             let cars = res.data['vehicles'];
             let car_list_two_dim_array = []
-            let i = 0;
             let num_cols = 2 // The number of columns in a row
             let product = {}
+
             cars.map(item => {
-               if (typeof car_list_two_dim_array[i] === 'undefined') car_list_two_dim_array.push([]);
-               if (car_list_two_dim_array[i].length > num_cols - 1) {
-                  i++;
-                  car_list_two_dim_array.push([]);
-               }
-               car_list_two_dim_array[i].push(item);
-               product[item.id] = item;
+               car_list_two_dim_array = makeTwoDimensionalArr(car_list_two_dim_array, num_cols, item);
             });
+
             this.setState({carList: car_list_two_dim_array});
             this.setState({product: product});
          })
@@ -111,44 +108,10 @@ class CarList extends Component {
 
 
    renderCar = (items_row) => {
-      const {t} = this.props
+      // const {t} = this.props
       return items_row.map((item, ind) => (
          <Col key={ind} md={6}>
-            <div className="single-offers">
-               <div className="offer-image">
-                  <Link to="/car-booking">
-                     <img src={item.thumbnail} alt="offer 1"/>
-                  </Link>
-               </div>
-               <div className="offer-text">
-                  <Link to="/car-booking">
-                     <h3>{item.brand} {item.mark}</h3>
-                  </Link>
-                  <h4>
-                     {item.price}{item.currency}<span>/ {t("day")}</span>
-                  </h4>
-                  <ul>
-                     <li>
-                        <FaCar/>
-                        {t("model")}: {item.year}
-                     </li>
-                     <li>
-                        <FaCogs/>
-                        {item.transmission}
-                     </li>
-                     {/*<li>*/}
-                     {/*   <FaTachometerAlt/>*/}
-                     {/*   20kmpl*/}
-                     {/*</li>*/}
-                  </ul>
-                  <div className="offer-action">
-                     <a href="/car-booking" data-url='/car-booking' data-id={item.id}
-                        onClick={this.clickProduct} onContextMenu={this.clickProduct}>
-                        {t("rent_car")}
-                     </a>
-                  </div>
-               </div>
-            </div>
+            {CategoryItem(item)}
          </Col>
       ))
    }

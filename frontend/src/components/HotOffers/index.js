@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import makeTwoDimensionalArr from "../../main-component/utils";
 import {Container, Row, Col, Tabs, Tab} from "react-bootstrap";
 import {FaCar, FaCogs, FaTachometerAlt} from "react-icons/fa";
 
@@ -17,32 +18,38 @@ class HotOffers extends Component {
    constructor(props) {
       super(props);
       this.state = {
-         carList: [],
-         product: {},
+         carList: {},
       }
    }
 
+
    componentDidMount() {
+
       axios
          .get(`${process.env.REACT_APP_API_LINK}/v1/vehicle/index/`)
          .then((res) => {
-            let cars = res.data['vehicles'];
-            let car_list_two_dim_array = []
-            let i = 0;
-            let num_cols = 2 // The number of columns in a row
-            let product = {}
-            cars.map(item => {
-               if (typeof car_list_two_dim_array[i] === 'undefined') car_list_two_dim_array.push([]);
-               if (car_list_two_dim_array[i].length > num_cols - 1) {
-                  i++;
-                  car_list_two_dim_array.push([]);
+               let cars = res.data;
+               let cars_obj = {'All': []}
+               let num_cols = 3 // The number of columns in a row
+
+               function make_two_dimm_array(arr, num_cols, inst) {
+                  if (arr.length === 0) arr.push([]);
+                  if (arr[arr.length - 1].length === num_cols) arr.push([]);
+                  arr[arr.length - 1].push(inst);
+                  return arr;
                }
-               car_list_two_dim_array[i].push(item);
-               product[item.id] = item;
-            });
-            this.setState({carList: car_list_two_dim_array});
-            this.setState({product: product});
-         })
+
+               cars.forEach(car => {
+                  if (!cars_obj.hasOwnProperty(car.brand)) {
+                     cars_obj[car.brand] = [];
+                  }
+                  cars_obj['All'] = makeTwoDimensionalArr(cars_obj['All'], num_cols, car);
+                  cars_obj[car.brand] = makeTwoDimensionalArr(cars_obj[car.brand], num_cols, car);
+               })
+               this.setState({carList: cars_obj})
+               console.log(cars_obj);
+            }
+         )
          .catch((error) => { // error is handled in catch block
             console.log(error);
             // if (error.response) { // status code out of the range of 2xx
@@ -56,6 +63,67 @@ class HotOffers extends Component {
    onClick = (e) => {
       e.preventDefault();
    };
+
+   renderTabs() {
+      console.log(Object.keys(this.state.carList));
+
+      return Object.keys(this.state.carList).map((brand, ind) => (
+         <Tab eventKey={brand} title={brand} key={ind}>
+            {this.renderRow(brand)}
+         </Tab>
+      ))
+   }
+
+   renderRow(brand) {
+      return this.state.carList[brand].map((row, ind) => (
+         <Row key={ind}>
+            {this.renderCar(row)}
+         </Row>
+      ))
+   }
+
+   renderCar(row) {
+      const {t} = this.props;
+      return row.map((item, ind) => (
+         <Col key={ind} lg={4}>
+            <div className="single-offers">
+               <div className="offer-image">
+                  <Link to="/car-booking">
+                     <img src={item.thumbnail} alt="offer 1"/>
+                  </Link>
+               </div>
+               <div className="offer-text">
+                  <Link to="/car-booking">
+                     <h3>{item.brand} {item.mark}</h3>
+                  </Link>
+                  <h4>
+                     {item.price}{item.currency}<span>/ {t("day")}</span>
+                  </h4>
+                  <ul>
+                     <li>
+                        <FaCar/>
+                        {t("model")}: {item.year}
+                     </li>
+                     <li>
+                        <FaCogs/>
+                        {item.transmission}
+                     </li>
+                     {/*<li>*/}
+                     {/*   <FaTachometerAlt/>*/}
+                     {/*   20kmpl*/}
+                     {/*</li>*/}
+                  </ul>
+                  <div className="offer-action">
+                     <a href="/car-booking" data-url='/car-booking' data-id={item.id}
+                        onClick={this.clickProduct} onContextMenu={this.clickProduct}>
+                        {t("rent_car")}
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </Col>
+      ))
+   }
 
    render() {
       const {t} = this.props
@@ -74,401 +142,11 @@ class HotOffers extends Component {
                   <Col md={12}>
                      <div className="offer-tabs" id="offerTab">
                         <Tabs
-                           defaultActiveKey="all"
+                           defaultActiveKey="All"
                            transition={true}
                            id="uncontrolled-tab-example"
                         >
-                           {/* All Brands Start */}
-                           <Tab eventKey="all" title="All Brands">
-                              <Row>
-                                 <Col lg={4}>
-                                    <div className="single-offers">
-                                       <div className="offer-image">
-                                          <Link to="/car-booking">
-                                             <img src={img1} alt="offer 1"/>
-                                          </Link>
-                                       </div>
-                                       <div className="offer-text">
-                                          <Link to="/car-booking">
-                                             <h3>Toyota Alphard</h3>
-                                          </Link>
-                                          <h4>
-                                             $50.00<span>/ {t("day")}</span>
-                                          </h4>
-                                          <ul>
-                                             <li>
-                                                <FaCar/>
-                                                {t("model")}:2017
-                                             </li>
-                                             <li>
-                                                <FaCogs/>
-                                                {t("automatic")}
-                                             </li>
-                                             <li>
-                                                <FaTachometerAlt/>
-                                                20kmpl
-                                             </li>
-                                          </ul>
-                                          {/*<div className="offer-action">*/}
-                                          {/*  <Link*/}
-                                          {/*    to="/car-booking"*/}
-                                          {/*    onClick={this.onClick}*/}
-                                          {/*    className="offer-btn-1"*/}
-                                          {/*  >*/}
-                                          {/*    {t("rent_car")}*/}
-                                          {/*  </Link>*/}
-                                          {/*  <Link*/}
-                                          {/*    to="/car-booking"*/}
-                                          {/*    onClick={this.onClick}*/}
-                                          {/*    className="offer-btn-2"*/}
-                                          {/*  >*/}
-                                          {/*    {t("details")}*/}
-                                          {/*  </Link>*/}
-                                          {/*</div>*/}
-                                       </div>
-                                    </div>
-                                 </Col>
-                                 <Col lg={4}>
-                                    <div className="single-offers">
-                                       <div className="offer-image">
-                                          <Link to="/car-booking">
-                                             <img src={img2} alt="offer 1"/>
-                                          </Link>
-                                       </div>
-                                       <div className="offer-text">
-                                          <Link to="/car-booking">
-                                             <h3>Nissan 370Z</h3>
-                                          </Link>
-                                          <h4>
-                                             $75.00<span>/ {t("day")}</span>
-                                          </h4>
-                                          <ul>
-                                             <li>
-                                                <FaCar/>
-                                                {t("model")}:2017
-                                             </li>
-                                             <li>
-                                                <FaCogs/>
-                                                {t("automatic")}
-                                             </li>
-                                             <li>
-                                                <FaTachometerAlt/>
-                                                20kmpl
-                                             </li>
-                                          </ul>
-                                          <div className="offer-action">
-                                             <Link
-                                                to="/car-booking"
-                                                onClick={this.onClick}
-                                                className="offer-btn-1"
-                                             >
-                                                {t("rent_car")}
-                                             </Link>
-                                             <Link
-                                                to="/car-booking"
-                                                onClick={this.onClick}
-                                                className="offer-btn-2"
-                                             >
-                                                {t("details")}
-                                             </Link>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </Col>
-                                 <Col lg={4}>
-                                    <div className="single-offers">
-                                       <div className="offer-image">
-                                          <Link to="/car-booking">
-                                             <img src={img3} alt="offer 1"/>
-                                          </Link>
-                                       </div>
-                                       <div className="offer-text">
-                                          <Link to="/car-booking">
-                                             <h3>Audi Q3</h3>
-                                          </Link>
-                                          <h4>
-                                             $45.00<span>/ {t("day")}</span>
-                                          </h4>
-                                          <ul>
-                                             <li>
-                                                <FaCar/>
-                                                {t("model")}:2017
-                                             </li>
-                                             <li>
-                                                <FaCogs/>
-                                                {t("automatic")}
-                                             </li>
-                                             <li>
-                                                <FaTachometerAlt/>
-                                                20kmpl
-                                             </li>
-                                          </ul>
-                                          {/*<div className="offer-action">*/}
-                                          {/*  <Link*/}
-                                          {/*    to="/car-booking"*/}
-                                          {/*    onClick={this.onClick}*/}
-                                          {/*    className="offer-btn-1"*/}
-                                          {/*  >*/}
-                                          {/*    {t("rent_car")}*/}
-                                          {/*  </Link>*/}
-                                          {/*  <Link*/}
-                                          {/*    to="/car-booking"*/}
-                                          {/*    onClick={this.onClick}*/}
-                                          {/*    className="offer-btn-2"*/}
-                                          {/*  >*/}
-                                          {/*    {t("details")}*/}
-                                          {/*  </Link>*/}
-                                          {/*</div>*/}
-                                       </div>
-                                    </div>
-                                 </Col>
-                              </Row>
-                              <Row>
-                                 <Col lg={4}>
-                                    <div className="single-offers">
-                                       <div className="offer-image">
-                                          <Link to="/car-booking">
-                                             <img src={img4} alt="offer 1"/>
-                                          </Link>
-                                       </div>
-                                       <div className="offer-text">
-                                          <Link to="/car-booking">
-                                             <h3>BMW X3</h3>
-                                          </Link>
-                                          <h4>
-                                             $50.00<span>/ {t("day")}</span>
-                                          </h4>
-                                          <ul>
-                                             <li>
-                                                <FaCar/>
-                                                {t("model")}:2017
-                                             </li>
-                                             <li>
-                                                <FaCogs/>
-                                                {t("automatic")}
-                                             </li>
-                                             <li>
-                                                <FaTachometerAlt/>
-                                                20kmpl
-                                             </li>
-                                          </ul>
-                                          <div className="offer-action">
-                                             <Link
-                                                to="/car-booking"
-                                                onClick={this.onClick}
-                                                className="offer-btn-1"
-                                             >
-                                                {t("rent_car")}
-                                             </Link>
-                                             <Link
-                                                to="/car-booking"
-                                                onClick={this.onClick}
-                                                className="offer-btn-2"
-                                             >
-                                                {t("details")}
-                                             </Link>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </Col>
-                                 <Col lg={4}>
-                                    <div className="single-offers">
-                                       <div className="offer-image">
-                                          <Link to="/car-booking">
-                                             <img src={img3} alt="offer 1"/>
-                                          </Link>
-                                       </div>
-                                       <div className="offer-text">
-                                          <Link to="/car-booking">
-                                             <h3>Audi Q3</h3>
-                                          </Link>
-                                          <h4>
-                                             $75.00<span>/ {t("day")}</span>
-                                          </h4>
-                                          <ul>
-                                             <li>
-                                                <FaCar/>
-                                                {t("model")}:2017
-                                             </li>
-                                             <li>
-                                                <FaCogs/>
-                                                {t("automatic")}
-                                             </li>
-                                             <li>
-                                                <FaTachometerAlt/>
-                                                20kmpl
-                                             </li>
-                                          </ul>
-                                          <div className="offer-action">
-                                             <Link
-                                                to="/car-booking"
-                                                onClick={this.onClick}
-                                                className="offer-btn-1"
-                                             >
-                                                {t("rent_car")}
-                                             </Link>
-                                             <Link
-                                                to="/car-booking"
-                                                onClick={this.onClick}
-                                                className="offer-btn-2"
-                                             >
-                                                {t("details")}
-                                             </Link>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </Col>
-                                 <Col lg={4}>
-                                    <div className="single-offers">
-                                       <div className="offer-image">
-                                          <Link to="/car-booking">
-                                             <img src={img5} alt="offer 1"/>
-                                          </Link>
-                                       </div>
-                                       <div className="offer-text">
-                                          <Link to="/car-booking">
-                                             <h3>Toyota Camry</h3>
-                                          </Link>
-                                          <h4>
-                                             $55.00<span>/ {t("day")}</span>
-                                          </h4>
-                                          <ul>
-                                             <li>
-                                                <FaCar/>
-                                                {t("model")}:2017
-                                             </li>
-                                             <li>
-                                                <FaCogs/>
-                                                {t("automatic")}
-                                             </li>
-                                             <li>
-                                                <FaTachometerAlt/>
-                                                20kmpl
-                                             </li>
-                                          </ul>
-                                          <div className="offer-action">
-                                             <Link
-                                                to="/car-booking"
-                                                onClick={this.onClick}
-                                                className="offer-btn-1"
-                                             >
-                                                {t("rent_car")}
-                                             </Link>
-                                             <Link
-                                                to="/car-booking"
-                                                onClick={this.onClick}
-                                                className="offer-btn-2"
-                                             >
-                                                {t("details")}
-                                             </Link>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </Col>
-                              </Row>
-                           </Tab>
-                           {/* All Brands End */}
-
-                           {/* marcedes Start */}
-                           <Tab eventKey="mercedes" title="mercedes">
-                              <Row>
-                                 <Col lg={4}>
-                                    <div className="single-offers">
-                                       <div className="offer-image">
-                                          <Link to="/car-booking">
-                                             <img src={img6} alt="offer 1"/>
-                                          </Link>
-                                       </div>
-                                       <div className="offer-text">
-                                          <Link to="/car-booking">
-                                             <h3>marcedes S-class</h3>
-                                          </Link>
-                                          <h4>
-                                             $50.00<span>/ {t("day")}</span>
-                                          </h4>
-                                          <ul>
-                                             <li>
-                                                <FaCar/>
-                                                {t("model")}:2017
-                                             </li>
-                                             <li>
-                                                <FaCogs/>
-                                                {t("automatic")}
-                                             </li>
-                                             <li>
-                                                <FaTachometerAlt/>
-                                                20kmpl
-                                             </li>
-                                          </ul>
-                                          <div className="offer-action">
-                                             <Link
-                                                to="/car-booking"
-                                                onClick={this.onClick}
-                                                className="offer-btn-1"
-                                             >
-                                                {t("rent_car")}
-                                             </Link>
-                                             <Link
-                                                to="/car-booking"
-                                                onClick={this.onClick}
-                                                className="offer-btn-2"
-                                             >
-                                                {t("details")}
-                                             </Link>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </Col>
-                                 <Col lg={4}>
-                                    <div className="single-offers">
-                                       <div className="offer-image">
-                                          <Link to="/car-booking">
-                                             <img src={img3} alt="offer 1"/>
-                                          </Link>
-                                       </div>
-                                       <div className="offer-text">
-                                          <Link to="/car-booking">
-                                             <h3>Audi Q3</h3>
-                                          </Link>
-                                          <h4>
-                                             $45.00<span>/ {t("day")}</span>
-                                          </h4>
-                                          <ul>
-                                             <li>
-                                                <FaCar/>
-                                                {t("model")}:2017
-                                             </li>
-                                             <li>
-                                                <FaCogs/>
-                                                {t("automatic")}
-                                             </li>
-                                             <li>
-                                                <FaTachometerAlt/>
-                                                20kmpl
-                                             </li>
-                                          </ul>
-                                          <div className="offer-action">
-                                             <Link
-                                                to="/car-booking"
-                                                onClick={this.onClick}
-                                                className="offer-btn-1"
-                                             >
-                                                {t("rent_car")}
-                                             </Link>
-                                             <Link
-                                                to="/car-booking"
-                                                onClick={this.onClick}
-                                                className="offer-btn-2"
-                                             >
-                                                {t("details")}
-                                             </Link>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </Col>
-                              </Row>
-                           </Tab>
-                           {/*marcedees end*/}
+                           {this.renderTabs()}
                         </Tabs>
                      </div>
                   </Col>
