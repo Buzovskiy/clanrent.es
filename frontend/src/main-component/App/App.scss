@@ -387,6 +387,11 @@ button.gauto-theme-btn:hover {
   color: #fff;
 }
 
+.single-offers {
+  text-align: center;
+  border: 1px solid #494949;
+}
+
 @media (max-width: 767px) {
   .site-heading {
     width: 100%;
@@ -417,16 +422,19 @@ button.gauto-theme-btn:hover {
     max-width: 540px;
   }
 }
+
 @media (min-width: 768px) {
   .container {
     max-width: 720px;
   }
 }
+
 @media (min-width: 992px) {
   .container {
     max-width: 960px;
   }
 }
+
 @media (min-width: 1200px) {
   .container {
     max-width: 1170px;

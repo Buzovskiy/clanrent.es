@@ -82,20 +82,7 @@
 }
 
 .single-offers {
-  text-align: center;
-  padding: 20px;
-  border: 3px solid #f0f0ff;
   margin-top: 30px;
-}
-
-.offer-image {
-  width: 235px;
-  margin: 0 auto;
-  display: block;
-}
-
-.offer-image img {
-  width: 100%;
 }
 
 .offer-text {
@@ -217,9 +204,6 @@
     -webkit-transform: skewX(0);
     transform: skewX(0);
   }
-  .single-offers {
-    padding: 10px;
-  }
   .offer-text ul li {
     margin: 0 1px !important;
     display: inline-block !important;
@@ -235,9 +219,6 @@
 @media only screen and (min-width: 480px) and (max-width: 767px) {
   .offer-action:after {
     width: 62%;
-  }
-  .single-offers {
-    padding: 15px;
   }
   .offer-text ul li {
     margin: 0 3px;
