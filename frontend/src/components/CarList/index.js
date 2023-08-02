@@ -58,6 +58,7 @@ class CarList extends Component {
 
             cars.map(item => {
                car_list_two_dim_array = makeTwoDimensionalArr(car_list_two_dim_array, num_cols, item);
+               product[item.id] = item;
             });
 
             this.setState({carList: car_list_two_dim_array});
@@ -89,7 +90,7 @@ class CarList extends Component {
    };
 
    clickProduct = (e) => {
-      let product_id = e.target.dataset.id;
+      let product_id = e.target.closest('.single-offers').dataset.id;
       let product_obj = this.state.product[product_id];
       let booking_info = {
          product: product_obj,
@@ -100,18 +101,19 @@ class CarList extends Component {
       localStorage.setItem('booking_info', JSON.stringify(booking_info));
       if (e.type === 'click') {
          e.preventDefault();
+         let url = e.target.closest('.single-offers').dataset.url
          this.props.navigate({
-            pathname: e.target.dataset.url
+            pathname: url
          });
       }
    }
 
 
    renderCar = (items_row) => {
-      // const {t} = this.props
+      const {t} = this.props
       return items_row.map((item, ind) => (
          <Col key={ind} md={6}>
-            {CategoryItem(item)}
+            <CategoryItem item={item} t={t} clickProduct={this.clickProduct}/>
          </Col>
       ))
    }
