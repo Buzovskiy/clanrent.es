@@ -28,27 +28,16 @@
 }
 
 .find-form p input,
-.find-form p select,
-.e-control-wrapper {
+.find-form p select{
   width: 100% !important;
-  border: 2px solid $color-light-blue !important;
-  padding: 5px 10px;
-  height: 45px !important;
-  color: white !important;
-  -webkit-transition: all 0.4s ease 0s;
-  transition: all 0.4s ease 0s;
-  background-color: $color-light-blue;
 }
+
 input#datepicker,
 input#timepicker {
   height: auto !important;
   border: none !important;
   font-size: 14px;
   font-weight: 500;
-}
-.find-form p input:focus,
-.find-form p select:focus {
-  border: 2px solid $color-orange !important;
 }
 
 .find-form form p {

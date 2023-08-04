@@ -83,6 +83,28 @@ select:focus {
   outline: medium none;
 }
 
+input, select, textarea {
+  border: 2px solid rgb(48, 72, 87);
+  padding: 5px 10px;
+  color: white;
+  transition: all 0.4s ease 0s;
+  background-color: rgb(48, 72, 87);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border: 2px solid $color-orange;
+}
+
+input, select{
+  height: 45px;
+}
+
+textarea{
+  height: 120px;
+}
+
 :-moz-placeholder {
   color: #7c8a97;
   text-transform: capitalize;
