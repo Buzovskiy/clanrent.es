@@ -41,25 +41,37 @@ class CarBooking extends Component {
          address: '',
          birthday: '2000-01-01',
          payment_method: 'Cart',
-         comment: 'Hola'
+         comment: 'Hola',
+         order: {} // information about order from API with order creation timestamp
       }
    }
 
    componentDidMount() {
       let booking_info = localStorage.getItem('booking_info');
-      if (booking_info != null) {
-         booking_info = JSON.parse(booking_info);
-         let rental_start_date, rental_end_date;
-         [rental_start_date, rental_end_date] = booking_info.dates.split(' - ')
-         this.setState({
-            product: booking_info.product,
-            pickup_location: booking_info.pickup_location,
-            return_location: booking_info.return_location,
-            rental_start_date: rental_start_date,
-            rental_end_date: rental_end_date,
-            dates: booking_info.dates,
-         })
-      }
+      if (booking_info === null) window.location.replace("/");
+      booking_info = JSON.parse(booking_info);
+      let rental_start_date, rental_end_date;
+      [rental_start_date, rental_end_date] = booking_info.dates.split(' - ')
+      this.setState({
+         product: booking_info.product,
+         pickup_location: booking_info.pickup_location,
+         return_location: booking_info.return_location,
+         rental_start_date: rental_start_date,
+         rental_end_date: rental_end_date,
+         dates: booking_info.dates,
+      }, () => {
+         // // We are trying to get order details from localstorage. If we can't then we
+         // // create a new order
+         // let order = localStorage.getItem('order');
+         // if (order === null) {
+         //    this.bookingTheCar();
+         // } else this.setState({order});
+      });
+
+
+      // if (booking_info != null) {
+      //
+      // }
    }
 
    bookingTheCar = () => {
@@ -68,46 +80,50 @@ class CarBooking extends Component {
       bodyFormData.append('dates', this.state.dates);
       bodyFormData.append('pickup_location', this.state.pickup_location);
       bodyFormData.append('return_location', this.state.return_location);
-
+      console.log('request')
       axios
          .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData)
          .then((res) => {
-            console.log(res);
-            let order_id = res['data']['order_id'];
-            let insurance_id = res['data']['insurances'][0].id;
-            let option_id = res['data']['options'][0].id
-            let orderUpdateFormData = new FormData();
-            orderUpdateFormData.append('insurance', insurance_id);
-            orderUpdateFormData.append(`extras[${option_id}]`, 1);
-            axios
-               .post(`${process.env.REACT_APP_API_LINK}/v1/order/update/${order_id}/`, orderUpdateFormData)
-               .then((res) => {
-                  console.log(res);
-                  let order_id = res['data']['order_id'];
-                  let orderConfirmationFormData = new FormData();
-                  orderConfirmationFormData.append('driver[0][first_name]', this.state.first_name);
-                  orderConfirmationFormData.append('driver[0][last_name]', this.state.last_name);
-                  orderConfirmationFormData.append('driver[0][email]', this.state.email);
-                  orderConfirmationFormData.append('driver[0][phone]', this.state.phone);
-                  orderConfirmationFormData.append('driver[0][country]', this.state.country);
-                  orderConfirmationFormData.append('driver[0][city]', this.state.city);
-                  orderConfirmationFormData.append('driver[0][address]', this.state.address);
-                  orderConfirmationFormData.append('driver[0][birthday]', this.state.birthday);
-                  orderConfirmationFormData.append('payment_method', this.state.payment_method);
-                  orderConfirmationFormData.append('comment', this.state.comment);
-                  axios
-                     .post(`${process.env.REACT_APP_API_LINK}/v1/order/confirm/${order_id}/`, orderConfirmationFormData)
-                     .then((res) => {
-                        console.log(res);
-                     })
-                     .catch((error) => { // error is handled in catch block
-                        console.log(error);
-                     });
-               })
-               .catch((error) => { // error is handled in catch block
-                  console.log(error);
-               });
+            // when the order is created save
+            let order = {details: res['data'], creation_timestamp: Date.now()}
+            localStorage.setItem('order', JSON.stringify(order));
+            this.setState({order});
 
+            // console.log(res);
+            // let order_id = res['data']['order_id'];
+            // let insurance_id = res['data']['insurances'][0].id;
+            // let option_id = res['data']['options'][0].id
+            // let orderUpdateFormData = new FormData();
+            // orderUpdateFormData.append('insurance', insurance_id);
+            // orderUpdateFormData.append(`extras[${option_id}]`, 1);
+            // axios
+            //    .post(`${process.env.REACT_APP_API_LINK}/v1/order/update/${order_id}/`, orderUpdateFormData)
+            //    .then((res) => {
+            //       console.log(res);
+            //       let order_id = res['data']['order_id'];
+            //       let orderConfirmationFormData = new FormData();
+            //       orderConfirmationFormData.append('driver[0][first_name]', this.state.first_name);
+            //       orderConfirmationFormData.append('driver[0][last_name]', this.state.last_name);
+            //       orderConfirmationFormData.append('driver[0][email]', this.state.email);
+            //       orderConfirmationFormData.append('driver[0][phone]', this.state.phone);
+            //       orderConfirmationFormData.append('driver[0][country]', this.state.country);
+            //       orderConfirmationFormData.append('driver[0][city]', this.state.city);
+            //       orderConfirmationFormData.append('driver[0][address]', this.state.address);
+            //       orderConfirmationFormData.append('driver[0][birthday]', this.state.birthday);
+            //       orderConfirmationFormData.append('payment_method', this.state.payment_method);
+            //       orderConfirmationFormData.append('comment', this.state.comment);
+            //       axios
+            //          .post(`${process.env.REACT_APP_API_LINK}/v1/order/confirm/${order_id}/`, orderConfirmationFormData)
+            //          .then((res) => {
+            //             console.log(res);
+            //          })
+            //          .catch((error) => { // error is handled in catch block
+            //             console.log(error);
+            //          });
+            //    })
+            //    .catch((error) => { // error is handled in catch block
+            //       console.log(error);
+            //    });
          })
          .catch((error) => { // error is handled in catch block
             console.log(error);
