@@ -37,7 +37,7 @@ const CarBooking = () => {
         <Container>
           <Row>
             <Col>
-              <iframe style={{width: "100%", height: "900px"}} src="https://rentsyst.com/ua/settings/iframe-constructor/?token=_EuisLmYq2hCMmyepiNHtOSN33k4uYzn&id=4365"></iframe>
+              <iframe style={{width: "100%", height: "900px"}} src="https://rentsyst.com/settings/iframe-constructor/?token=_EuisLmYq2hCMmyepiNHtOSN33k4uYzn&id=4365"></iframe>
             </Col>
           </Row>
         </Container>
