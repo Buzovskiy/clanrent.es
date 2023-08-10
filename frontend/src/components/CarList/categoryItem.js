@@ -5,15 +5,15 @@ import React from "react";
 export const CategoryItem = (props) => {
    const {t, item, clickProduct} = props
    return (
-      <div className="single-offers" data-url='/car-booking' data-id={item.id}>
+      <div className="single-offers" data-url='/car-details' data-id={item.id}>
          <div className="offer-image">
-            <a href="#"
+            <a href="/car-details"
                onClick={clickProduct} onContextMenu={clickProduct}>
                <img src={item.thumbnail} alt="offer 1"/>
             </a>
          </div>
          <div className="offer-text">
-            <a href="#"
+            <a href="/car-details"
                onClick={clickProduct} onContextMenu={clickProduct}>
                <h3>{item.brand} {item.mark}</h3>
             </a>
@@ -35,7 +35,7 @@ export const CategoryItem = (props) => {
                {/*</li>*/}
             </ul>
             <div className="offer-action">
-               <a href="#"
+               <a href="/car-details"
                   onClick={clickProduct} onContextMenu={clickProduct}>
                   {t("rent_car")}
                </a>

@@ -20,6 +20,7 @@ import LoginPage from "../LoginPage";
 import RegisterPage from "../RegisterPage";
 import ContactPage from "../ContactPage";
 import ScrollToTop from "../../components/ScrollToTop";
+import CarDetailsPage from "../CarDetailsPage";
 
 const AllRoute = () => {
    return (
@@ -45,6 +46,7 @@ const AllRoute = () => {
                <Route path="/login" element={<LoginPage/>}/>
                <Route path="/register" element={<RegisterPage/>}/>
                <Route path="/contact" element={<ContactPage/>}/>
+               <Route path="/car-details" element={<CarDetailsPage />}/>
                <Route element={<ErrorPage/>}/>
             </Routes>
             <ScrollToTop/>
