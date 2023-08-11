@@ -54,65 +54,40 @@ class CarDetails extends Component {
       // [rental_start_date, rental_end_date] = booking_info.dates.split(' - ')
       this.setState({
          product: booking_info.product,
-         // pickup_location: booking_info.pickup_location,
-         // return_location: booking_info.return_location,
+         pickup_location: booking_info.pickup_location,
+         return_location: booking_info.return_location,
          // rental_start_date: rental_start_date,
          // rental_end_date: rental_end_date,
-         // dates: booking_info.dates,
+         dates: booking_info.dates,
       }, () => {
-         // // We are trying to get order details from localstorage. If we can't then we
-         // // create a new order
-         // let order = localStorage.getItem('order');
-         // if (order === null) {
-         //    this.bookingTheCar();
-         // } else this.setState({order});
       });
    }
 
-   // bookingTheCar = () => {
-   //    let bodyFormData = new FormData();
-   //    bodyFormData.append('vehicle_id', this.state.product.id);
-   //    bodyFormData.append('dates', this.state.dates);
-   //    bodyFormData.append('pickup_location', this.state.pickup_location);
-   //    bodyFormData.append('return_location', this.state.return_location);
-   //    console.log('request')
-   //    axios
-   //       .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData)
-   //       .then((res) => {
-   //          // when the order is created save
-   //          let order = {details: res['data'], creation_timestamp: Date.now()}
-   //          localStorage.setItem('order', JSON.stringify(order));
-   //          this.setState({order});
-   //
-   //          // console.log(res);
-   //          // let order_id = res['data']['order_id'];
-   //          // let insurance_id = res['data']['insurances'][0].id;
-   //          // let option_id = res['data']['options'][0].id
-   //       })
-   //       .catch((error) => { // error is handled in catch block
-   //          console.log(error);
-   //       });
-   // }
+   bookingTheCar = () => {
+      let bodyFormData = new FormData();
+      bodyFormData.append('vehicle_id', this.state.product.id);
+      bodyFormData.append('dates', this.state.dates);
+      bodyFormData.append('pickup_location', this.state.pickup_location);
+      bodyFormData.append('return_location', this.state.return_location);
+      axios
+         .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData)
+         .then((res) => {
+            // when the order is created save it to localStorage
+            let order = {details: res['data'], creation_timestamp: Date.now()}
+            localStorage.setItem('order', JSON.stringify(order));
+            this.props.navigate({
+               pathname: '/car-booking',
+            });
+         })
+         .catch((error) => { // error is handled in catch block
+            console.log(error);
+         });
+   }
 
-   // onClick = (e) => {
-   //    e.preventDefault();
-   //    this.bookingTheCar();
-   // };
-
-   // handleChange = (e) => {
-   //    let {name, value} = e.target;
-   //    if (e.target.type === "checkbox") {
-   //       name = e.target.name;
-   //       // value = this.state.formFields.hasOwnProperty(name) ? this.state.formFields[name] : [];
-   //       // value = value.filter(item => item !== e.target.value);
-   //       // if (e.target.checked) value.push(e.target.value);
-   //    }
-   //    this.setState({[name]: value},
-   //       () => {
-   //          console.log(this.state[name]);
-   //       }
-   //    );
-   // };
+   onClick = (e) => {
+      e.preventDefault();
+      this.bookingTheCar();
+   };
 
    render() {
       const {t} = this.props

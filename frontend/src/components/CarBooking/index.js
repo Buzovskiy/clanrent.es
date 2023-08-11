@@ -32,17 +32,25 @@ class CarBooking extends Component {
          rental_start_date: '',
          rental_end_date: '',
          dates: '',
-         first_name: '',
-         last_name: '',
-         email: '',
-         phone: '',
-         country: 'Spain',
-         city: 'No specified',
-         address: '',
-         birthday: '2000-01-01',
-         payment_method: 'Cart',
-         comment: 'Hola',
-         order: {} // information about order from API with order creation timestamp
+         order: {
+            details: {options: []},
+            creation_timestamp: ''
+         }, // information about order from API with order creation timestamp
+         form: {
+            first_name: 'Vitalii',
+            last_name: 'Buzovskyi',
+            email: 'buzovskiy.v@gmail.com',
+            phone: '+34655973326',
+            country: 'Spain',
+            city: 'No specified',
+            address: 'No specified',
+            birthday: '2000-01-01',
+            payment_method: 'Cart',
+            comment: 'Hola',
+            // The values of these inputs are sent to API in a separate request.
+            options: {},
+            insurance: ''
+         }
       }
    }
 
@@ -52,6 +60,20 @@ class CarBooking extends Component {
       booking_info = JSON.parse(booking_info);
       let rental_start_date, rental_end_date;
       [rental_start_date, rental_end_date] = booking_info.dates.split(' - ')
+      let order = JSON.parse(localStorage.getItem('order'));
+
+      // let options = {...this.state.form.options};
+      // // Set default input form values for options corresponding to the information from order
+      //
+      // order.details.options.map((option) => {
+      //    options[`extras[${option.id}]`] = option['quantity'];
+      // });
+
+      // let form = {...this.state.form, options}
+      let form = {...this.state.form}
+      order.details.options.map(option => form[`extras[${option.id}]`] = option['quantity']);
+      form['insurance'] = order.details.insurances[0]['id'];
+
       this.setState({
          product: booking_info.product,
          pickup_location: booking_info.pickup_location,
@@ -59,13 +81,10 @@ class CarBooking extends Component {
          rental_start_date: rental_start_date,
          rental_end_date: rental_end_date,
          dates: booking_info.dates,
+         order: order,
+         form: form
       }, () => {
-         // // We are trying to get order details from localstorage. If we can't then we
-         // // create a new order
-         // let order = localStorage.getItem('order');
-         // if (order === null) {
-         //    this.bookingTheCar();
-         // } else this.setState({order});
+         console.log('in componentDidMount', this.state);
       });
 
 
@@ -75,59 +94,41 @@ class CarBooking extends Component {
    }
 
    bookingTheCar = () => {
-      let bodyFormData = new FormData();
-      bodyFormData.append('vehicle_id', this.state.product.id);
-      bodyFormData.append('dates', this.state.dates);
-      bodyFormData.append('pickup_location', this.state.pickup_location);
-      bodyFormData.append('return_location', this.state.return_location);
-      console.log('request')
-      axios
-         .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData)
-         .then((res) => {
-            // when the order is created save
-            let order = {details: res['data'], creation_timestamp: Date.now()}
-            localStorage.setItem('order', JSON.stringify(order));
-            this.setState({order});
-
-            // console.log(res);
-            // let order_id = res['data']['order_id'];
-            // let insurance_id = res['data']['insurances'][0].id;
-            // let option_id = res['data']['options'][0].id
-            // let orderUpdateFormData = new FormData();
-            // orderUpdateFormData.append('insurance', insurance_id);
-            // orderUpdateFormData.append(`extras[${option_id}]`, 1);
-            // axios
-            //    .post(`${process.env.REACT_APP_API_LINK}/v1/order/update/${order_id}/`, orderUpdateFormData)
-            //    .then((res) => {
-            //       console.log(res);
-            //       let order_id = res['data']['order_id'];
-            //       let orderConfirmationFormData = new FormData();
-            //       orderConfirmationFormData.append('driver[0][first_name]', this.state.first_name);
-            //       orderConfirmationFormData.append('driver[0][last_name]', this.state.last_name);
-            //       orderConfirmationFormData.append('driver[0][email]', this.state.email);
-            //       orderConfirmationFormData.append('driver[0][phone]', this.state.phone);
-            //       orderConfirmationFormData.append('driver[0][country]', this.state.country);
-            //       orderConfirmationFormData.append('driver[0][city]', this.state.city);
-            //       orderConfirmationFormData.append('driver[0][address]', this.state.address);
-            //       orderConfirmationFormData.append('driver[0][birthday]', this.state.birthday);
-            //       orderConfirmationFormData.append('payment_method', this.state.payment_method);
-            //       orderConfirmationFormData.append('comment', this.state.comment);
-            //       axios
-            //          .post(`${process.env.REACT_APP_API_LINK}/v1/order/confirm/${order_id}/`, orderConfirmationFormData)
-            //          .then((res) => {
-            //             console.log(res);
-            //          })
-            //          .catch((error) => { // error is handled in catch block
-            //             console.log(error);
-            //          });
-            //    })
-            //    .catch((error) => { // error is handled in catch block
-            //       console.log(error);
-            //    });
-         })
-         .catch((error) => { // error is handled in catch block
-            console.log(error);
-         });
+      console.log(this.state);
+      // let order_id = res['data']['order_id'];
+      // let insurance_id = res['data']['insurances'][0].id;
+      // let option_id = res['data']['options'][0].id
+      // let orderUpdateFormData = new FormData();
+      // orderUpdateFormData.append('insurance', insurance_id);
+      // orderUpdateFormData.append(`extras[${option_id}]`, 1);
+      // axios
+      //    .post(`${process.env.REACT_APP_API_LINK}/v1/order/update/${order_id}/`, orderUpdateFormData)
+      //    .then((res) => {
+      //       console.log(res);
+      //       let order_id = res['data']['order_id'];
+      //       let orderConfirmationFormData = new FormData();
+      //       orderConfirmationFormData.append('driver[0][first_name]', this.state.first_name);
+      //       orderConfirmationFormData.append('driver[0][last_name]', this.state.last_name);
+      //       orderConfirmationFormData.append('driver[0][email]', this.state.email);
+      //       orderConfirmationFormData.append('driver[0][phone]', this.state.phone);
+      //       orderConfirmationFormData.append('driver[0][country]', this.state.country);
+      //       orderConfirmationFormData.append('driver[0][city]', this.state.city);
+      //       orderConfirmationFormData.append('driver[0][address]', this.state.address);
+      //       orderConfirmationFormData.append('driver[0][birthday]', this.state.birthday);
+      //       orderConfirmationFormData.append('payment_method', this.state.payment_method);
+      //       orderConfirmationFormData.append('comment', this.state.comment);
+      //       axios
+      //          .post(`${process.env.REACT_APP_API_LINK}/v1/order/confirm/${order_id}/`, orderConfirmationFormData)
+      //          .then((res) => {
+      //             console.log(res);
+      //          })
+      //          .catch((error) => { // error is handled in catch block
+      //             console.log(error);
+      //          });
+      //    })
+      //    .catch((error) => { // error is handled in catch block
+      //       console.log(error);
+      //    });
    }
 
    onClick = (e) => {
@@ -143,12 +144,30 @@ class CarBooking extends Component {
          // value = value.filter(item => item !== e.target.value);
          // if (e.target.checked) value.push(e.target.value);
       }
-      this.setState({[name]: value},
-         () => {
-            console.log(this.state[name]);
-         }
-      );
+
+      let form = {...this.state.form, [name]: value}
+      this.setState({form}, () => {
+         console.log(this.state);
+      });
    };
+
+   renderOptionsInputs() {
+      const {t} = this.props
+      let options = this.state.order.details.options.filter(opt => {
+         return opt.hasOwnProperty('max_quantity') && `extras[${opt.id}]` in this.state.form;
+      });
+      return options.map((option, ind) => (
+         <Col md={6} key={ind}>
+            <p>
+               <label htmlFor={'option-' + option.id}>{option.title}</label>
+               <input id={'option-' + option.id} type="number" name={'extras[' + option.id + ']'}
+                      max={option.max_quantity} min='0' onChange={this.handleChange}
+                      value={this.state.form[`extras[${option.id}]`]}
+               />
+            </p>
+         </Col>
+      ))
+   }
 
    render() {
       const {t} = this.props
@@ -264,7 +283,7 @@ class CarBooking extends Component {
                                              type="text"
                                              placeholder={t("car_booking.first_name")}
                                              name="first_name"
-                                             value={this.state.first_name}
+                                             value={this.state.form.first_name}
                                              onChange={this.handleChange}
 
                                           />
@@ -276,7 +295,7 @@ class CarBooking extends Component {
                                              type="text"
                                              placeholder={t("car_booking.last_name")}
                                              name="last_name"
-                                             value={this.state.last_name}
+                                             value={this.state.form.last_name}
                                              onChange={this.handleChange}
                                           />
                                        </p>
@@ -289,7 +308,7 @@ class CarBooking extends Component {
                                              type="email"
                                              placeholder={t("car_booking.email")}
                                              name="email"
-                                             value={this.state.email}
+                                             value={this.state.form.email}
                                              onChange={this.handleChange}
                                           />
                                        </p>
@@ -300,7 +319,7 @@ class CarBooking extends Component {
                                              type="tel"
                                              placeholder={t("car_booking.phn")}
                                              name="phone"
-                                             value={this.state.phone}
+                                             value={this.state.form.phone}
                                              onChange={this.handleChange}
                                           />
                                        </p>
@@ -360,6 +379,14 @@ class CarBooking extends Component {
                                              value={this.state.rental_end_date}
                                              disabled='disabled'
                                           />
+                                       </p>
+                                    </Col>
+                                 </Row>
+                                 <Row>{this.renderOptionsInputs()}</Row>
+                                 <Row>
+                                    <Col md={6}>
+                                       <p>
+                                          <input type="number" defaultValue={0}/>
                                        </p>
                                     </Col>
                                  </Row>
