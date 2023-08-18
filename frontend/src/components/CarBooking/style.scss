@@ -3,7 +3,7 @@
   //background: #fbfbfb none repeat scroll 0 0;
 }
 
-.rental-tag {
+.rental-tag, .time-left {
   display: inline-block;
   padding: 5px 15px;
   line-height: 20px;
@@ -14,6 +14,11 @@
   font-size: 14px;
   border-radius: 3px;
   margin-bottom: 5px;
+}
+
+.time-left {
+  margin-left: 15px;
+  background: $color-light-blue;
 }
 
 .car-booking-right h3 {
@@ -239,6 +244,7 @@ input[type="radio"]:checked ~ label {
     margin-top: 30px;
   }
 }
+
 @media only screen and (min-width: 480px) and (max-width: 767px) {
   .car-booking-right {
     margin-top: 30px;

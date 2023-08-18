@@ -90,6 +90,8 @@ class CarList extends Component {
    };
 
    clickProduct = (e) => {
+      // todo: add clean cart function
+
       let product_id = e.target.closest('.single-offers').dataset.id;
       let product_obj = this.state.product[product_id];
       let booking_info = {
@@ -98,14 +100,17 @@ class CarList extends Component {
          return_location: this.state.return_location,
          dates: this.state.dates
       }
-      localStorage.setItem('booking_info', JSON.stringify(booking_info));
-      if (e.type === 'click') {
-         e.preventDefault();
-         let url = e.target.closest('.single-offers').dataset.url
-         this.props.navigate({
-            pathname: url
-         });
-      }
+      let cart_storage = localStorage.getItem('cart');
+      let cart = cart_storage === null ? {} : JSON.parse(cart_storage);
+      cart[product_obj.id] = {...booking_info};
+      localStorage.setItem('cart', JSON.stringify(cart));
+      // if (e.type === 'click') {
+      //    e.preventDefault();
+      //    let url = e.target.closest('.single-offers').dataset.url
+      //    this.props.navigate({
+      //       pathname: url
+      //    });
+      // }
    }
 
 

@@ -46,7 +46,7 @@ const AllRoute = () => {
                <Route path="/login" element={<LoginPage/>}/>
                <Route path="/register" element={<RegisterPage/>}/>
                <Route path="/contact" element={<ContactPage/>}/>
-               <Route path="/car-details" element={<CarDetailsPage />}/>
+               <Route path="/product-details/:productId" element={<CarDetailsPage />}/>
                <Route element={<ErrorPage/>}/>
             </Routes>
             <ScrollToTop/>

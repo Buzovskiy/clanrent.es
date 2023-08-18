@@ -20,6 +20,8 @@ import img2 from "../../img/master-card.jpg";
 import img3 from "../../img/paypal.jpg";
 import axios from "axios";
 
+import Timer from "./timer";
+
 
 class CarBooking extends Component {
    constructor(props) {
@@ -32,6 +34,7 @@ class CarBooking extends Component {
          rental_start_date: '',
          rental_end_date: '',
          dates: '',
+         time_end: 0, // timestamp in ms by which the reservation should be done
          order: {
             details: {options: []},
             creation_timestamp: ''
@@ -50,7 +53,9 @@ class CarBooking extends Component {
             // The values of these inputs are sent to API in a separate request.
             options: {},
             insurance: ''
-         }
+         },
+         settings: {}, // settings from api
+         timer: 'Time left: 00:00',
       }
    }
 
@@ -61,6 +66,19 @@ class CarBooking extends Component {
       let rental_start_date, rental_end_date;
       [rental_start_date, rental_end_date] = booking_info.dates.split(' - ')
       let order = JSON.parse(localStorage.getItem('order'));
+
+      axios
+         .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`)
+         .then((res) => {
+            this.setState({settings: res.data});
+            let time_end = order.creation_timestamp + res.data.time_for_booking * 1000;
+            this.setState({time_end: time_end});
+            let timer = <Timer time_end={time_end} t={this.props.t}/>
+            this.setState({timer: timer});
+         })
+         // error is handled in catch block
+         .catch((error) => console.log(error));
+
 
       // let options = {...this.state.form.options};
       // // Set default input form values for options corresponding to the information from order
@@ -86,12 +104,23 @@ class CarBooking extends Component {
       }, () => {
          console.log('in componentDidMount', this.state);
       });
-
-
-      // if (booking_info != null) {
-      //
-      // }
    }
+
+   // renderTimeLeft = () => {
+   //    const {t} = this.props
+   //    // setInterval(() => {
+   //    //    this.setState({time_left: Math.round(Math.random()*10)})
+   //    // }, 1000)
+   //    // setInterval(() => {
+   //    //    const state = this.state;
+   //    //    console.log(state.x);
+   //    //    this.setState({time_left: this.state.time_left + 100});
+   //    // }, 1000);
+   //    return (
+   //       <>{t("time_left")}: {this.state.x}</>
+   //       // <></>
+   //    )
+   // }
 
    bookingTheCar = () => {
       console.log(this.state);
@@ -184,6 +213,7 @@ class CarBooking extends Component {
                      <Col lg={6}>
                         <div className="car-booking-right">
                            <p className="rental-tag">{t("rental")}</p>
+                           <span className="time-left">{this.state.timer}</span>
                            <h3>mercedes S-class</h3>
                            <div className="price-rating">
                               <div className="price-rent">
