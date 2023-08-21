@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import {useTranslation} from "react-i18next";
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 
 import Header from "../../components/header";
 import PageTitle from "../../components/PageTitle";
@@ -20,6 +20,7 @@ const CarBookingPage = () => {
          <CarBooking
             t={t}
             navigate={useNavigate()}
+            useParams={useParams()}
          />
          <Footer/>
       </Fragment>

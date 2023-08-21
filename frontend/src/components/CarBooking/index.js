@@ -47,7 +47,7 @@ class CarBooking extends Component {
             country: 'Spain',
             city: 'No specified',
             address: 'No specified',
-            birthday: '2000-01-01',
+            birthday: '1990-01-01',
             payment_method: 'Cart',
             comment: 'Hola',
             // The values of these inputs are sent to API in a separate request.
@@ -60,12 +60,14 @@ class CarBooking extends Component {
    }
 
    componentDidMount() {
-      let booking_info = localStorage.getItem('booking_info');
-      if (booking_info === null) window.location.replace("/");
-      booking_info = JSON.parse(booking_info);
+      const {productId} = this.props.useParams;
+      let cart = localStorage.getItem('cart');
+      if (cart === null) window.location.replace("/");
+      cart = JSON.parse(cart);
       let rental_start_date, rental_end_date;
-      [rental_start_date, rental_end_date] = booking_info.dates.split(' - ')
-      let order = JSON.parse(localStorage.getItem('order'));
+      [rental_start_date, rental_end_date] = cart[productId].dates.split(' - ');
+      let order = cart[productId].order;
+
 
       axios
          .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`)
@@ -73,54 +75,29 @@ class CarBooking extends Component {
             this.setState({settings: res.data});
             let time_end = order.creation_timestamp + res.data.time_for_booking * 1000;
             this.setState({time_end: time_end});
-            let timer = <Timer time_end={time_end} t={this.props.t}/>
+            let timer = <Timer time_end={time_end}/>
             this.setState({timer: timer});
          })
          // error is handled in catch block
          .catch((error) => console.log(error));
 
-
-      // let options = {...this.state.form.options};
-      // // Set default input form values for options corresponding to the information from order
-      //
-      // order.details.options.map((option) => {
-      //    options[`extras[${option.id}]`] = option['quantity'];
-      // });
-
-      // let form = {...this.state.form, options}
       let form = {...this.state.form}
       order.details.options.map(option => form[`extras[${option.id}]`] = option['quantity']);
       form['insurance'] = order.details.insurances[0]['id'];
 
       this.setState({
-         product: booking_info.product,
-         pickup_location: booking_info.pickup_location,
-         return_location: booking_info.return_location,
+         product: cart[productId].product,
+         pickup_location: cart[productId].pickup_location,
+         return_location: cart[productId].return_location,
          rental_start_date: rental_start_date,
          rental_end_date: rental_end_date,
-         dates: booking_info.dates,
+         dates: cart[productId].dates,
          order: order,
          form: form
       }, () => {
-         console.log('in componentDidMount', this.state);
+         // console.log('in componentDidMount', this.state);
       });
    }
-
-   // renderTimeLeft = () => {
-   //    const {t} = this.props
-   //    // setInterval(() => {
-   //    //    this.setState({time_left: Math.round(Math.random()*10)})
-   //    // }, 1000)
-   //    // setInterval(() => {
-   //    //    const state = this.state;
-   //    //    console.log(state.x);
-   //    //    this.setState({time_left: this.state.time_left + 100});
-   //    // }, 1000);
-   //    return (
-   //       <>{t("time_left")}: {this.state.x}</>
-   //       // <></>
-   //    )
-   // }
 
    bookingTheCar = () => {
       console.log(this.state);
@@ -180,6 +157,20 @@ class CarBooking extends Component {
       });
    };
 
+   handleChangeEquipment = (e) => {
+      let {name, value} = e.target;
+      let form = {...this.state.form, [name]: value}
+      this.setState({form}, () => {
+         console.log(this.state);
+         // get options
+         // the value of each option add to orderUpdateFormData
+         // make request
+         // get response.
+         // update this.state.order
+         // update cart in storage
+      });
+   }
+
    renderOptionsInputs() {
       const {t} = this.props
       let options = this.state.order.details.options.filter(opt => {
@@ -190,7 +181,7 @@ class CarBooking extends Component {
             <p>
                <label htmlFor={'option-' + option.id}>{option.title}</label>
                <input id={'option-' + option.id} type="number" name={'extras[' + option.id + ']'}
-                      max={option.max_quantity} min='0' onChange={this.handleChange}
+                      max={option.max_quantity} min='0' onChange={this.handleChangeEquipment}
                       value={this.state.form[`extras[${option.id}]`]}
                />
             </p>
@@ -414,42 +405,13 @@ class CarBooking extends Component {
                                  </Row>
                                  <Row>{this.renderOptionsInputs()}</Row>
                                  <Row>
-                                    <Col md={6}>
-                                       <p>
-                                          <input type="number" defaultValue={0}/>
-                                       </p>
-                                    </Col>
-                                 </Row>
-                                 <Row>
-                                    <Col md={6}>
-                                       <p>
-                                          <select>
-                                             <option data-display="Select">1 person</option>
-                                             <option>2 person</option>
-                                             <option>3 person</option>
-                                             <option>4 person</option>
-                                             <option>5-10 person</option>
-                                          </select>
-                                       </p>
-                                    </Col>
-                                    <Col md={6}>
-                                       <p>
-                                          <select>
-                                             <option data-display="Select">1 luggage</option>
-                                             <option>2 luggage</option>
-                                             <option>3 luggage</option>
-                                             <option>4(+) luggage</option>
-                                          </select>
-                                       </p>
-                                    </Col>
-                                 </Row>
-
-                                 <Row>
                                     <Col md={12}>
                                        <p>
                                          <textarea
-                                            placeholder="Write Here..."
-                                            defaultValue={""}
+                                            placeholder={t('write_here')}
+                                            name='comment'
+                                            value={this.state.form.comment}
+                                            onChange={this.handleChange}
                                          />
                                        </p>
                                     </Col>
