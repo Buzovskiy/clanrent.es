@@ -161,29 +161,51 @@ class CarBooking extends Component {
       let {name, value} = e.target;
       let form = {...this.state.form, [name]: value}
       this.setState({form}, () => {
-         // console.log(this.state);
+         console.log(this.state);
          let options = this.state.order.details.options.filter(opt => {
             return opt.hasOwnProperty('max_quantity') && `extras[${opt.id}]` in this.state.form;
          });
-         console.log(options);
+
          let addEquipmentFormData = new FormData();
          options.map((opt) => {
             let opt_val = this.state.form[`extras[${opt.id}]`];
-            if (opt_val > 0){
+            if (opt_val > 0) {
                addEquipmentFormData.append(`extras[${opt.id}]`, opt_val);
             }
          })
 
-         // addEquipmentFormData.append('insurance', this.state.order.details.op)
+         addEquipmentFormData.append('insurance', this.state.order.details.insurances[0].id);
+         // for (let p of addEquipmentFormData) {
+         //    let name = p[0];
+         //    let value = p[1];
+         //    console.log(name, value)
+         // }
 
+         const order_id = this.state.order.details.order_id;
 
+         // console.log('before=', this.state.order);
 
-         // let order_id = res['data']['order_id'];
-         // let insurance_id = res['data']['insurances'][0].id;
-         // let option_id = res['data']['options'][0].id
-         // let orderUpdateFormData = new FormData();
-         // orderUpdateFormData.append('insurance', insurance_id);
-         // orderUpdateFormData.append(`extras[${option_id}]`, 1);
+         axios
+            .post(`${process.env.REACT_APP_API_LINK}/v1/order/update/${order_id}/`, addEquipmentFormData)
+            .then((res) => {
+               console.log(res);
+               const order = this.state.order;
+               order.details = res['data']
+               // Update order in state
+               this.setState({order},
+                  // () => console.log('after=', this.state.order)
+               );
+               // Update order in local storage
+               let cart = localStorage.getItem('cart');
+               if (cart === null) window.location.replace("/");
+               cart = JSON.parse(cart);
+               cart[this.state.product.id].order = order;
+               localStorage.setItem('cart', JSON.stringify(cart));
+            })
+            .catch((error) => { // error is handled in catch block
+               console.log(error);
+            });
+
 
          // get options
          // the value of each option add to orderUpdateFormData
