@@ -21,6 +21,8 @@ import RegisterPage from "../RegisterPage";
 import ContactPage from "../ContactPage";
 import ScrollToTop from "../../components/ScrollToTop";
 import CarDetailsPage from "../CarDetailsPage";
+import PrivacyPage from "../PagesPage/privacyPage";
+import TermsAndConditionsPage from "../PagesPage/termsAndConditionsPage";
 
 const AllRoute = () => {
    return (
@@ -47,6 +49,9 @@ const AllRoute = () => {
                <Route path="/register" element={<RegisterPage/>}/>
                <Route path="/contact" element={<ContactPage/>}/>
                <Route path="/car-details" element={<CarDetailsPage />}/>
+
+               <Route path="/privacy-policy" element={<PrivacyPage />}/>
+               <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />}/>
                <Route element={<ErrorPage/>}/>
             </Routes>
             <ScrollToTop/>

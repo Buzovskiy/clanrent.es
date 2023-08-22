@@ -73,6 +73,8 @@
   "c_email" : "Email",
   "rental_start_date" : "Rental start date",
   "rental_end_date" : "Rental end date",
+  "privacy-policy": "Privacy policy",
+  "terms-and-conditions": "Terms and conditions",
   "blog-title" : {
     "blog-1" : "if Your Car's bettery down.",
     "blog-2" : "How often is a taxi used?",
