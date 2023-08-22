@@ -161,7 +161,30 @@ class CarBooking extends Component {
       let {name, value} = e.target;
       let form = {...this.state.form, [name]: value}
       this.setState({form}, () => {
-         console.log(this.state);
+         // console.log(this.state);
+         let options = this.state.order.details.options.filter(opt => {
+            return opt.hasOwnProperty('max_quantity') && `extras[${opt.id}]` in this.state.form;
+         });
+         console.log(options);
+         let addEquipmentFormData = new FormData();
+         options.map((opt) => {
+            let opt_val = this.state.form[`extras[${opt.id}]`];
+            if (opt_val > 0){
+               addEquipmentFormData.append(`extras[${opt.id}]`, opt_val);
+            }
+         })
+
+         // addEquipmentFormData.append('insurance', this.state.order.details.op)
+
+
+
+         // let order_id = res['data']['order_id'];
+         // let insurance_id = res['data']['insurances'][0].id;
+         // let option_id = res['data']['options'][0].id
+         // let orderUpdateFormData = new FormData();
+         // orderUpdateFormData.append('insurance', insurance_id);
+         // orderUpdateFormData.append(`extras[${option_id}]`, 1);
+
          // get options
          // the value of each option add to orderUpdateFormData
          // make request
