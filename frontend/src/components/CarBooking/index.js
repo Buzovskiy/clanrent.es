@@ -40,21 +40,36 @@ class CarBooking extends Component {
             creation_timestamp: ''
          }, // information about order from API with order creation timestamp
          form: {
-            first_name: 'Vitalii',
-            last_name: 'Buzovskyi',
-            email: 'buzovskiy.v@gmail.com',
-            phone: '+34655973326',
-            country: 'Spain',
+            first_name: '',
+            last_name: '',
+            email: '',
+            phone: '',
+            country: '',
             city: 'No specified',
             address: 'No specified',
             birthday: '1990-01-01',
-            payment_method: 'Cart',
-            comment: 'Hola',
+            payment_method: '',
+            comment: '',
             // The values of these inputs are sent to API in a separate request.
             options: {},
             insurance: ''
          },
-         settings: {}, // settings from api
+         // form: {
+         //    first_name: 'Vitalii',
+         //    last_name: 'Buzovskyi',
+         //    email: 'buzovskiy.v@gmail.com',
+         //    phone: '+34655973326',
+         //    country: 'Spain',
+         //    city: 'No specified',
+         //    address: 'No specified',
+         //    birthday: '1990-01-01',
+         //    payment_method: '',
+         //    comment: 'Hola',
+         //    // The values of these inputs are sent to API in a separate request.
+         //    options: {},
+         //    insurance: ''
+         // },
+         settings: {payment_methods: []}, // settings from api
          timer: 'Time left: 00:00',
       }
    }
@@ -67,7 +82,6 @@ class CarBooking extends Component {
       let rental_start_date, rental_end_date;
       [rental_start_date, rental_end_date] = cart[productId].dates.split(' - ');
       let order = cart[productId].order;
-
 
       axios
          .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`)
@@ -100,7 +114,36 @@ class CarBooking extends Component {
    }
 
    bookingTheCar = () => {
-      console.log(this.state);
+      let order_id = this.state.order.details.order_id;
+      let orderConfirmationFormData = new FormData();
+      orderConfirmationFormData.append('driver[0][first_name]', this.state.form.first_name);
+      orderConfirmationFormData.append('driver[0][last_name]', this.state.form.last_name);
+      orderConfirmationFormData.append('driver[0][email]', this.state.form.email);
+      orderConfirmationFormData.append('driver[0][phone]', this.state.form.phone);
+      orderConfirmationFormData.append('driver[0][country]', this.state.form.country);
+      orderConfirmationFormData.append('driver[0][city]', this.state.form.city);
+      orderConfirmationFormData.append('driver[0][address]', this.state.form.address);
+      orderConfirmationFormData.append('driver[0][birthday]', this.state.form.birthday);
+      orderConfirmationFormData.append('payment_method', this.state.form.payment_method);
+      orderConfirmationFormData.append('comment', this.state.form.comment);
+      // for (const value of orderConfirmationFormData.values()) {
+      //    console.log(value);
+      // }
+      axios
+         .post(`${process.env.REACT_APP_API_LINK}/v1/order/confirm/${order_id}/`, orderConfirmationFormData)
+         .then((res) => {
+            console.log(res);
+            if (res.data.status === 'success') {
+               this.props.navigate({
+                  pathname: '/',
+               });
+            }
+         })
+         .catch((error) => { // error is handled in catch block
+            console.log(error);
+         });
+
+
       // let order_id = res['data']['order_id'];
       // let insurance_id = res['data']['insurances'][0].id;
       // let option_id = res['data']['options'][0].id
@@ -110,27 +153,7 @@ class CarBooking extends Component {
       // axios
       //    .post(`${process.env.REACT_APP_API_LINK}/v1/order/update/${order_id}/`, orderUpdateFormData)
       //    .then((res) => {
-      //       console.log(res);
-      //       let order_id = res['data']['order_id'];
-      //       let orderConfirmationFormData = new FormData();
-      //       orderConfirmationFormData.append('driver[0][first_name]', this.state.first_name);
-      //       orderConfirmationFormData.append('driver[0][last_name]', this.state.last_name);
-      //       orderConfirmationFormData.append('driver[0][email]', this.state.email);
-      //       orderConfirmationFormData.append('driver[0][phone]', this.state.phone);
-      //       orderConfirmationFormData.append('driver[0][country]', this.state.country);
-      //       orderConfirmationFormData.append('driver[0][city]', this.state.city);
-      //       orderConfirmationFormData.append('driver[0][address]', this.state.address);
-      //       orderConfirmationFormData.append('driver[0][birthday]', this.state.birthday);
-      //       orderConfirmationFormData.append('payment_method', this.state.payment_method);
-      //       orderConfirmationFormData.append('comment', this.state.comment);
-      //       axios
-      //          .post(`${process.env.REACT_APP_API_LINK}/v1/order/confirm/${order_id}/`, orderConfirmationFormData)
-      //          .then((res) => {
-      //             console.log(res);
-      //          })
-      //          .catch((error) => { // error is handled in catch block
-      //             console.log(error);
-      //          });
+      //
       //    })
       //    .catch((error) => { // error is handled in catch block
       //       console.log(error);
@@ -153,7 +176,7 @@ class CarBooking extends Component {
 
       let form = {...this.state.form, [name]: value}
       this.setState({form}, () => {
-         console.log(this.state);
+         // console.log(this.state);
       });
    };
 
@@ -161,7 +184,6 @@ class CarBooking extends Component {
       let {name, value} = e.target;
       let form = {...this.state.form, [name]: value}
       this.setState({form}, () => {
-         console.log(this.state);
          let options = this.state.order.details.options.filter(opt => {
             return opt.hasOwnProperty('max_quantity') && `extras[${opt.id}]` in this.state.form;
          });
@@ -175,15 +197,7 @@ class CarBooking extends Component {
          })
 
          addEquipmentFormData.append('insurance', this.state.order.details.insurances[0].id);
-         // for (let p of addEquipmentFormData) {
-         //    let name = p[0];
-         //    let value = p[1];
-         //    console.log(name, value)
-         // }
-
          const order_id = this.state.order.details.order_id;
-
-         // console.log('before=', this.state.order);
 
          axios
             .post(`${process.env.REACT_APP_API_LINK}/v1/order/update/${order_id}/`, addEquipmentFormData)
@@ -192,10 +206,8 @@ class CarBooking extends Component {
                const order = this.state.order;
                order.details = res['data']
                // Update order in state
-               this.setState({order},
-                  // () => console.log('after=', this.state.order)
-               );
-               // Update order in local storage
+               this.setState({order});
+               // Update cart in local storage
                let cart = localStorage.getItem('cart');
                if (cart === null) window.location.replace("/");
                cart = JSON.parse(cart);
@@ -205,15 +217,24 @@ class CarBooking extends Component {
             .catch((error) => { // error is handled in catch block
                console.log(error);
             });
-
-
-         // get options
-         // the value of each option add to orderUpdateFormData
-         // make request
-         // get response.
-         // update this.state.order
-         // update cart in storage
       });
+   }
+
+   renderPaymentMethods = () => {
+      const {t} = this.props;
+      return this.state.settings.payment_methods.map((item, key) => (
+         <div key={key} className="payment">
+            <input onClick={this.handleChange} value={item.name}
+                   type="radio" id={item.id} name="payment_method"/>
+            <label htmlFor={item.id}>
+               {item.name}
+            </label>
+            <div className="check">
+               <div className="inside"/>
+            </div>
+            {/*<p>{t("car_booking.payment_text")}</p>*/}
+         </div>
+      ))
    }
 
    renderOptionsInputs() {
@@ -259,21 +280,11 @@ class CarBooking extends Component {
                               </div>
                               <div className="car-rating">
                                  <ul>
-                                    <li>
-                                       <FaStar/>
-                                    </li>
-                                    <li>
-                                       <FaStar/>
-                                    </li>
-                                    <li>
-                                       <FaStar/>
-                                    </li>
-                                    <li>
-                                       <FaStar/>
-                                    </li>
-                                    <li>
-                                       <FaStarHalfAlt/>
-                                    </li>
+                                    <li><FaStar/></li>
+                                    <li><FaStar/></li>
+                                    <li><FaStar/></li>
+                                    <li><FaStar/></li>
+                                    <li><FaStarHalfAlt/></li>
                                  </ul>
                                  <p>(123 {t("rating")})</p>
                               </div>
@@ -287,46 +298,22 @@ class CarBooking extends Component {
                            </p>
                            <div className="car-features clearfix">
                               <ul>
-                                 <li>
-                                    <FaCar/> {t("model")}:2017
-                                 </li>
-                                 <li>
-                                    <FaCogs/> {t("automatic")}
-                                 </li>
-                                 <li>
-                                    <FaTachometerAlt/> 20kmpl
-                                 </li>
-                                 <li>
-                                    <FaEmpire/> V-6 Cylinder
-                                 </li>
+                                 <li><FaCar/> {t("model")}:2017</li>
+                                 <li><FaCogs/> {t("automatic")}</li>
+                                 <li><FaTachometerAlt/> 20kmpl</li>
+                                 <li><FaEmpire/> V-6 Cylinder</li>
                               </ul>
                               <ul>
-                                 <li>
-                                    <FaEye/> GPS Navigation
-                                 </li>
-                                 <li>
-                                    <FaLock/> Anti-Lock Brakes
-                                 </li>
-                                 <li>
-                                    <FaKey/> Remote Keyless
-                                 </li>
-                                 <li>
-                                    <FaDesktop/> Rear-Seat DVD
-                                 </li>
+                                 <li><FaEye/> GPS Navigation</li>
+                                 <li><FaLock/> Anti-Lock Brakes</li>
+                                 <li><FaKey/> Remote Keyless</li>
+                                 <li><FaDesktop/> Rear-Seat DVD</li>
                               </ul>
                               <ul>
-                                 <li>
-                                    <FaCar/> {t("model")}:2017
-                                 </li>
-                                 <li>
-                                    <FaCogs/> {t("automatic")}
-                                 </li>
-                                 <li>
-                                    <FaTachometerAlt/> 20kmpl
-                                 </li>
-                                 <li>
-                                    <FaEmpire/> V-6 Cylinder
-                                 </li>
+                                 <li><FaCar/> {t("model")}:2017</li>
+                                 <li><FaCogs/> {t("automatic")}</li>
+                                 <li><FaTachometerAlt/> 20kmpl</li>
+                                 <li><FaEmpire/> V-6 Cylinder</li>
                               </ul>
                            </div>
                         </div>
@@ -469,43 +456,11 @@ class CarBooking extends Component {
                         <div className="booking-right">
                            <h3>{t("car_booking.payment_method")}</h3>
                            <div className="gauto-payment clearfix">
-                              <div className="payment">
-                                 <input type="radio" id="ss-option" name="selector"/>
-                                 <label htmlFor="ss-option">
-                                    {t("car_booking.bank_transfer")}
-                                 </label>
-                                 <div className="check">
-                                    <div className="inside"/>
-                                 </div>
-                                 <p>{t("car_booking.payment_text")}</p>
-                              </div>
-                              <div className="payment">
-                                 <input type="radio" id="f-option" name="selector"/>
-                                 <label htmlFor="f-option">
-                                    {t("car_booking.check_payment")}
-                                 </label>
-                                 <div className="check">
-                                    <div className="inside"/>
-                                 </div>
-                              </div>
-                              <div className="payment">
-                                 <input type="radio" id="s-option" name="selector"/>
-                                 <label htmlFor="s-option">
-                                    {t("car_booking.credit_card")}
-                                 </label>
-                                 <div className="check">
-                                    <div className="inside"/>
-                                 </div>
-                                 <img src={img2} alt="credit card"/>
-                              </div>
-                              <div className="payment">
-                                 <input type="radio" id="t-option" name="selector"/>
-                                 <label htmlFor="t-option">Paypal</label>
-                                 <div className="check">
-                                    <div className="inside"/>
-                                 </div>
-                                 <img src={img3} alt="credit card"/>
-                              </div>
+                              {this.renderPaymentMethods()}
+                           </div>
+                           <h3>{t("booking_total")}</h3>
+                           <div className="booking-total clearfix">
+                              {this.state.order.details.total_price}{this.state.settings.currency}
                            </div>
                            <div className="action-btn">
                               <Link to="/" onClick={this.onClick} className="gauto-btn">
