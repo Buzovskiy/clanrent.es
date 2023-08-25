@@ -12,15 +12,17 @@ class FindCar extends Component {
             return_location: '',
             rental_start_date: '',
             rental_end_date: '',
-         }
+         },
+         fields_errors: {},
       }
    }
 
-   componentDidMount() {}
+   componentDidMount() {
+   }
 
    handleChange = (e) => {
       let {name, value} = e.target;
-      // this.checkFieldErrors(e.target);
+      this.checkFieldErrors(e.target);
       const form_data = {...this.state.form_data, [name]: value};
       this.setState({form_data},
          // () => {
@@ -28,6 +30,25 @@ class FindCar extends Component {
          // }
       );
    };
+
+   checkFieldErrors = (element) => {
+      let {name, value} = element;
+      let fields_errors = {...this.state.fields_errors, [name]: []};
+      if (element.required && !value) {
+         fields_errors[name] = [this.props.t('this_field_may_not_be_blank')];
+      }
+      this.setState({fields_errors})
+   }
+
+   renderFieldError = (field_name) => {
+      let fields_errors = [];
+      if (this.state.fields_errors.hasOwnProperty(field_name)) {
+         fields_errors = this.state.fields_errors[field_name];
+      }
+      return fields_errors.map((item, id) => (
+         <p key={id} className="error">{item}</p>
+      ));
+   }
 
    submitHandler = (e) => {
       e.preventDefault();
@@ -71,23 +92,24 @@ class FindCar extends Component {
                                     <Row>
                                        <Col md={4}>
                                           <p>
-                                             <input
-                                                type="text"
-                                                name="pickup_location"
-                                                placeholder={t("from_address")}
-                                                value={this.state.form_data.pickup_location}
-                                                onChange={this.handleChange}
+                                             <label htmlFor="pickup_location">{t("from_address")}</label>
+                                             <input type="text" placeholder={t("from_address")} required
+                                                    name="pickup_location"
+                                                    id="pickup_location"
+                                                    value={this.state.form_data.pickup_location}
+                                                    onChange={this.handleChange}
                                              />
+                                             {this.renderFieldError('pickup_location')}
                                           </p>
                                        </Col>
                                        <Col md={4}>
                                           <p>
-                                             <input
-                                                type="text"
-                                                name="return_location"
-                                                placeholder={t("to_address")}
-                                                value={this.state.form_data.return_location}
-                                                onChange={this.handleChange}
+                                             <label htmlFor="pickup_location">{t("to_address")}</label>
+                                             <input type="text" placeholder={t("to_address")}
+                                                    name="return_location"
+                                                    id='to_address'
+                                                    value={this.state.form_data.return_location}
+                                                    onChange={this.handleChange}
                                              />
                                           </p>
                                        </Col>
@@ -96,24 +118,22 @@ class FindCar extends Component {
                                        <Col md={4}>
                                           <p>
                                              <label htmlFor="rental_start_date">{t("rental_start_date")}</label>
-                                             <input
-                                                type="datetime-local"
-                                                id="rental_start_date"
-                                                name="rental_start_date"
-                                                value={this.state.form_data.rental_start_date}
-                                                onChange={this.handleChange}
+                                             <input type="datetime-local"
+                                                    id="rental_start_date"
+                                                    name="rental_start_date"
+                                                    value={this.state.form_data.rental_start_date}
+                                                    onChange={this.handleChange}
                                              />
                                           </p>
                                        </Col>
                                        <Col md={4}>
                                           <p>
                                              <label htmlFor="rental_end_date">{t("rental_end_date")}</label>
-                                             <input
-                                                type="datetime-local"
-                                                id="rental_end_date"
-                                                name="rental_end_date"
-                                                value={this.state.form_data.rental_end_date}
-                                                onChange={this.handleChange}
+                                             <input type="datetime-local"
+                                                    id="rental_end_date"
+                                                    name="rental_end_date"
+                                                    value={this.state.form_data.rental_end_date}
+                                                    onChange={this.handleChange}
                                              />
                                           </p>
                                        </Col>
