@@ -1,2 +1,0 @@
-Suppose we have a file
-sample_file.txt as shown below:
