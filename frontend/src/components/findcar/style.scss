@@ -27,9 +27,9 @@
   line-height: 40px;
 }
 
-.find-form p input,
-.find-form p select{
-  width: 100% !important;
+.find-form input,
+.find-form select{
+  width: 100%;
 }
 
 input#datepicker,
@@ -38,11 +38,6 @@ input#timepicker {
   border: none !important;
   font-size: 14px;
   font-weight: 500;
-}
-
-.find-form form p {
-  margin: 15px 0;
-  position: relative;
 }
 
 .datepicker {

@@ -53,15 +53,19 @@ class CarList extends Component {
          .then((res) => {
             let cars = res.data['vehicles'];
             let car_list_two_dim_array = []
-            let num_cols = 2 // The number of columns in a row
+            let num_cols = 3 // The number of columns in a row
             let product = {}
 
             cars.map(item => {
-               car_list_two_dim_array = makeTwoDimensionalArr(car_list_two_dim_array, num_cols, item);
+               // car_list_two_dim_array = makeTwoDimensionalArr(car_list_two_dim_array, num_cols, item);
                product[item.id] = item;
             });
 
-            this.setState({carList: car_list_two_dim_array});
+            console.log(cars);
+
+
+            // this.setState({carList: car_list_two_dim_array});
+            this.setState({carList: cars});
             this.setState({product: product});
          })
          .catch((error) => { // error is handled in catch block
@@ -113,21 +117,11 @@ class CarList extends Component {
       // }
    }
 
-
-   renderCar = (items_row) => {
-      const {t} = this.props
-      return items_row.map((item, ind) => (
-         <Col key={ind} md={6}>
-            <CategoryItem item={item} t={t} clickProduct={this.clickProduct}/>
-         </Col>
-      ))
-   }
-
    renderCarList = () => {
-      return this.state.carList.map((items_row, row_ind) => (
-         <Row key={row_ind}>
-            {this.renderCar(items_row)}
-         </Row>
+      return this.state.carList.map((item, ind) => (
+         <Col key={ind} md={4}>
+            <CategoryItem item={item} t={this.props.t} clickProduct={this.clickProduct}/>
+         </Col>
       ))
    }
 
@@ -137,94 +131,9 @@ class CarList extends Component {
          <section className="gauto-car-listing section_70">
             <Container>
                <Row>
-                  <Col lg={4}>
-                     <div className="car-list-left">
-                        <div className="sidebar-widget">
-                           <form onSubmit={this.SubmitHandler}>
-                              <p>
-                                 <input type="text" placeholder={t("from_address")}/>
-                              </p>
-                              <p>
-                                 <input type="text" placeholder={t("to_address")}/>
-                              </p>
-                              <p>
-                                 <select>
-                                    <option>{t("ac_car")}</option>
-                                    <option>{t("non_ac_car")}</option>
-                                 </select>
-                              </p>
-                              <p>
-                                 {/*<DatePickerComponent*/}
-                                 {/*   id="datepicker"*/}
-                                 {/*   placeholder={t("journey_date")}*/}
-                                 {/*></DatePickerComponent>*/}
-                                 <input type="text"/>
-                              </p>
-                              <p>
-                                 {/*<TimePickerComponent*/}
-                                 {/*   id="timepicker"*/}
-                                 {/*   placeholder={t("journey_time")}*/}
-                                 {/*></TimePickerComponent>*/}
-                                 <input type="text"/>
-                              </p>
-                              <p>
-                                 <button type="submit" className="gauto-theme-btn">
-                                    {t("find_car")}
-                                 </button>
-                              </p>
-                           </form>
-                        </div>
-                        <div className="sidebar-widget">
-                           <ul className="service-menu">
-                              <li className="active">
-                                 <Link to="/" onClick={this.onClick}>
-                                    All Brands<span>(2376)</span>
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={this.onClick}>
-                                    Toyota<span>(237)</span>
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={this.onClick}>
-                                    nissan<span>(123)</span>
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={this.onClick}>
-                                    mercedes<span>(23)</span>
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={this.onClick}>
-                                    hyundai<span>(467)</span>
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={this.onClick}>
-                                    Audi<span>(123)</span>
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={this.onClick}>
-                                    datsun<span>(23)</span>
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={this.onClick}>
-                                    Mitsubishi<span>(223)</span>
-                                 </Link>
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                  </Col>
-                  <Col lg={8}>
+                  <Col lg={12}>
                      <div className="car-listing-right">
-                        <div className="car-grid-list">
-                           {this.renderCarList()}
-                        </div>
+                        <Row className='car-grid-list'>{this.renderCarList()}</Row>
                         <div className="pagination-box-row">
                            <p>Page 1 of 6</p>
                            <ul className="pagination">
