@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Container, Row, Col} from "react-bootstrap";
 import axios from "axios";
 import Timer from "../CarBooking/timer";
+import video_wide from "../../video/video-wide.mp4";
 
 
 class FindCar extends Component {
@@ -123,89 +124,86 @@ class FindCar extends Component {
    render() {
       const {t} = this.props
       return (
-         <section className="gauto-find-area">
-            <Container>
-               <Row>
+         <section className="gauto-find-box-area">
+            <video autoPlay muted loop className='promo-video-wide'>
+               <source src={video_wide} type="video/mp4"/>
+            </video>
+            <div className="find-box">
+               <Row className="align-items-center">
                   <Col md={12}>
-                     <div className="find-box">
-                        <Row className="align-items-center">
-                           <Col md={4}>
-                              <div className="find-text">
-                                 <h3>{t("search_best_car")}</h3>
-                              </div>
-                           </Col>
-                           <Col md={8}>
-                              <div className="find-form">
-                                 <form onSubmit={(e) => this.submitHandler(e)}>
-                                    <Row className="mb-md-3 row-fields-wrapper">
-                                       <Col md={4} className="field-container">
-                                          <label htmlFor="pickup_location">{t("from_address")}</label>
-                                          <input type="text" placeholder={t("from_address")}
-                                                 name="pickup_location"
-                                                 id="pickup_location"
-                                                 value={this.state.form_data.pickup_location}
-                                                 onChange={this.handleChange}
-                                                 onBlur={this.onBlur}
-                                          />
-                                          {/*<select placeholder={t("SelectCar")}>*/}
-                                          {/*   <option>{t("ac_car")}</option>*/}
-                                          {/*   <option>{t("non_ac_car")}</option>*/}
-                                          {/*</select>*/}
-                                          {this.renderFieldError('pickup_location')}
-                                       </Col>
-                                       <Col md={4} className="field-container">
-                                          <label htmlFor="return_location">{t("to_address")}</label>
-                                          <input type="text" placeholder={t("to_address")}
-                                                 name="return_location"
-                                                 id='to_address'
-                                                 value={this.state.form_data.return_location}
-                                                 onChange={this.handleChange}
-                                                 onBlur={this.onBlur}
-                                          />
-                                          {/*<select placeholder={t("SelectCar")}>*/}
-                                          {/*   <option>{t("ac_car")}</option>*/}
-                                          {/*   <option>{t("non_ac_car")}</option>*/}
-                                          {/*</select>*/}
-                                          {this.renderFieldError('return_location')}
-                                       </Col>
-                                    </Row>
-                                    <Row className="row-fields-wrapper">
-                                       <Col md={4} className="field-container">
-                                          <label htmlFor="rental_start_date">{t("rental_start_date")}</label>
-                                          <input type="datetime-local"
-                                                 id="rental_start_date"
-                                                 name="rental_start_date"
-                                                 value={this.state.form_data.rental_start_date}
-                                                 onChange={this.handleChange}
-                                                 onBlur={this.onBlur}
-                                          />
-                                          {this.renderFieldError('rental_start_date')}
-                                       </Col>
-                                       <Col md={4} className="field-container">
-                                          <label htmlFor="rental_end_date">{t("rental_end_date")}</label>
-                                          <input type="datetime-local"
-                                                 id="rental_end_date"
-                                                 name="rental_end_date"
-                                                 value={this.state.form_data.rental_end_date}
-                                                 onChange={this.handleChange}
-                                                 onBlur={this.onBlur}
-                                          />
-                                          {this.renderFieldError('rental_end_date')}
-                                       </Col>
-                                       <Col md={4} className='align-self-end f-c-button-wrapper'>
-                                          <button type="submit" className="gauto-theme-btn">
-                                             {t("find_car")}
-                                          </button>
-                                       </Col>
-                                    </Row>
-                                 </form>
-                              </div>
-                           </Col>
-                        </Row>
+                     <div className="find-text">
+                        <h3>{t("search_best_car")}</h3>
+                     </div>
+                  </Col>
+                  <Col md={12}>
+                     <div className="find-form">
+                        <form onSubmit={(e) => this.submitHandler(e)}>
+                           <div className="mb-md-3 row-fields-wrapper">
+                              <Col sm={12} className="field-container">
+                                 <label htmlFor="pickup_location">{t("from_address")}</label>
+                                 <input type="text" placeholder={t("from_address")}
+                                        name="pickup_location"
+                                        id="pickup_location"
+                                        value={this.state.form_data.pickup_location}
+                                        onChange={this.handleChange}
+                                        onBlur={this.onBlur}
+                                 />
+                                 {/*<select placeholder={t("SelectCar")}>*/}
+                                 {/*   <option>{t("ac_car")}</option>*/}
+                                 {/*   <option>{t("non_ac_car")}</option>*/}
+                                 {/*</select>*/}
+                                 {this.renderFieldError('pickup_location')}
+                              </Col>
+                              <Col sm={12} className="field-container">
+                                 <label htmlFor="return_location">{t("to_address")}</label>
+                                 <input type="text" placeholder={t("to_address")}
+                                        name="return_location"
+                                        id='to_address'
+                                        value={this.state.form_data.return_location}
+                                        onChange={this.handleChange}
+                                        onBlur={this.onBlur}
+                                 />
+                                 {/*<select placeholder={t("SelectCar")}>*/}
+                                 {/*   <option>{t("ac_car")}</option>*/}
+                                 {/*   <option>{t("non_ac_car")}</option>*/}
+                                 {/*</select>*/}
+                                 {this.renderFieldError('return_location')}
+                              </Col>
+                           </div>
+                           <div className="row-fields-wrapper">
+                              <Col sm={12} className="field-container">
+                                 <label htmlFor="rental_start_date">{t("rental_start_date")}</label>
+                                 <input type="datetime-local"
+                                        id="rental_start_date"
+                                        name="rental_start_date"
+                                        value={this.state.form_data.rental_start_date}
+                                        onChange={this.handleChange}
+                                        onBlur={this.onBlur}
+                                 />
+                                 {this.renderFieldError('rental_start_date')}
+                              </Col>
+                              <Col sm={12} className="field-container">
+                                 <label htmlFor="rental_end_date">{t("rental_end_date")}</label>
+                                 <input type="datetime-local"
+                                        id="rental_end_date"
+                                        name="rental_end_date"
+                                        value={this.state.form_data.rental_end_date}
+                                        onChange={this.handleChange}
+                                        onBlur={this.onBlur}
+                                 />
+                                 {this.renderFieldError('rental_end_date')}
+                              </Col>
+                              <Col sm={12} className='align-self-end f-c-button-wrapper'>
+                                 <button type="submit" className="gauto-theme-btn">
+                                    {t("find_car")}
+                                 </button>
+                              </Col>
+                           </div>
+                        </form>
                      </div>
                   </Col>
                </Row>
-            </Container>
+            </div>
          </section>
       )
    }

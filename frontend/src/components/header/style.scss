@@ -5,7 +5,7 @@
   margin-bottom: 10px;
 }
 
-.header-logo-box{
+.header-logo-box {
   display: none;
 }
 
@@ -59,10 +59,11 @@
   display: inline-block;
 }
 
-.header-icon{
+.header-icon {
   color: $color-orange;
+
   &.globe,
-  &.schedule{
+  &.schedule {
     font-size: 32px;
   }
 }
@@ -118,7 +119,7 @@
 }
 
 .gauto-main-header-area {
-  padding: 15px 0;
+  //padding: 15px 0;
 }
 
 .header-promo {
@@ -202,11 +203,11 @@
 
 .gauto-mainmenu-area {
   background: $color-dark-blue none repeat scroll 0 0;
-  border-bottom: 3px solid #363636;
+  display: none;
 }
 
 .mainmenu ul {
-  text-align: left;
+  text-align: right;
 }
 
 .mainmenu ul li {
@@ -217,7 +218,7 @@
 .mainmenu ul li a {
   color: #eee;
   display: block;
-  padding: 20px 12px;
+  padding: 10px 12px;
   text-transform: uppercase;
   font-size: 14px;
   font-weight: 500;
@@ -540,12 +541,6 @@
   .search-box {
     display: none;
   }
-  .main-search-right {
-    box-pack: space-between;
-    flex-pack: space-between;
-    justify-content: space-between;
-    margin-top: 0;
-  }
   .header-cart-box #dropdownMenu1 {
     position: relative;
     z-index: 999;
@@ -553,20 +548,36 @@
   .gauto-about-area {
     padding-bottom: 20px;
   }
-  .gauto-mainmenu-area {
-    padding: 15px 0;
-    min-height: 60px;
-  }
   .header-cart-box {
     position: absolute;
     right: 20px;
     top: 0;
   }
-  .responsiveMenu {
-    display: block !important;
-  }
   .site-logo {
     margin-top: 5px;
+  }
+}
+
+@media (max-width: 991px) {
+  .gauto-mainmenu-area{
+    display: block;
+  }
+  .gauto-main-header-area {
+    display: none;
+  }
+  .gauto-header-top-area {
+    display: none;
+  }
+  .header-logo-box {
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+  .main-search-right {
+    margin-top: 0;
+    justify-content: flex-start;
+    padding: 7px 0;
   }
 }
 
@@ -655,18 +666,8 @@
     top: 0;
   }
   .main-search-right {
-    margin-top: 0;
     padding: 7px 0;
     justify-content: flex-start;
-  }
-  .header-logo-box {
-    display: block;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
-  }
-  .gauto-main-header-area{
-    display: none;
   }
 }
 

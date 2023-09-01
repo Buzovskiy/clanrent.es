@@ -1,17 +1,16 @@
 /* ===================== FIND CAR ======================*/
 
-
-.gauto-find-area {
-  margin-top: -75px;
+.promo-video-wide {
+  width: 100%;
 }
 
 .find-box {
-  //background:  no-repeat scroll 0 81%;
-  background-image: url(../../img/find-box-bg.png?v=3);
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-position: 0 81%;
-  background-color: $color-dark-blue;
+  ////background:  no-repeat scroll 0 81%;
+  //background-image: url(../../img/find-box-bg.png?v=3);
+  //background-repeat: no-repeat;
+  //background-attachment: scroll;
+  //background-position: 0 81%;
+  //background-color: $color-dark-blue;
   padding: 30px;
   position: relative;
   z-index: 999;
@@ -25,10 +24,32 @@
   text-transform: capitalize;
   font-family: "Poppins", sans-serif;
   line-height: 40px;
+  text-align: center;
+}
+
+.find-form {
+  margin-top: 5px;
+}
+
+.find-form .field-container {
+  margin-bottom: 15px;
+}
+
+.find-form form p {
+  margin-top: 2px;
+  margin-bottom: 0;
+}
+
+.find-form .button-wrapper {
+  margin-top: 20px;
+}
+
+.find-form .f-c-button-wrapper {
+  margin-top: 40px;
 }
 
 .find-form input,
-.find-form select{
+.find-form select {
   width: 100%;
 }
 
@@ -111,6 +132,7 @@ input#timepicker {
     background-position: -45px 81%;
   }
 }
+
 @media (min-width: 768px) and (max-width: 991px) {
   .find-box {
     background-position: -120px 81%;
@@ -125,37 +147,15 @@ input#timepicker {
     margin: 10px 0;
   }
 }
+
 @media (max-width: 767px) {
-  .find-box {
-    background-image: none;
-  }
-  .find-text {
-    margin-top: 0;
-  }
   .find-text h3 {
-    text-align: center;
     font-size: 25px;
-  }
-  .find-form {
-    margin-top: 5px;
-  }
-  .find-form form p {
-    margin-top: 2px;
-    margin-bottom: 0;
   }
   .gauto-find-area {
     margin-top: -55px;
   }
-  .find-form form .col{
+  .find-form form .col {
     margin-bottom: 10px;
-  }
-  .find-form .field-container{
-      margin-bottom: 15px;
-  }
-  .find-form .button-wrapper{
-    margin-top: 20px;
-  }
-  .find-form .f-c-button-wrapper{
-    margin-top: 25px;
   }
 }

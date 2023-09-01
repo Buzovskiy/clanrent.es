@@ -17,17 +17,6 @@ const Hero = () => {
       e.preventDefault();
    };
 
-   const settings = {
-      dots: false,
-      arrows: false,
-      speed: 1200,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      autoplay: true,
-      autoplaySpeed: 2500,
-      fade: true,
-   };
-
    return (
       <section className="gauto-slider-area fix">
          <video autoPlay muted loop className='promo-video'>

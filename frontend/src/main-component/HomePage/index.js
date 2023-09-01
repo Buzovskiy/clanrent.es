@@ -19,7 +19,7 @@ const HomePage = () => {
   return (
     <Fragment>
       <Header />
-      <Hero />
+      {/*<Hero />*/}
       <FindCar t={t} navigate={useNavigate()} createSearchParams={createSearchParams}/>
       <About />
       {/*<Service />*/}

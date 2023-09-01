@@ -63,6 +63,35 @@ const Header = () => {
                         </p>
                      </div>
                   </Col>
+                  <Col md={6}>
+                     <div className="mainmenu">
+                        <nav>
+                           <ul id="gauto_navigation">
+                              <li>
+                                 <Link to="/">{t("header-navigation.home")}</Link>
+                              </li>
+                              <li>
+                                 <Link to="/about">{t("header-navigation.about")}</Link>
+                              </li>
+                              <li>
+                                 <Link to="/" onClick={onClick}>
+                                    {t("header-navigation.cars")}
+                                 </Link>
+                              </li>
+                              <li>
+                                 <Link to="/gallery">
+                                    {t("header-navigation.gallery")}
+                                 </Link>
+                              </li>
+                              <li>
+                                 <Link to="/contact">
+                                    {t("header-navigation.contact")}
+                                 </Link>
+                              </li>
+                           </ul>
+                        </nav>
+                     </div>
+                  </Col>
                   {/*<Col md={6}>*/}
                   {/*  <div className="header-top-right">*/}
                   {/*    <Link to="/login">*/}
@@ -134,33 +163,33 @@ const Header = () => {
             <Container>
                <Row>
                   <Col lg={9}>
-                     <div className="mainmenu">
-                        <nav>
-                           <ul id="gauto_navigation">
-                              <li>
-                                 <Link to="/">{t("header-navigation.home")}</Link>
-                              </li>
-                              <li>
-                                 <Link to="/about">{t("header-navigation.about")}</Link>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={onClick}>
-                                    {t("header-navigation.cars")}
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/gallery">
-                                    {t("header-navigation.gallery")}
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/contact">
-                                    {t("header-navigation.contact")}
-                                 </Link>
-                              </li>
-                           </ul>
-                        </nav>
-                     </div>
+                     {/*<div className="mainmenu">*/}
+                     {/*   <nav>*/}
+                     {/*      <ul id="gauto_navigation">*/}
+                     {/*         <li>*/}
+                     {/*            <Link to="/">{t("header-navigation.home")}</Link>*/}
+                     {/*         </li>*/}
+                     {/*         <li>*/}
+                     {/*            <Link to="/about">{t("header-navigation.about")}</Link>*/}
+                     {/*         </li>*/}
+                     {/*         <li>*/}
+                     {/*            <Link to="/" onClick={onClick}>*/}
+                     {/*               {t("header-navigation.cars")}*/}
+                     {/*            </Link>*/}
+                     {/*         </li>*/}
+                     {/*         <li>*/}
+                     {/*            <Link to="/gallery">*/}
+                     {/*               {t("header-navigation.gallery")}*/}
+                     {/*            </Link>*/}
+                     {/*         </li>*/}
+                     {/*         <li>*/}
+                     {/*            <Link to="/contact">*/}
+                     {/*               {t("header-navigation.contact")}*/}
+                     {/*            </Link>*/}
+                     {/*         </li>*/}
+                     {/*      </ul>*/}
+                     {/*   </nav>*/}
+                     {/*</div>*/}
                   </Col>
                   <Col lg={3} sm={12}>
                      <div className="main-search-right">
