@@ -102,42 +102,31 @@ const Header = () => {
          <header className="gauto-main-header-area">
             <Container>
                <Row>
-                  <Col md={3}>
+                  <Col md={4}>
                      <div className="site-logo">
                         <a href="/">
                            <img src={Logo} alt="gauto"/>
                         </a>
                      </div>
                   </Col>
-                  <Col lg={6} sm={9}>
-                     <div className="header-promo">
-                        <div className="single-header-promo">
-                           <div className="header-promo-icon">
-                              <MdLanguage className='header-icon globe'/>
-                           </div>
-                           <div className="header-promo-info">
-                              <h3>Alicante, Spain</h3>
-                              <p>C. Juan de Villanueva, 18, Elche</p>
-                           </div>
-                        </div>
-                        <div className="single-header-promo">
-                           <div className="header-promo-icon">
-                              <MdSchedule className='header-icon schedule'/>
-                           </div>
-                           <div className="header-promo-info">
-                              <h3>Monday to Friday</h3>
-                              <p>9:00am - 6:00pm</p>
-                           </div>
-                        </div>
+                  <Col md={4} sm={9} className="header-promo single-header-promo">
+                     <div className="header-promo-icon">
+                        <MdLanguage className='header-icon globe'/>
+                     </div>
+                     <div className="header-promo-info">
+                        <h3>Alicante, Spain</h3>
+                        <p>C. Juan de Villanueva, 18, Elche</p>
                      </div>
                   </Col>
-                  <div className="col-lg-3">
-                     <div className="header-action">
-                        {/*<Link to="/contact">*/}
-                        {/*   <FaPhoneAlt/> {t("request_call")}*/}
-                        {/*</Link>*/}
+                  <Col md={4} sm={9} className="header-promo single-header-promo">
+                     <div className="header-promo-icon">
+                        <MdSchedule className='header-icon schedule'/>
                      </div>
-                  </div>
+                     <div className="header-promo-info">
+                        <h3>Monday to Friday</h3>
+                        <p>9:00am - 6:00pm</p>
+                     </div>
+                  </Col>
                </Row>
             </Container>
          </header>
@@ -156,99 +145,13 @@ const Header = () => {
                               </li>
                               <li>
                                  <Link to="/" onClick={onClick}>
-                                    {t("header-navigation.service")}
-                                 </Link>
-                                 <ul>
-                                    <li>
-                                       <Link to="/service">
-                                          {t("header-navigation.all_service")}
-                                       </Link>
-                                    </li>
-                                    <li>
-                                       <Link to="/service-single">
-                                          {t("header-navigation.service_details")}
-                                       </Link>
-                                    </li>
-                                 </ul>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={onClick}>
                                     {t("header-navigation.cars")}
                                  </Link>
-                                 <ul>
-                                    <li>
-                                       <Link to="/car-listing">
-                                          {t("header-navigation.car_listing")}
-                                       </Link>
-                                    </li>
-                                    <li>
-                                       <Link to="/car-booking">
-                                          {t("header-navigation.car_booking")}
-                                       </Link>
-                                    </li>
-                                 </ul>
                               </li>
                               <li>
                                  <Link to="/gallery">
                                     {t("header-navigation.gallery")}
                                  </Link>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={onClick}>
-                                    {t("header-navigation.shop")}
-                                 </Link>
-                                 <ul>
-                                    <li>
-                                       <Link to="/product">
-                                          {t("header-navigation.product")}
-                                       </Link>
-                                    </li>
-                                    <li>
-                                       <Link to="/product-single">
-                                          {t("header-navigation.product_details")}
-                                       </Link>
-                                    </li>
-                                    <li>
-                                       <Link to="/cart">
-                                          {t("header-navigation.shopping_cart")}
-                                       </Link>
-                                    </li>
-                                    <li>
-                                       <Link to="/checkout">
-                                          {t("header-navigation.checkout")}
-                                       </Link>
-                                    </li>
-                                 </ul>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={onClick}>
-                                    {t("header-navigation.pages")}
-                                 </Link>
-                                 <ul>
-                                    <li>
-                                       <Link to="/blog">{t("header-navigation.blog")}</Link>
-                                    </li>
-                                    <li>
-                                       <Link to="/blog-single">
-                                          {t("header-navigation.blog_single")}
-                                       </Link>
-                                    </li>
-                                    <li>
-                                       <Link to="/error">
-                                          {t("header-navigation.not_found")}
-                                       </Link>
-                                    </li>
-                                    <li>
-                                       <Link to="/login">
-                                          {t("header-navigation.login")}
-                                       </Link>
-                                    </li>
-                                    <li>
-                                       <Link to="/register">
-                                          {t("header-navigation.register")}
-                                       </Link>
-                                    </li>
-                                 </ul>
                               </li>
                               <li>
                                  <Link to="/contact">
@@ -274,14 +177,14 @@ const Header = () => {
                               <img src={Logo} alt="gauto"/>
                            </a>
                         </div>
-                        <div className="search-box">
-                           <form onSubmit={SubmitHandler}>
-                              <input type="search" placeholder="Search9"/>
-                              <button type="submit">
-                                 <FaSearch/>
-                              </button>
-                           </form>
-                        </div>
+                        {/*<div className="search-box">*/}
+                        {/*   <form onSubmit={SubmitHandler}>*/}
+                        {/*      <input type="search" placeholder="Search9"/>*/}
+                        {/*      <button type="submit">*/}
+                        {/*         <FaSearch/>*/}
+                        {/*      </button>*/}
+                        {/*   </form>*/}
+                        {/*</div>*/}
                      </div>
                   </Col>
                </Row>

@@ -137,8 +137,8 @@ class FindCar extends Component {
                            <Col md={8}>
                               <div className="find-form">
                                  <form onSubmit={(e) => this.submitHandler(e)}>
-                                    <Row className="mb-md-3">
-                                       <Col md={4}>
+                                    <Row className="mb-md-3 row-fields-wrapper">
+                                       <Col md={4} className="field-container">
                                           <label htmlFor="pickup_location">{t("from_address")}</label>
                                           <input type="text" placeholder={t("from_address")}
                                                  name="pickup_location"
@@ -153,7 +153,7 @@ class FindCar extends Component {
                                           {/*</select>*/}
                                           {this.renderFieldError('pickup_location')}
                                        </Col>
-                                       <Col md={4}>
+                                       <Col md={4} className="field-container">
                                           <label htmlFor="return_location">{t("to_address")}</label>
                                           <input type="text" placeholder={t("to_address")}
                                                  name="return_location"
@@ -169,8 +169,8 @@ class FindCar extends Component {
                                           {this.renderFieldError('return_location')}
                                        </Col>
                                     </Row>
-                                    <Row>
-                                       <Col md={4}>
+                                    <Row className="row-fields-wrapper">
+                                       <Col md={4} className="field-container">
                                           <label htmlFor="rental_start_date">{t("rental_start_date")}</label>
                                           <input type="datetime-local"
                                                  id="rental_start_date"
@@ -181,7 +181,7 @@ class FindCar extends Component {
                                           />
                                           {this.renderFieldError('rental_start_date')}
                                        </Col>
-                                       <Col md={4}>
+                                       <Col md={4} className="field-container">
                                           <label htmlFor="rental_end_date">{t("rental_end_date")}</label>
                                           <input type="datetime-local"
                                                  id="rental_end_date"
@@ -192,7 +192,7 @@ class FindCar extends Component {
                                           />
                                           {this.renderFieldError('rental_end_date')}
                                        </Col>
-                                       <Col md={4} className={'align-self-end'}>
+                                       <Col md={4} className='align-self-end f-c-button-wrapper'>
                                           <button type="submit" className="gauto-theme-btn">
                                              {t("find_car")}
                                           </button>

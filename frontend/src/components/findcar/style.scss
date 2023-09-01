@@ -127,13 +127,12 @@ input#timepicker {
 }
 @media (max-width: 767px) {
   .find-box {
-    background: #fff none repeat scroll 0 0;
+    background-image: none;
   }
   .find-text {
     margin-top: 0;
   }
   .find-text h3 {
-    color: #001238;
     text-align: center;
     font-size: 25px;
   }
@@ -141,23 +140,22 @@ input#timepicker {
     margin-top: 5px;
   }
   .find-form form p {
-    margin-top: 15px;
+    margin-top: 2px;
     margin-bottom: 0;
   }
   .gauto-find-area {
     margin-top: -55px;
   }
-}
-@media only screen and (min-width: 480px) and (max-width: 767px) {
-  .find-box {
-    background: #fff none repeat scroll 0 0;
+  .find-form form .col{
+    margin-bottom: 10px;
   }
-  .find-text {
-    margin-top: 0;
+  .find-form .field-container{
+      margin-bottom: 15px;
   }
-  .find-text h3 {
-    color: #001238;
-    text-align: center;
-    font-size: 25px;
+  .find-form .button-wrapper{
+    margin-top: 20px;
+  }
+  .find-form .f-c-button-wrapper{
+    margin-top: 25px;
   }
 }

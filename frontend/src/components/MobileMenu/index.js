@@ -15,104 +15,15 @@ const menus = [
     title: "About",
     link: "/about",
   },
-
-  {
-    id: 3,
-    title: "Service",
-    link: "/service",
-    submenu: [
-      {
-        id: 31,
-        title: "All Services",
-        link: "/service",
-      },
-      {
-        id: 32,
-        title: "Service Details",
-        link: "/service-single",
-      },
-    ],
-  },
   {
     id: 4,
     title: "Cars",
     link: "/car-listing",
-    submenu: [
-      {
-        id: 41,
-        title: "Car Listing",
-        link: "/car-listing",
-      },
-      {
-        id: 42,
-        title: "Car Booking",
-        link: "/car-booking",
-      },
-    ],
   },
   {
     id: 5,
     title: "Gallery",
     link: "/gallery",
-  },
-  {
-    id: 6,
-    title: "Shop",
-    link: "/product",
-    submenu: [
-      {
-        id: 61,
-        title: "Product",
-        link: "/product",
-      },
-      {
-        id: 62,
-        title: "Product Details",
-        link: "/product-single",
-      },
-      {
-        id: 63,
-        title: "Shopping Cart",
-        link: "/cart",
-      },
-      {
-        id: 64,
-        title: "Checkout",
-        link: "/checkout",
-      },
-    ],
-  },
-  {
-    id: 7,
-    title: "Pages",
-    link: "/",
-    submenu: [
-      {
-        id: 71,
-        title: "Blog",
-        link: "/blog",
-      },
-      {
-        id: 72,
-        title: "Blog Single",
-        link: "/blog-single",
-      },
-      {
-        id: 73,
-        title: "404 Not Found",
-        link: "/error",
-      },
-      {
-        id: 74,
-        title: "Login",
-        link: "/login",
-      },
-      {
-        id: 75,
-        title: "Register",
-        link: "/register",
-      },
-    ],
   },
   {
     id: 8,
