@@ -20,7 +20,7 @@ i18n
          caches: ["cookie"],
       },
       backend: {
-         loadPath: "/assets/locales/{{lng}}/translation.json?v=2",
+         loadPath: "/assets/locales/{{lng}}/translation.json?v=3",
       },
    });
 
