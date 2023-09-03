@@ -44,15 +44,6 @@ const About = () => {
                   </li>
                 </ul>
               </div>
-              <div className="about-signature">
-                <div className="signature-left">
-                  <img src={signature} alt="signature" />
-                </div>
-                <div className="signature-right">
-                  <h3>Jose Manuel</h3>
-                  <p>{t("president")}</p>
-                </div>
-              </div>
             </div>
           </Col>
           <Col lg={6}>

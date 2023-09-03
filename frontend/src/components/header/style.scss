@@ -3,6 +3,15 @@
   background: $color-dark-blue none repeat scroll 0 0;
   color: #eee;
   margin-bottom: 10px;
+  position: relative;
+  z-index: 3;
+}
+
+.gauto-main-header-area {
+  position: relative;
+  z-index: 2;
+  box-shadow: 0px -10px 0px 0px #000000b0;
+  background-color: #000000b0;
 }
 
 .header-logo-box {
@@ -559,8 +568,10 @@
 }
 
 @media (max-width: 991px) {
-  .gauto-mainmenu-area{
+  .gauto-mainmenu-area {
     display: block;
+    position: relative;
+    z-index: 2;
   }
   .gauto-main-header-area {
     display: none;

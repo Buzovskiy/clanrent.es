@@ -48,12 +48,12 @@ const Footer = () => {
                         <div className="footer-address">
                            <h3>{t("footer.head_office")}</h3>
                            <p>
-                              125 Big fella St. Road, <span>New York, Hi 5654775</span>
+                              C. Juan de Villanueva, 18, Elche, <span>Alicante, Spain</span>
                            </p>
                            <ul>
-                              <li>{t("footer.phone")}: 326487652</li>
-                              <li>{t("footer.email")}: example@mail.com</li>
-                              <li>{t("footer.office_time")}: 9AM- 4PM</li>
+                              <li>{t("footer.phone")}: +34 607 366 983</li>
+                              <li>{t("footer.email")}: office@clanrent.es</li>
+                              <li>{t("footer.office_time")}: 9:00am - 6:00pm</li>
                            </ul>
                         </div>
                      </div>

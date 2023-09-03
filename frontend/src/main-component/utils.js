@@ -34,16 +34,16 @@ const getTimeRemaining = (start, end) => {
 }
 
 
-const getTimeRemainingString = (start, end, hr=':', min=':', sec='') => {
+const getTimeRemainingString = (start, end, hr = ':', min = ':', sec = '') => {
    let {hours, minutes, seconds} = getTimeRemaining(start, end);
-   if (seconds < 0){
+   if (seconds < 0) {
       return `00${hr}00${sec}`;
    }
    let time_str = '';
-   time_str = hours > 0 ? `${time_str}${hours}${hr}`: time_str;
+   time_str = hours > 0 ? `${time_str}${hours}${hr}` : time_str;
    // add leading zero to minutes and seconds
-   minutes = minutes < 10 ? '0'+minutes: minutes;
-   seconds = seconds < 10 ? '0'+seconds: seconds;
+   minutes = minutes < 10 ? '0' + minutes : minutes;
+   seconds = seconds < 10 ? '0' + seconds : seconds;
    time_str = `${time_str}${minutes}${min}`;
    time_str = `${time_str}${seconds}${sec}`;
    return time_str;

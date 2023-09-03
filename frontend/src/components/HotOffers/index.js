@@ -1,4 +1,4 @@
-import React, {Component, ReactNode } from "react";
+import React, {Component, ReactNode} from "react";
 import makeTwoDimensionalArr from "../../main-component/utils";
 import {Container, Row, Col, Tabs, Tab} from "react-bootstrap";
 import {FaCar, FaCogs, FaTachometerAlt} from "react-icons/fa";
@@ -69,7 +69,8 @@ class HotOffers extends Component {
    clickProduct = (e) => {
       if (e.type === 'click') {
          e.preventDefault();
-         console.log('do nothing');
+         const inputToTop = document.getElementById('pickup_location');
+         inputToTop.focus();
       }
    }
 

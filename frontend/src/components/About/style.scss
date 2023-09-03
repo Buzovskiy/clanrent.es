@@ -1,4 +1,22 @@
 /* ===================== ABOUT ======================*/
+.gauto-about-area {
+  position: relative;
+  background: url(../../img/block-about-bg.jpg) no-repeat fixed;
+  background-size: contain;
+  z-index: 1;
+}
+
+.gauto-about-area:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8) none repeat scroll 0 0;
+  z-index: -1;
+}
+
 .about-left h4 {
   font-size: 20px;
   color: $color-orange;
@@ -32,6 +50,7 @@
 .about-list ul li {
   margin: 5px 0;
 }
+
 .about-list ul li span {
   width: 20px;
   height: 20px;
@@ -42,10 +61,12 @@
   border-radius: 2px;
   line-height: 20px;
 }
+
 .about-list ul li span svg {
   fill: #ffffff;
   height: 12px;
 }
+
 .about-signature {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -83,6 +104,7 @@
     font-size: 35px;
   }
 }
+
 @media (min-width: 768px) and (max-width: 991px) {
   .about-left h2 {
     font-size: 35px;
@@ -91,6 +113,7 @@
     padding-bottom: 20px !important;
   }
 }
+
 @media (max-width: 767px) {
   .about-left h2 {
     font-size: 30px;
@@ -105,8 +128,11 @@
   }
   .gauto-about-area {
     padding-bottom: 50px !important;
+    background-size: cover;
+    background-position: 57%, 0;
   }
 }
+
 @media only screen and (min-width: 480px) and (max-width: 767px) {
   .about-left h2 {
     font-size: 30px;
@@ -118,8 +144,5 @@
   }
   .signature-left {
     width: 130px;
-  }
-  .gauto-about-area {
-    padding-bottom: 50px !important;
   }
 }

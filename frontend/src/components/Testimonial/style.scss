@@ -1,7 +1,8 @@
 /* ===================== TESTIMONIAL ======================*/
 .gauto-testimonial-area {
   position: relative;
-  background: url(../../img/promo_bg.jpg) no-repeat fixed 0 0 / cover;
+  background: url(../../img/promo_bg.jpg) no-repeat fixed;
+  background-size: contain;
   z-index: 1;
   padding-bottom: 100px;
 }
@@ -76,21 +77,26 @@
 .client-info p {
   color: $color-orange;
 }
+
 .testimonial-slider .slide {
   padding: 0 15px;
 }
+
 .testimonial-slider .slick-list {
   margin-left: -15px;
   margin-right: -15px;
 }
+
 .testimonial-slider .slick-dots {
   margin-top: 30px;
   position: inherit;
   bottom: 0;
 }
+
 .testimonial-slider .slick-dots li button:before {
   display: none;
 }
+
 .testimonial-slider .slick-dots li button {
   font-size: 0px;
   line-height: 0;
@@ -105,9 +111,17 @@
   background: #ffffff;
   margin: auto;
 }
+
 .testimonial-slider .slick-dots li.slick-active button {
   background: $color-orange;
 }
+
 .testimonial-slider .slick-dots li {
   width: auto;
+}
+
+@media (max-width: 767px) {
+  .gauto-testimonial-area {
+    background-size: cover;
+  }
 }

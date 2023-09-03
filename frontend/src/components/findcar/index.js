@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import {Container, Row, Col} from "react-bootstrap";
 import axios from "axios";
 import Timer from "../CarBooking/timer";
-import video_wide from "../../video/video-wide.mp4";
+import video_wide from "../../img/video/video-wide.mp4";
+import video_narrow from "../../img/video/video-narrow.mp4";
 
 
 class FindCar extends Component {
@@ -67,7 +68,6 @@ class FindCar extends Component {
       if (!value) {
          fields_errors[name] = [this.props.t('this_field_may_not_be_blank')];
       }
-      console.log(value);
       return fields_errors
    }
 
@@ -128,6 +128,9 @@ class FindCar extends Component {
             <video autoPlay muted loop className='promo-video-wide'>
                <source src={video_wide} type="video/mp4"/>
             </video>
+            <video autoPlay muted loop className='promo-video-narrow'>
+               <source src={video_narrow} type="video/mp4"/>
+            </video>
             <div className="find-box">
                <Row className="align-items-center">
                   <Col md={12}>
@@ -138,7 +141,7 @@ class FindCar extends Component {
                   <Col md={12}>
                      <div className="find-form">
                         <form onSubmit={(e) => this.submitHandler(e)}>
-                           <div className="mb-md-3 row-fields-wrapper">
+                           <div className="mb-md-2 row-fields-wrapper">
                               <Col sm={12} className="field-container">
                                  <label htmlFor="pickup_location">{t("from_address")}</label>
                                  <input type="text" placeholder={t("from_address")}
