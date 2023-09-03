@@ -2,7 +2,7 @@
 .gauto-testimonial-area {
   position: relative;
   background: url(../../img/promo_bg.jpg) no-repeat fixed;
-  background-size: contain;
+  background-size: cover;
   z-index: 1;
   padding-bottom: 100px;
 }
@@ -120,8 +120,3 @@
   width: auto;
 }
 
-@media (max-width: 767px) {
-  .gauto-testimonial-area {
-    background-size: cover;
-  }
-}

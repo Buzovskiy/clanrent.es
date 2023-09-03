@@ -2,7 +2,7 @@
 .gauto-about-area {
   position: relative;
   background: url(../../img/block-about-bg.jpg) no-repeat fixed;
-  background-size: contain;
+  background-size: cover;
   z-index: 1;
 }
 
@@ -128,7 +128,6 @@
   }
   .gauto-about-area {
     padding-bottom: 50px !important;
-    background-size: cover;
     background-position: 57%, 0;
   }
 }
