@@ -22,11 +22,14 @@ class CarList extends Component {
          pickup_location: '',
          return_location: '',
          dates: '',
+         page: 1,
+         count_pages: 1,
       }
    }
 
    componentDidMount() {
       const [searchParams] = this.props.searchParams
+      const {page} = this.props.useParams;
       let dates = searchParams.get('dates');
       let pickup_location = searchParams.get('pickup_location');
       let return_location = searchParams.get('return_location');
@@ -44,14 +47,18 @@ class CarList extends Component {
 
       let params = {
          dates: dates,
-         pickup_location: dates,
-         return_location: dates,
+         pickup_location: pickup_location,
+         return_location: return_location,
       }
+
+      if (page !== undefined) params['page'] = page;
 
       axios
          .get(`${process.env.REACT_APP_API_LINK}/v1/booking/search/`, {params: params})
          .then((res) => {
             let cars = res.data['vehicles'];
+            this.setState({page: res.data['pagination'].page})
+            this.setState({count_pages: res.data['pagination'].count_pages})
             let car_list_two_dim_array = []
             let num_cols = 3 // The number of columns in a row
             let product = {}
@@ -61,7 +68,7 @@ class CarList extends Component {
                product[item.id] = item;
             });
 
-            console.log(cars);
+            console.log(res.data);
 
 
             // this.setState({carList: car_list_two_dim_array});
@@ -88,6 +95,59 @@ class CarList extends Component {
       };
       window.location.href = `/car-listing?${this.props.createSearchParams(params)}`;
    };
+
+   renderPagination = () => {
+      const pages = [];
+      const params = {
+         dates: this.state.dates,
+         pickup_location: this.state.pickup_location,
+         return_location: this.state.return_location,
+      }
+      for (let i = 1; i < this.state.count_pages + 1; i++) {
+         if (i > 1) params['page'] = i;
+         let page_data = {};
+         page_data['page'] = i;
+         page_data['link'] = i === 1 ? '/car-listing' : `/car-listing/${i}`;
+         page_data['link'] += `?${this.props.createSearchParams(params)}`
+         page_data['active'] = i === this.state.page ? 'active' : '';
+         pages.push(page_data);
+      }
+      let show_arrow_right = false
+      let arrow_left;
+      let arrow_right;
+      if (this.state.count_pages > 1 && this.state.count_pages !== this.state.page) {
+         show_arrow_right = true;
+      }
+      let show_arrow_left = false
+      if (this.state.count_pages > 1 && this.state.count_pages !== 1) {
+         show_arrow_left = true;
+      }
+
+      const pagesListRendered = pages.map((item, key) => (
+         <li key={key} className={item.active}>
+            <Link to={item.link} onClick={this.onClick}>
+               {item.page}
+            </Link>
+         </li>
+      ))
+
+      return (
+         <>
+            {arrow_left}
+            {pagesListRendered}
+         </>
+      )
+   }
+
+   renderPaginationArrowRight = (link) => {
+      return (
+         <li className="active">
+            <Link to={link} onClick={this.onClick}>
+               <FaAngleDoubleRight/>
+            </Link>
+         </li>
+      )
+   }
 
    onClick = (e) => {
       e.preventDefault();
@@ -133,36 +193,14 @@ class CarList extends Component {
                <Row>
                   <Col lg={12}>
                      <div className="car-listing-right">
+                        <div className="pagination-box-row">
+                           <p>Page {this.state.page} of {this.state.count_pages}</p>
+                        </div>
                         <Row className='car-grid-list'>{this.renderCarList()}</Row>
                         <div className="pagination-box-row">
-                           <p>Page 1 of 6</p>
+                           <p>Page {this.state.page} of {this.state.count_pages}</p>
                            <ul className="pagination">
-                              <li className="active">
-                                 <Link to="/" onClick={this.onClick}>
-                                    1
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={this.onClick}>
-                                    2
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={this.onClick}>
-                                    3
-                                 </Link>
-                              </li>
-                              <li>...</li>
-                              <li>
-                                 <Link to="/" onClick={this.onClick}>
-                                    6
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={this.onClick}>
-                                    <FaAngleDoubleRight/>
-                                 </Link>
-                              </li>
+                              {this.renderPagination()}
                            </ul>
                         </div>
                      </div>

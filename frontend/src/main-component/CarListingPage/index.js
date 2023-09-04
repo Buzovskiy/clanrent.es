@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, createSearchParams, useSearchParams } from 'react-router-dom';
+import {useNavigate, createSearchParams, useSearchParams, useParams} from 'react-router-dom';
 
 import Header from "../../components/header";
 import PageTitle from "../../components/PageTitle";
@@ -22,6 +22,7 @@ const CarListingPage = () => {
          navigate={useNavigate()}
          createSearchParams={createSearchParams}
          searchParams={useSearchParams()}
+         useParams={useParams()}
       />
       <Footer />
     </Fragment>
