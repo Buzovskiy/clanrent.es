@@ -258,17 +258,17 @@ input#timepicker {
 }
 .pagination-box-row {
   text-align: left;
+  margin-bottom: 10px;
 }
 
 .pagination-box-row p {
   display: inline-block;
   font-size: 15px;
-  color: #444;
   margin-right: 15px;
 }
 
 .pagination {
-  margin-top: 20px;
+  margin-top: 5px;
   text-align: center;
   float: none;
   display: inline-block;
@@ -292,11 +292,12 @@ input#timepicker {
   border-radius: 5px;
   color: #111;
   font-weight: 500;
+  background-color: white;
 }
 
 .pagination li.active a,
 .pagination li a:hover {
-  background: #101010 none repeat scroll 0 0;
+  background: $color-orange none repeat scroll 0 0;
   color: #fff;
 }
 

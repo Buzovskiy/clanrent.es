@@ -2,12 +2,11 @@ import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {Container, Row, Col} from "react-bootstrap";
-import makeTwoDimensionalArr from "../../main-component/utils";
 import {
    FaCar,
    FaCogs,
    FaTachometerAlt,
-   FaAngleDoubleRight,
+   FaAngleDoubleRight, FaAngleDoubleLeft,
 } from "react-icons/fa";
 import axios from "axios";
 import {CategoryItem} from "./categoryItem";
@@ -28,8 +27,10 @@ class CarList extends Component {
    }
 
    componentDidMount() {
+      const bgLoader = document.getElementById('bgLoader');
+      bgLoader.style.display = 'block';
+      console.log(bgLoader);
       const [searchParams] = this.props.searchParams
-      const {page} = this.props.useParams;
       let dates = searchParams.get('dates');
       let pickup_location = searchParams.get('pickup_location');
       let return_location = searchParams.get('return_location');
@@ -51,7 +52,10 @@ class CarList extends Component {
          return_location: return_location,
       }
 
-      if (page !== undefined) params['page'] = page;
+      let page = searchParams.get('page');
+      if (page != null && +page) {
+         params['page'] = +searchParams.get('page');
+      }
 
       axios
          .get(`${process.env.REACT_APP_API_LINK}/v1/booking/search/`, {params: params})
@@ -74,6 +78,7 @@ class CarList extends Component {
             // this.setState({carList: car_list_two_dim_array});
             this.setState({carList: cars});
             this.setState({product: product});
+            bgLoader.style.display = 'none';
          })
          .catch((error) => { // error is handled in catch block
             console.log(error);
@@ -86,16 +91,6 @@ class CarList extends Component {
 
    }
 
-   SubmitHandler = (e) => {
-      e.preventDefault();
-      let params = {
-         dates: 1,
-         pickup_location: 2,
-         return_location: 3
-      };
-      window.location.href = `/car-listing?${this.props.createSearchParams(params)}`;
-   };
-
    renderPagination = () => {
       const pages = [];
       const params = {
@@ -107,27 +102,29 @@ class CarList extends Component {
          if (i > 1) params['page'] = i;
          let page_data = {};
          page_data['page'] = i;
-         page_data['link'] = i === 1 ? '/car-listing' : `/car-listing/${i}`;
-         page_data['link'] += `?${this.props.createSearchParams(params)}`
+         page_data['url'] = `/car-listing?${this.props.createSearchParams(params)}`
          page_data['active'] = i === this.state.page ? 'active' : '';
          pages.push(page_data);
       }
-      let show_arrow_right = false
-      let arrow_left;
+
       let arrow_right;
       if (this.state.count_pages > 1 && this.state.count_pages !== this.state.page) {
-         show_arrow_right = true;
+         params['page'] = this.state.page + 1;
+         let url = `/car-listing?${this.props.createSearchParams(params)}`
+         arrow_right = this.renderPaginationArrow(url, 'right');
       }
-      let show_arrow_left = false
-      if (this.state.count_pages > 1 && this.state.count_pages !== 1) {
-         show_arrow_left = true;
+
+      let arrow_left;
+      if (this.state.count_pages > 1 && this.state.page !== 1) {
+         params['page'] = this.state.page - 1;
+         if (+params['page'] === 1) delete params['page'];
+         let url = `/car-listing?${this.props.createSearchParams(params)}`
+         arrow_left = this.renderPaginationArrow(url, 'left');
       }
 
       const pagesListRendered = pages.map((item, key) => (
          <li key={key} className={item.active}>
-            <Link to={item.link} onClick={this.onClick}>
-               {item.page}
-            </Link>
+            <a href={item.url}>{item.page}</a>
          </li>
       ))
 
@@ -135,18 +132,14 @@ class CarList extends Component {
          <>
             {arrow_left}
             {pagesListRendered}
+            {arrow_right}
          </>
       )
    }
 
-   renderPaginationArrowRight = (link) => {
-      return (
-         <li className="active">
-            <Link to={link} onClick={this.onClick}>
-               <FaAngleDoubleRight/>
-            </Link>
-         </li>
-      )
+   renderPaginationArrow = (url, type) => {
+      let icon = type === 'left' ? <FaAngleDoubleLeft/> : <FaAngleDoubleRight/>
+      return <li><a href={url}>{icon}</a></li>
    }
 
    onClick = (e) => {
@@ -168,13 +161,6 @@ class CarList extends Component {
       let cart = cart_storage === null ? {} : JSON.parse(cart_storage);
       cart[product_obj.id] = {...booking_info};
       localStorage.setItem('cart', JSON.stringify(cart));
-      // if (e.type === 'click') {
-      //    e.preventDefault();
-      //    let url = e.target.closest('.single-offers').dataset.url
-      //    this.props.navigate({
-      //       pathname: url
-      //    });
-      // }
    }
 
    renderCarList = () => {

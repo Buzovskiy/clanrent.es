@@ -11,6 +11,9 @@ def show_cars_view(request):
         'pickup_location': request.query_params.get('pickup_location'),
         'return_location': request.query_params.get('return_location'),
     }
+    if request.query_params.get('page') is not None:
+        params['page'] = request.query_params.get('page')
+
     r = ApiRequest(request, url='https://api.rentsyst.com/v1/booking/search', params=params).get()
     return Response(data=r.json(), status=r.status_code)
 

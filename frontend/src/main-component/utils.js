@@ -49,6 +49,10 @@ const getTimeRemainingString = (start, end, hr = ':', min = ':', sec = '') => {
    return time_str;
 }
 
+const cleanCart = () => {
+   console.log('clean cart');
+}
+
 // const cleanCart = () => {
 //       axios
 //          .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`)
@@ -62,5 +66,5 @@ const getTimeRemainingString = (start, end, hr = ':', min = ':', sec = '') => {
 //       .catch((error) => console.log(error));
 // }
 
-export {getTimeRemaining, getTimeRemainingString}
+export {getTimeRemaining, getTimeRemainingString, cleanCart}
 export default makeTwoDimensionalArr;
