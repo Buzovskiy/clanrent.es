@@ -53,6 +53,44 @@ const cleanCart = () => {
    console.log('clean cart');
 }
 
+/**
+ * Excepts js Date object and returns string date
+ * formatted by template YYYY:MM:DD hh:mm
+ * @param {object} date
+ * @returns {string} formatted date string
+ */
+const formatDateToAPIStandard = (date) => {
+   const year = date.getFullYear();
+
+   const month_raw = date.getMonth() + 1;
+   const month = month_raw < 10 ? '0' + month_raw : month_raw;
+
+   const day_raw = date.getDate();
+   const day = day_raw < 10 ? '0' + day_raw : day_raw;
+
+   const hour_raw = date.getHours();
+   const hour = hour_raw < 10 ? '0' + hour_raw : hour_raw;
+
+   const minute_raw = date.getMinutes();
+   const minute = minute_raw < 10 ? '0' + minute_raw : minute_raw;
+
+   return `${year}-${month}-${day} ${hour}:${minute}`;
+}
+
+/**
+ * Excepts js Date objects and returns string date
+ * formatted by template YYYY:MM:DD hh:mm - YYYY:MM:DD hh:mm
+ * @param {object} date_start
+ * @param {object} date_end
+ * @returns {string} formatted date string
+ */
+const formatDateRangeToAPIStandard = (date_start, date_end) => {
+   const formatted_date_start = formatDateToAPIStandard(date_start);
+   const formatted_date_end = formatDateToAPIStandard(date_end);
+   return formatted_date_start + ' - ' + formatted_date_end;
+}
+
+
 // const cleanCart = () => {
 //       axios
 //          .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`)
@@ -66,5 +104,5 @@ const cleanCart = () => {
 //       .catch((error) => console.log(error));
 // }
 
-export {getTimeRemaining, getTimeRemainingString, cleanCart}
+export {getTimeRemaining, getTimeRemainingString, cleanCart, formatDateRangeToAPIStandard}
 export default makeTwoDimensionalArr;
