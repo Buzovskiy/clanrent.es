@@ -20,16 +20,4 @@ class CustomDateInput extends React.Component {
    }
 }
 
-// const CustomDateInput = (props) => {
-//    const {t} = useTranslation();
-//    return (
-//       <div className="custom-date-input" onClick={props.onClick}>
-//          <span className='date-icon'><MdEditCalendar /></span>
-//          <span className='date-label'>{t("rental_start_date")}</span>
-//          <span className='date-value'>{props.value}</span>
-//       </div>
-//       // <button>{props.value}</button>
-//    )
-// }
-
 export default CustomDateInput;

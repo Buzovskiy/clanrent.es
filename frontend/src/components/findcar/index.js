@@ -20,20 +20,19 @@ class FindCar extends Component {
       tomorrow.setDate(tomorrow.getDate() + 1);
       let after_tomorrow = new Date(now);
       after_tomorrow.setDate(after_tomorrow.getDate() + 2);
-      tomorrow.setMinutes(tomorrow.getMinutes() - tomorrow.getTimezoneOffset());
+      tomorrow.setHours(10);
+      tomorrow.setMinutes(0);
       tomorrow.setSeconds(null);
-      after_tomorrow.setMinutes(after_tomorrow.getMinutes() - after_tomorrow.getTimezoneOffset());
+      after_tomorrow.setHours(10);
+      after_tomorrow.setMinutes(0);
       after_tomorrow.setSeconds(null);
 
       this.state = {
          form_data: {
             pickup_location: '',
             return_location: '',
-            rental_start_date: new Date("2014/02/08"),
-            rental_end_date: new Date("2014/02/10"),
-            // rental_start_date: tomorrow.toISOString().slice(0, -8),
-            // rental_end_date: after_tomorrow.toISOString().slice(0, -8),
-
+            rental_start_date: new Date(tomorrow),
+            rental_end_date: new Date(after_tomorrow),
          },
          fields_errors: {},
       }
@@ -133,10 +132,10 @@ class FindCar extends Component {
 
       console.log(params.dates);
 
-      // this.props.navigate({
-      //    pathname: '/car-listing',
-      //    search: `?${this.props.createSearchParams(params)}`
-      // });
+      this.props.navigate({
+         pathname: '/car-listing',
+         search: `?${this.props.createSearchParams(params)}`
+      });
    };
 
    // RenderCustomInput = () => {
@@ -161,113 +160,79 @@ class FindCar extends Component {
             <video autoPlay muted loop className='promo-video-narrow'>
                <source src={video_narrow} type="video/mp4"/>
             </video>
-            <div className="find-box">
-               <Row className="align-items-center">
-                  <Col md={12}>
-                     <div className="find-text">
-                        <h3>{t("search_best_car")}</h3>
-                     </div>
-                  </Col>
-                  <Col md={12}>
-                     <div className="find-form">
-                        <form onSubmit={(e) => this.submitHandler(e)}>
-                           <div className="fields-container">
-                              <div className="field-wrapper">
-                                 <input type="text" placeholder={t("from_address")}
-                                        name="pickup_location"
-                                        id="pickup_location"
-                                        value={this.state.form_data.pickup_location}
-                                        onChange={this.handleChange}
-                                        onBlur={this.onBlur}
-                                 />
-                                 {this.renderFieldError('pickup_location')}
+            <div className="find-box-area-wrapper">
+               <div className="find-box">
+                  <Row className="align-items-center">
+                     <Col md={12}>
+                        <div className="find-text">
+                           <h3>{t("search_best_car")}</h3>
+                        </div>
+                     </Col>
+                     <Col md={12}>
+                        <div className="find-form">
+                           <form onSubmit={(e) => this.submitHandler(e)}>
+                              <div className="fields-container">
+                                 <div className="field-wrapper order1">
+                                    <input type="text" placeholder={t("from_address")}
+                                           name="pickup_location"
+                                           id="pickup_location"
+                                           value={this.state.form_data.pickup_location}
+                                           onChange={this.handleChange}
+                                           onBlur={this.onBlur}
+                                    />
+                                    {this.renderFieldError('pickup_location')}
+                                 </div>
+                                 <div className="field-wrapper order3">
+                                    {/*{t("rental_start_date")}*/}
+                                    <DatePicker
+                                       selected={this.state.form_data.rental_start_date}
+                                       onChange={(date) => this.onChangeDate(date, 'rental_start_date')}
+                                       selectsStart
+                                       startDate={this.state.form_data.rental_start_date}
+                                       endDate={this.state.form_data.rental_end_date}
+                                       dateFormat="yyyy-MM-dd HH:mm"
+                                       showTimeSelect
+                                       customInput={<RenderCustomInput type='rental_start_date'/>}
+                                    />
+                                    {this.renderFieldError('rental_start_date')}
+                                 </div>
+                                 <div className="field-wrapper order2">
+                                    <input type="text" placeholder={t("to_address")}
+                                           name="return_location"
+                                           id='to_address'
+                                           value={this.state.form_data.return_location}
+                                           onChange={this.handleChange}
+                                           onBlur={this.onBlur}
+                                    />
+                                    {this.renderFieldError('return_location')}
+                                 </div>
+                                 <div className="field-wrapper order4">
+                                    <DatePicker
+                                       selected={this.state.form_data.rental_end_date}
+                                       onChange={(date) => this.onChangeDate(date, 'rental_end_date')}
+                                       selectsEnd
+                                       startDate={this.state.form_data.rental_start_date}
+                                       endDate={this.state.form_data.rental_end_date}
+                                       minDate={this.state.form_data.rental_start_date}
+                                       dateFormat="yyyy-MM-dd HH:mm"
+                                       showTimeSelect
+                                       customInput={<RenderCustomInput type='rental_end_date'/>}
+                                    />
+                                    {this.renderFieldError('rental_end_date')}
+                                 </div>
                               </div>
-                              <div className="field-wrapper">
-                                 {/*{t("rental_start_date")}*/}
-                                 <DatePicker
-                                    selected={this.state.form_data.rental_start_date}
-                                    onChange={(date) => this.onChangeDate(date, 'rental_start_date')}
-                                    selectsStart
-                                    startDate={this.state.form_data.rental_start_date}
-                                    endDate={this.state.form_data.rental_end_date}
-                                    dateFormat="yyyy-MM-dd HH:mm"
-                                    showTimeSelect
-                                    customInput={<RenderCustomInput type='rental_start_date'/>}
-                                 />
-
-
-                                 {/*<input type="datetime-local"*/}
-                                 {/*       id="rental_start_date"*/}
-                                 {/*       name="rental_start_date"*/}
-                                 {/*       value={this.state.form_data.rental_start_date}*/}
-                                 {/*       onChange={this.handleChange}*/}
-                                 {/*       onBlur={this.onBlur}*/}
-                                 {/*/>*/}
-                                 {this.renderFieldError('rental_start_date')}
-                              </div>
-                              <div className="field-wrapper">
-                                 <input type="text" placeholder={t("to_address")}
-                                        name="return_location"
-                                        id='to_address'
-                                        value={this.state.form_data.return_location}
-                                        onChange={this.handleChange}
-                                        onBlur={this.onBlur}
-                                 />
-                                 {this.renderFieldError('return_location')}
-                              </div>
-                              <div className="field-wrapper">
-                                 <DatePicker
-                                    selected={this.state.form_data.rental_end_date}
-                                    onChange={(date) => this.onChangeDate(date, 'rental_end_date')}
-                                    selectsEnd
-                                    startDate={this.state.form_data.rental_start_date}
-                                    endDate={this.state.form_data.rental_end_date}
-                                    minDate={this.state.form_data.rental_start_date}
-                                    dateFormat="yyyy-MM-dd HH:mm:ss"
-                                    showTimeSelect
-                                    customInput={<RenderCustomInput type='rental_end_date'/>}
-                                 />
-                                 {/*{t("rental_end_date")}*/}
-                                 {/*<input type="datetime-local"*/}
-                                 {/*       id="rental_end_date"*/}
-                                 {/*       name="rental_end_date"*/}
-                                 {/*       value={this.state.form_data.rental_end_date}*/}
-                                 {/*       onChange={this.handleChange}*/}
-                                 {/*       onBlur={this.onBlur}*/}
-                                 {/*/>*/}
-                                 {this.renderFieldError('rental_end_date')}
-                              </div>
-                           </div>
-                           <button type="submit" className="gauto-theme-btn">
-                              {t("find_car")}
-                           </button>
-
-
-                           {/*<div className="mb-md-2 row-fields-wrapper">*/}
-                           {/*   <Row>*/}
-                           {/*      <Col sm={6} className="field-container">*/}
-
-                           {/*      </Col>*/}
-                           {/*      <Col sm={6} className="field-container">*/}
-
-                           {/*      </Col>*/}
-                           {/*   </Row>*/}
-                           {/*</div>*/}
-                           {/*<div className="row-fields-wrapper">*/}
-                           {/*   <Col sm={12} className="field-container">*/}
-                           {/*      <label htmlFor="rental_start_date">{t("rental_start_date")}</label>*/}
-
-                           {/*   </Col>*/}
-                           {/*   <Col sm={12} className="field-container">*/}
-                           {/*   </Col>*/}
-                           {/*   <Col sm={12} className='align-self-end f-c-button-wrapper'>*/}
-
-                           {/*   </Col>*/}
-                           {/*</div>*/}
-                        </form>
-                     </div>
-                  </Col>
-               </Row>
+                              <button type="submit" className="gauto-theme-btn">
+                                 {t("find_car")}
+                              </button>
+                           </form>
+                        </div>
+                     </Col>
+                  </Row>
+               </div>
+               <div className="slider-text">
+                  <h2>{t("hero_slide_title")}</h2>
+                  <p>{t("hero_slide_subtitle")}</p>
+               </div>
             </div>
          </section>
       )

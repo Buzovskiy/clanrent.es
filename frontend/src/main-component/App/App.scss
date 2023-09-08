@@ -418,6 +418,12 @@ button.gauto-theme-btn:hover {
   border: 1px solid #494949;
 }
 
+@media (max-width: 991px) {
+  .custom-date-input {
+    height: 40px;
+  }
+}
+
 @media (max-width: 767px) {
   .site-heading {
     width: 100%;

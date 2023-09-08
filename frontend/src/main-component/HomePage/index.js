@@ -20,8 +20,7 @@ const HomePage = () => {
       <Fragment>
          <Header/>
          <FindCar t={t} navigate={useNavigate()} createSearchParams={createSearchParams}/>
-         <Hero/>
-         <About/>
+         {/*<Hero/>*/}
          {/*<Service />*/}
          {/*<Promo/>*/}
          <HotOffers t={t} navigate={useNavigate()}/>
@@ -29,6 +28,7 @@ const HomePage = () => {
          {/*<Team/>*/}
          {/*<Help/>*/}
          {/*<Blog/>*/}
+         <About/>
          <Footer/>
       </Fragment>
    );
