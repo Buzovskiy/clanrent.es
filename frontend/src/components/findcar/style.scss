@@ -394,9 +394,12 @@ input#timepicker {
 
 @media (max-width: 575px){
   .find-box-area-wrapper{
-    justify-content: space-around;
+    justify-content: flex-start;
   }
   .find-text h3{
     font-size: 22px;
+  }
+  .slider-text{
+    margin-top: 50px;
   }
 }
