@@ -4,6 +4,7 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import {formatDateRangeToAPIStandard} from "../../main-component/utils";
 import CustomDateInput from "./date_input";
+import Autocomplete from "react-google-autocomplete";
 
 import "react-datepicker/dist/react-datepicker.css";
 import video_wide from "../../img/video/video-wide.mp4";
@@ -35,6 +36,7 @@ class FindCar extends Component {
             rental_end_date: new Date(after_tomorrow),
          },
          fields_errors: {},
+         pickup_location_component: 'hello'
       }
    }
 
@@ -43,6 +45,34 @@ class FindCar extends Component {
          .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`)
          .then((res) => {
             this.setState({settings: res.data});
+            console.log(res.data.maps_key);
+
+            const pickup_location_component = <Autocomplete
+               apiKey={this.state.settings.maps_key}
+               onPlaceSelected={(place) => {
+                  console.log(place);
+               }}
+               options={{
+                  componentRestrictions: {
+                     country: ['es']
+                  },
+                  types: [],
+               }}
+            />;
+            this.setState({pickup_location_component: pickup_location_component})
+
+            // function initialize() {
+            //    var input = document.getElementById('autocomplete_search');
+            //    var autocomplete = new google.maps.places.Autocomplete(input);
+            //    autocomplete.addListener('place_changed', function () {
+            //       var place = autocomplete.getPlace();
+            //       // // place variable will have all the information you are looking for.
+            //       // let lat = $('#lat').val(place.geometry['location'].lat());
+            //       // let lng = $('#long').val(place.geometry['location'].lng());
+            //       // console.log(place.geometry['location'].lat());
+            //       // console.log(place.geometry['location'].lng());
+            //    });
+            // }
          })
          .catch((error) => console.log(error));
    }
@@ -172,29 +202,30 @@ class FindCar extends Component {
                         <div className="find-form">
                            <form onSubmit={(e) => this.submitHandler(e)}>
                               <div className="fields-container">
-                                 <div className="field-wrapper order1">
-                                    <input type="text" placeholder={t("from_address")}
-                                           name="pickup_location"
-                                           id="pickup_location"
-                                           value={this.state.form_data.pickup_location}
-                                           onChange={this.handleChange}
-                                           onBlur={this.onBlur}
-                                    />
-                                    {this.renderFieldError('pickup_location')}
-                                 </div>
+                                 {this.state.pickup_location_component}
+                                 {/*<div className="field-wrapper order1">*/}
+                                 {/*   <input type="text" placeholder={t("from_address")}*/}
+                                 {/*          name="pickup_location"*/}
+                                 {/*          id="pickup_location"*/}
+                                 {/*          value={this.state.form_data.pickup_location}*/}
+                                 {/*          onChange={this.handleChange}*/}
+                                 {/*          onBlur={this.onBlur}*/}
+                                 {/*   />*/}
+                                 {/*   {this.renderFieldError('pickup_location')}*/}
+                                 {/*</div>*/}
                                  <div className="field-wrapper order3">
                                     {/*{t("rental_start_date")}*/}
-                                    <DatePicker
-                                       selected={this.state.form_data.rental_start_date}
-                                       onChange={(date) => this.onChangeDate(date, 'rental_start_date')}
-                                       selectsStart
-                                       startDate={this.state.form_data.rental_start_date}
-                                       endDate={this.state.form_data.rental_end_date}
-                                       dateFormat="yyyy-MM-dd HH:mm"
-                                       showTimeSelect
-                                       customInput={<RenderCustomInput type='rental_start_date'/>}
-                                    />
-                                    {this.renderFieldError('rental_start_date')}
+                                    {/*<DatePicker*/}
+                                    {/*   selected={this.state.form_data.rental_start_date}*/}
+                                    {/*   onChange={(date) => this.onChangeDate(date, 'rental_start_date')}*/}
+                                    {/*   selectsStart*/}
+                                    {/*   startDate={this.state.form_data.rental_start_date}*/}
+                                    {/*   endDate={this.state.form_data.rental_end_date}*/}
+                                    {/*   dateFormat="yyyy-MM-dd HH:mm"*/}
+                                    {/*   showTimeSelect*/}
+                                    {/*   customInput={<RenderCustomInput type='rental_start_date'/>}*/}
+                                    {/*/>*/}
+                                    {/*{this.renderFieldError('rental_start_date')}*/}
                                  </div>
                                  <div className="field-wrapper order2">
                                     <input type="text" placeholder={t("to_address")}
