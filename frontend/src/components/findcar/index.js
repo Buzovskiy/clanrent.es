@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import {formatDateRangeToAPIStandard} from "../../main-component/utils";
 import CustomDateInput from "./date_input";
 import Autocomplete from "react-google-autocomplete";
+import {InputLocation} from "./InputLocation";
 
 import "react-datepicker/dist/react-datepicker.css";
 import video_wide from "../../img/video/video-wide.mp4";
@@ -36,7 +37,7 @@ class FindCar extends Component {
             rental_end_date: new Date(after_tomorrow),
          },
          fields_errors: {},
-         pickup_location_component: 'hello'
+         settings: {}
       }
    }
 
@@ -175,6 +176,10 @@ class FindCar extends Component {
    //    ));
    // }
 
+   onInputLocationChange = (place, location) => {
+      console.log(place, location);
+   }
+
 
    render() {
       const {t} = this.props;
@@ -202,7 +207,11 @@ class FindCar extends Component {
                         <div className="find-form">
                            <form onSubmit={(e) => this.submitHandler(e)}>
                               <div className="fields-container">
-                                 {this.state.pickup_location_component}
+                                 <InputLocation
+                                    settings={this.state.settings}
+                                    onInputLocationChange={this.onInputLocationChange}
+                                    location='pickup_location'
+                                 />
                                  {/*<div className="field-wrapper order1">*/}
                                  {/*   <input type="text" placeholder={t("from_address")}*/}
                                  {/*          name="pickup_location"*/}
@@ -215,27 +224,32 @@ class FindCar extends Component {
                                  {/*</div>*/}
                                  <div className="field-wrapper order3">
                                     {/*{t("rental_start_date")}*/}
-                                    {/*<DatePicker*/}
-                                    {/*   selected={this.state.form_data.rental_start_date}*/}
-                                    {/*   onChange={(date) => this.onChangeDate(date, 'rental_start_date')}*/}
-                                    {/*   selectsStart*/}
-                                    {/*   startDate={this.state.form_data.rental_start_date}*/}
-                                    {/*   endDate={this.state.form_data.rental_end_date}*/}
-                                    {/*   dateFormat="yyyy-MM-dd HH:mm"*/}
-                                    {/*   showTimeSelect*/}
-                                    {/*   customInput={<RenderCustomInput type='rental_start_date'/>}*/}
-                                    {/*/>*/}
-                                    {/*{this.renderFieldError('rental_start_date')}*/}
+                                    <DatePicker
+                                       selected={this.state.form_data.rental_start_date}
+                                       onChange={(date) => this.onChangeDate(date, 'rental_start_date')}
+                                       selectsStart
+                                       startDate={this.state.form_data.rental_start_date}
+                                       endDate={this.state.form_data.rental_end_date}
+                                       dateFormat="yyyy-MM-dd HH:mm"
+                                       showTimeSelect
+                                       customInput={<RenderCustomInput type='rental_start_date'/>}
+                                    />
+                                    {this.renderFieldError('rental_start_date')}
                                  </div>
                                  <div className="field-wrapper order2">
-                                    <input type="text" placeholder={t("to_address")}
-                                           name="return_location"
-                                           id='to_address'
-                                           value={this.state.form_data.return_location}
-                                           onChange={this.handleChange}
-                                           onBlur={this.onBlur}
+                                    <InputLocation
+                                       settings={this.state.settings}
+                                       onInputLocationChange={this.onInputLocationChange}
+                                       location='return_location'
                                     />
-                                    {this.renderFieldError('return_location')}
+                                    {/*<input type="text" placeholder={t("to_address")}*/}
+                                    {/*       name="return_location"*/}
+                                    {/*       id='to_address'*/}
+                                    {/*       value={this.state.form_data.return_location}*/}
+                                    {/*       onChange={this.handleChange}*/}
+                                    {/*       onBlur={this.onBlur}*/}
+                                    {/*/>*/}
+                                    {/*{this.renderFieldError('return_location')}*/}
                                  </div>
                                  <div className="field-wrapper order4">
                                     <DatePicker
