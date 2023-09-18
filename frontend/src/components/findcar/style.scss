@@ -123,6 +123,17 @@
   margin: 0 15px;
 }
 
+.date-value {
+  padding: 0!important;
+  border: none!important;
+  width: 143px!important;
+  background-color: unset!important;
+}
+
+.data-value::placeholder{
+  text-transform: none;
+}
+
 
 .find-form .date-icon {
   font-size: 25px;
@@ -285,7 +296,7 @@ input#timepicker {
 }
 
 @media (max-width: 991px) {
-  .find-box-area-wrapper{
+  .find-box-area-wrapper {
     margin-top: 0px;
   }
   .gauto-find-box-area {
@@ -392,14 +403,14 @@ input#timepicker {
   }
 }
 
-@media (max-width: 575px){
-  .find-box-area-wrapper{
+@media (max-width: 575px) {
+  .find-box-area-wrapper {
     justify-content: flex-start;
   }
-  .find-text h3{
+  .find-text h3 {
     font-size: 22px;
   }
-  .slider-text{
+  .slider-text {
     margin-top: 50px;
   }
 }

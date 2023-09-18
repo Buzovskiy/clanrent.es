@@ -105,6 +105,10 @@ input, select, .custom-date-input {
   height: 45px;
 }
 
+input.error{
+  border-color: red;
+}
+
 textarea {
   height: 120px;
 }

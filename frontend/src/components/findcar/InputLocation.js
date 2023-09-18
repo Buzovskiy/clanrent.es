@@ -5,21 +5,23 @@ import Autocomplete from "react-google-autocomplete";
 
 const InputLocation = (props) => {
    const {t} = useTranslation();
-   const placeholder = props.location === 'pickup_location' ? t("from_address"): t("to_address");
    if (Object.keys(props.settings).length === 0) {
-      return <input type="text" placeholder={placeholder}/>
+      return <input type="text" placeholder={props.placeholder}/>
    }
    return (
       <Autocomplete
          apiKey={props.settings.maps_key}
-         onPlaceSelected={(place) => props.onInputLocationChange(place, props.location)}
+         onPlaceSelected={(place) => props.onInputLocationChange(place, props.input_name)}
          options={{
             componentRestrictions: {
                country: ['es']
             },
             types: [],
          }}
-         placeholder={placeholder}
+         placeholder={props.placeholder}
+         className={props.css_class}
+         onChange={props.onInputPlaceChange}
+         name={props.input_name}
       />
    )
 }
