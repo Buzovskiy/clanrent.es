@@ -7,6 +7,7 @@ import CustomDateInput from "./date_input";
 import Autocomplete from "react-google-autocomplete";
 import {InputLocation} from "./InputLocation";
 
+
 import "react-datepicker/dist/react-datepicker.css";
 import video_wide from "../../img/video/video-wide.mp4";
 import video_narrow from "../../img/video/video-narrow.mp4";
@@ -81,12 +82,19 @@ class FindCar extends Component {
       // );
    };
 
-   onChangeDate = (date, field) => {
-      const form_data = {...this.state.form_data, [field]: date};
+   onDateChange = (dates, field) => {
+      const form_data = {...this.state.form_data};
+      if (Array.isArray(dates)) {
+         const [start, end] = dates;
+         form_data['rental_start_date'] = start;
+         form_data['rental_end_date'] = end;
+      } else if (dates instanceof Date) { // if time
+         form_data[field] = dates;
+      }
       this.setState({form_data},
-         // () => console.log(this.state.form_data)
+         () => console.log(this.state.form_data)
       );
-   };
+   }
 
    onBlur = (e) => {
       this.updateErrorsState(e.target);
@@ -168,22 +176,29 @@ class FindCar extends Component {
       });
    };
 
-   // RenderCustomInput = () => {
-   //    return React.forwardRef(({value, onClick, type}, ref) => (
-   //       <CustomDateInput onClick={onClick} ref={ref} value={value}/>
-   //       // <button ref={ref} value={value} onClick={onClick}>{type}</button>
-   //    ));
-   // }
-
    onInputLocationChange = (place, location) => {
       console.log(place, location);
    }
 
+   // onClickClearDate = (input_name) => {
+   //    const form_data = {...this.state.form_data, [input_name]: ''};
+   //    this.setState({form_data},
+   //       () => console.log(this.state.form_data)
+   //    );
+   // }
+
 
    render() {
       const {t} = this.props;
-      const RenderCustomInput = React.forwardRef(({value, onClick, input_name}, ref) => (
-         <CustomDateInput onClick={onClick} ref={ref} value={value} input_name={input_name} t={t}/>
+      const RenderCustomDateInput = React.forwardRef(({value, onClick, input_name, date}, ref) => (
+         <CustomDateInput
+            onClick={onClick}
+            // onClickClearDate={this.onClickClearDate}
+            ref={ref}
+            value={value}
+            input_name={input_name}
+            date={date}
+            t={t}/>
       ));
 
       return (
@@ -230,13 +245,17 @@ class FindCar extends Component {
                                     {/*{t("rental_start_date")}*/}
                                     <DatePicker
                                        selected={this.state.form_data.rental_start_date}
-                                       onChange={(date) => this.onChangeDate(date, 'rental_start_date')}
-                                       selectsStart
+                                       onChange={(dates) => this.onDateChange(dates, 'rental_start_date')}
+                                       selectsRange
                                        startDate={this.state.form_data.rental_start_date}
                                        endDate={this.state.form_data.rental_end_date}
                                        dateFormat="yyyy-MM-dd HH:mm"
+                                       minDate={new Date()}
                                        showTimeSelect
-                                       customInput={<RenderCustomInput input_name='rental_start_date'/>}
+                                       customInput={<RenderCustomDateInput
+                                          input_name='rental_start_date'
+                                          date={this.state.form_data.rental_start_date}
+                                       />}
                                     />
                                     {this.renderFieldError('rental_start_date')}
                                  </div>
@@ -259,16 +278,20 @@ class FindCar extends Component {
                                     {/*{this.renderFieldError('return_location')}*/}
                                  </div>
                                  <div className="field-wrapper order4">
+                                    {/*todo: сделать так, чтобы нельзя было выбрать вторую дату, не выбрав первую*/}
                                     <DatePicker
                                        selected={this.state.form_data.rental_end_date}
-                                       onChange={(date) => this.onChangeDate(date, 'rental_end_date')}
+                                       onChange={(date) => this.onDateChange(date, 'rental_end_date')}
                                        selectsEnd
                                        startDate={this.state.form_data.rental_start_date}
                                        endDate={this.state.form_data.rental_end_date}
                                        minDate={this.state.form_data.rental_start_date}
                                        dateFormat="yyyy-MM-dd HH:mm"
                                        showTimeSelect
-                                       customInput={<RenderCustomInput input_name='rental_end_date'/>}
+                                       customInput={<RenderCustomDateInput
+                                          input_name='rental_end_date'
+                                          date={this.state.form_data.rental_end_date}
+                                       />}
                                     />
                                     {this.renderFieldError('rental_end_date')}
                                  </div>

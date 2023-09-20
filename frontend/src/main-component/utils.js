@@ -104,5 +104,11 @@ const formatDateRangeToAPIStandard = (date_start, date_end) => {
 //       .catch((error) => console.log(error));
 // }
 
-export {getTimeRemaining, getTimeRemainingString, cleanCart, formatDateRangeToAPIStandard}
+export {
+   getTimeRemaining,
+   getTimeRemainingString,
+   cleanCart,
+   formatDateRangeToAPIStandard,
+   formatDateToAPIStandard
+}
 export default makeTwoDimensionalArr;

@@ -115,42 +115,34 @@ textarea {
 
 :-moz-placeholder {
   color: #7c8a97;
-  text-transform: capitalize;
 }
 
 ::-moz-placeholder {
   color: #7c8a97;
-  text-transform: capitalize;
 }
 
 :-ms-input-placeholder {
   color: #7c8a97;
-  text-transform: capitalize;
 }
 
 ::-webkit-input-placeholder {
   color: #7c8a97;
-  text-transform: capitalize;
 }
 
 :-ms-select-placeholder {
   color: #7c8a97;
-  text-transform: capitalize;
 }
 
 ::-webkit-select-placeholder {
   color: #7c8a97;
-  text-transform: capitalize;
 }
 
 :-ms-textarea-placeholder {
   color: #7c8a97;
-  text-transform: capitalize;
 }
 
 ::-webkit-textarea-placeholder {
   color: #7c8a97;
-  text-transform: capitalize;
 }
 
 tbody,
@@ -516,5 +508,9 @@ button.gauto-theme-btn:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.react-datepicker__close-icon::after{
+  background-color: $color-orange;
 }
 

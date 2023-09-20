@@ -1,5 +1,5 @@
 import React from "react";
-import {useTranslation} from "react-i18next";
+import {formatDateToAPIStandard} from '../../main-component/utils'
 
 import button from "bootstrap/js/src/button";
 import {
@@ -10,19 +10,32 @@ import {
 class CustomDateInput extends React.Component {
    render() {
       const label = this.props.t(this.props.input_name);
+      const date = this.props.date instanceof Date ? formatDateToAPIStandard(this.props.date) : '';
       return (
-         <div className="custom-date-input" onClick={this.props.onClick}>
-            <span className='date-icon'><MdEditCalendar/></span>
-            <span className='date-label'>{label}</span>
-            <input
-               type="text"
-               // placeholder='YYYY-MM-DD hh-mm'
-               placeholder='YYYY-MM-DD hh-mm'
-               readOnly='readonly'
-               className='date-value'
-               value={this.props.value}/>
-            {/*<span className='date-value'>{this.props.value}</span>*/}
-         </div>
+         <>
+            <div className="custom-date-input" onClick={this.props.onClick}>
+               <span className='date-icon'><MdEditCalendar/></span>
+               <span className='date-label'>{label}</span>
+               <input
+                  type="text"
+                  placeholder='yyyy-mm-dd    --:--'
+                  readOnly='readonly'
+                  className='date-value'
+                  value={date}
+               />
+
+            </div>
+            <button
+               type="button"
+               className="react-datepicker__close-icon"
+               aria-label="Close"
+               tabIndex="-1"
+               // onClick={() => this.props.onClickClearDate(this.props.input_name)}
+            >
+            </button>
+         </>
+
+
       )
    }
 }
