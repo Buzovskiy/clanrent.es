@@ -30,7 +30,6 @@ class CustomDateInput extends React.Component {
                className="react-datepicker__close-icon"
                aria-label="Close"
                tabIndex="-1"
-               // onClick={() => this.props.onClickClearDate(this.props.input_name)}
             >
             </button>
          </>
