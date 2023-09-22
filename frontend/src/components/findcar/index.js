@@ -39,14 +39,19 @@ class FindCar extends Component {
             rental_start_date: null,
             rental_end_date: null,
          },
-         fields_errors: {},
+         fields_errors: {
+            pickup_location: [],
+            return_location: [],
+            rental_start_date: [],
+            rental_end_date: [],
+         },
          settings: {},
-         css_classes: {
-            pickup_location: '',
-            return_location: '',
-            rental_start_date: '',
-            rental_end_date: '',
-         }
+         // css_classes: {
+         //    pickup_location: '',
+         //    return_location: '',
+         //    rental_start_date: '',
+         //    rental_end_date: '',
+         // }
       }
    }
 
@@ -71,8 +76,8 @@ class FindCar extends Component {
          .catch((error) => console.log(error));
    }
 
-   onInputPlaceChange = (e) => {
-      this.updateErrorsState(e.target);
+   onPlaceChange = (e) => {
+      this.updateErrorsState([e.target]);
       // let {name, value} = e.target;
       // const form_data = {...this.state.form_data, [name]: value};
       // this.setState({form_data},
@@ -86,6 +91,10 @@ class FindCar extends Component {
       const form_data = {...this.state.form_data};
       if (Array.isArray(dates)) {
          const [start, end] = dates;
+         this.updateErrorsState([
+            {name: 'rental_end_date', value: end},
+            {name: 'rental_start_date', value: start}
+         ]);
          form_data['rental_start_date'] = start;
          form_data['rental_end_date'] = end;
       } else if (dates instanceof Date) { // if time
@@ -96,31 +105,31 @@ class FindCar extends Component {
       );
    }
 
-   onBlur = (e) => {
-      this.updateErrorsState(e.target);
-   };
-
-   updateErrorsState = (element) => {
-      let {name} = element;
-      const fields_errors_initial = {...this.state.fields_errors, [name]: []};
-      const css_classes_initial = {...this.state.css_classes, [name]: ''}
-      const {fields_errors, css_classes} = this.checkFieldError(element, fields_errors_initial, css_classes_initial);
-      this.setState({fields_errors, css_classes},
+   /**
+    * Method to update the state of the form fields errors
+    * @param {Object[]} fields_list[] - array of objects
+    * @param {string} fields_list[].name - input name
+    * @param {string} fields_list[].value - input value
+    */
+   updateErrorsState = (fields_list) => {
+      const fields_errors = this.state.fields_errors;
+      fields_list.forEach((field) => {
+         let {name} = field;
+         fields_errors[name] = this.checkFieldError(field)
+      })
+      this.setState({fields_errors},
          () => {
             console.log(this.state.fields_errors);
-            console.log(this.state.css_classes);
          }
       );
    }
 
-   checkFieldError = (element, fields_errors, css_classes) => {
-      let {name, value} = element;
-      // if (element.required && !value) {
-      if (!value) {
-         fields_errors[name] = [this.props.t('this_field_may_not_be_blank')];
-         css_classes[name] = 'error';
+   checkFieldError = (field) => {
+      let field_errors = []
+      if (!field.value) {
+         field_errors.push(this.props.t('this_field_may_not_be_blank'));
       }
-      return {fields_errors, css_classes}
+      return field_errors
    }
 
    hasErrors = (fields_errors) => {
@@ -129,6 +138,10 @@ class FindCar extends Component {
       }
       return false;
    }
+
+   fieldHasError = (name) => this.state.fields_errors[name].length > 0;
+
+   getErrorClass = (name) => this.fieldHasError(name) ? 'error' : '';
 
    renderFieldError = (field_name) => {
       let fields_errors = [];
@@ -176,24 +189,15 @@ class FindCar extends Component {
       });
    };
 
-   onInputLocationChange = (place, location) => {
+   onPlaceSelected = (place, location) => {
       console.log(place, location);
    }
-
-   // onClickClearDate = (input_name) => {
-   //    const form_data = {...this.state.form_data, [input_name]: ''};
-   //    this.setState({form_data},
-   //       () => console.log(this.state.form_data)
-   //    );
-   // }
-
 
    render() {
       const {t} = this.props;
       const RenderCustomDateInput = React.forwardRef(({value, onClick, input_name, date}, ref) => (
          <CustomDateInput
             onClick={onClick}
-            // onClickClearDate={this.onClickClearDate}
             ref={ref}
             value={value}
             input_name={input_name}
@@ -218,89 +222,69 @@ class FindCar extends Component {
                         </div>
                      </Col>
                      <Col md={12}>
-                        <div className="find-form">
-                           <form onSubmit={(e) => this.submitHandler(e)}>
-                              <div className="fields-container">
-                                 <div className="field-wrapper order1">
-                                    <InputLocation
-                                       settings={this.state.settings}
-                                       onInputLocationChange={this.onInputLocationChange}
-                                       placeholder={t("from_address")}
-                                       css_class={this.state.css_classes.pickup_location}
-                                       onInputPlaceChange={this.onInputPlaceChange}
-                                       input_name='pickup_location'
-                                    />
-                                    {/*<div className="field-wrapper order1">*/}
-                                    {/*   <input type="text" placeholder={t("from_address")}*/}
-                                    {/*          name="pickup_location"*/}
-                                    {/*          id="pickup_location"*/}
-                                    {/*          value={this.state.form_data.pickup_location}*/}
-                                    {/*          onChange={this.handleChange}*/}
-                                    {/*          onBlur={this.onBlur}*/}
-                                    {/*   />*/}
-                                    {/*   {this.renderFieldError('pickup_location')}*/}
-                                    {/*</div>*/}
-                                 </div>
-                                 <div className="field-wrapper order3">
-                                    {/*{t("rental_start_date")}*/}
-                                    <DatePicker
-                                       selected={this.state.form_data.rental_start_date}
-                                       onChange={(dates) => this.onDateChange(dates, 'rental_start_date')}
-                                       selectsRange
-                                       startDate={this.state.form_data.rental_start_date}
-                                       endDate={this.state.form_data.rental_end_date}
-                                       dateFormat="yyyy-MM-dd HH:mm"
-                                       minDate={new Date()}
-                                       showTimeSelect
-                                       customInput={<RenderCustomDateInput
-                                          input_name='rental_start_date'
-                                          date={this.state.form_data.rental_start_date}
-                                       />}
-                                    />
-                                    {this.renderFieldError('rental_start_date')}
-                                 </div>
-                                 <div className="field-wrapper order2">
-                                    <InputLocation
-                                       settings={this.state.settings}
-                                       onInputLocationChange={this.onInputLocationChange}
-                                       placeholder={t("to_address")}
-                                       css_class={this.state.css_classes.return_location}
-                                       onInputPlaceChange={this.onInputPlaceChange}
-                                       input_name='return_location'
-                                    />
-                                    {/*<input type="text" placeholder={t("to_address")}*/}
-                                    {/*       name="return_location"*/}
-                                    {/*       id='to_address'*/}
-                                    {/*       value={this.state.form_data.return_location}*/}
-                                    {/*       onChange={this.handleChange}*/}
-                                    {/*       onBlur={this.onBlur}*/}
-                                    {/*/>*/}
-                                    {/*{this.renderFieldError('return_location')}*/}
-                                 </div>
-                                 <div className="field-wrapper order4">
-                                    {/*todo: сделать так, чтобы нельзя было выбрать вторую дату, не выбрав первую*/}
-                                    <DatePicker
-                                       selected={this.state.form_data.rental_end_date}
-                                       onChange={(date) => this.onDateChange(date, 'rental_end_date')}
-                                       selectsEnd
-                                       startDate={this.state.form_data.rental_start_date}
-                                       endDate={this.state.form_data.rental_end_date}
-                                       minDate={this.state.form_data.rental_start_date}
-                                       dateFormat="yyyy-MM-dd HH:mm"
-                                       showTimeSelect
-                                       customInput={<RenderCustomDateInput
-                                          input_name='rental_end_date'
-                                          date={this.state.form_data.rental_end_date}
-                                       />}
-                                    />
-                                    {this.renderFieldError('rental_end_date')}
-                                 </div>
+                        <form className="find-form" onSubmit={(e) => this.submitHandler(e)}>
+                           <div className="fields-container">
+                              <div className='field-wrapper order1'>
+                                 <InputLocation
+                                    css_class={this.getErrorClass('pickup_location')}
+                                    settings={this.state.settings}
+                                    onPlaceSelected={this.onPlaceSelected}
+                                    placeholder={t("from_address")}
+                                    onPlaceChange={this.onPlaceChange}
+                                    input_name='pickup_location'
+                                 />
+                                 {/*   {this.renderFieldError('pickup_location')}*/}
                               </div>
-                              <button type="submit" className="gauto-theme-btn">
-                                 {t("find_car")}
-                              </button>
-                           </form>
-                        </div>
+                              <div className={`field-wrapper order3 ${this.getErrorClass('rental_start_date')}`}>
+                                 <DatePicker
+                                    selected={this.state.form_data.rental_start_date}
+                                    onChange={(dates) => this.onDateChange(dates, 'rental_start_date')}
+                                    selectsRange
+                                    startDate={this.state.form_data.rental_start_date}
+                                    endDate={this.state.form_data.rental_end_date}
+                                    dateFormat="yyyy-MM-dd HH:mm"
+                                    minDate={new Date()}
+                                    showTimeSelect
+                                    customInput={<RenderCustomDateInput
+                                       input_name='rental_start_date'
+                                       date={this.state.form_data.rental_start_date}
+                                    />}
+                                    isClearable
+                                 />
+                              </div>
+                              <div className='field-wrapper order2'>
+                                 <InputLocation
+                                    css_class={this.getErrorClass('return_location')}
+                                    settings={this.state.settings}
+                                    onPlaceSelected={this.onPlaceSelected}
+                                    placeholder={t("to_address")}
+                                    css_class={this.fieldHasError('return_location') ? 'error' : ''}
+                                    onPlaceChange={this.onPlaceChange}
+                                    input_name='return_location'
+                                 />
+                              </div>
+                              <div className={`field-wrapper order4 ${this.getErrorClass('rental_end_date')}`}>
+                                 <DatePicker
+                                    selected={this.state.form_data.rental_end_date}
+                                    onChange={(date) => this.onDateChange(date, 'rental_end_date')}
+                                    selectsRange
+                                    startDate={this.state.form_data.rental_start_date}
+                                    endDate={this.state.form_data.rental_end_date}
+                                    minDate={this.state.form_data.rental_start_date ? this.state.form_data.rental_start_date : new Date()}
+                                    dateFormat="yyyy-MM-dd HH:mm"
+                                    showTimeSelect
+                                    customInput={<RenderCustomDateInput
+                                       input_name='rental_end_date'
+                                       date={this.state.form_data.rental_end_date}
+                                    />}
+                                    isClearable
+                                 />
+                              </div>
+                           </div>
+                           <button type="submit" className="gauto-theme-btn">
+                              {t("find_car")}
+                           </button>
+                        </form>
                      </Col>
                   </Row>
                </div>
@@ -313,86 +297,5 @@ class FindCar extends Component {
       )
    }
 }
-
-// const FindCar = () => {
-//   const {t} = useTranslation();
-//   const SubmitHandler = (e) => {
-//     e.preventDefault();
-//   };
-//
-//   return (
-//     <section className="gauto-find-area">
-//       <Container>
-//         <Row>
-//           <Col md={12}>
-//             <div className="find-box">
-//               <Row className="align-items-center">
-//                 <Col md={4}>
-//                   <div className="find-text">
-//                     <h3>{t("search_best_car")}</h3>
-//                   </div>
-//                 </Col>
-//                 <Col md={8}>
-//                   <div className="find-form">
-//                     <form onSubmit={SubmitHandler}>
-//                       <Row>
-//                         <Col md={4}>
-//                           <p>
-//                             <input
-//                               type="text"
-//                               placeholder={t("from_address")}
-//                             />
-//                           </p>
-//                         </Col>
-//                         <Col md={4}>
-//                           <p>
-//                             <input type="text" placeholder={t("to_address")}/>
-//                           </p>
-//                         </Col>
-//                         <Col md={4}>
-//                           <p>
-//                             <select placeholder={t("SelectCar")}>
-//                               <option>{t("ac_car")}</option>
-//                               <option>{t("non_ac_car")}</option>
-//                             </select>
-//                           </p>
-//                         </Col>
-//                       </Row>
-//                       <Row>
-//                         <Col md={4}>
-//                           <p>
-//                             <DatePickerComponent
-//                               id="datepicker"
-//                               placeholder={t("journey_date")}
-//                             ></DatePickerComponent>
-//                           </p>
-//                         </Col>
-//                         <Col md={4}>
-//                           <p>
-//                             <TimePickerComponent
-//                               id="timepicker"
-//                               placeholder={t("journey_time")}
-//                             ></TimePickerComponent>
-//                           </p>
-//                         </Col>
-//                         <Col md={4}>
-//                           <p>
-//                             <button type="submit" className="gauto-theme-btn">
-//                               {t("find_car")}
-//                             </button>
-//                           </p>
-//                         </Col>
-//                       </Row>
-//                     </form>
-//                   </div>
-//                 </Col>
-//               </Row>
-//             </div>
-//           </Col>
-//         </Row>
-//       </Container>
-//     </section>
-//   );
-// };
 
 export default FindCar;

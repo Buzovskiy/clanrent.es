@@ -33,8 +33,6 @@ class CustomDateInput extends React.Component {
             >
             </button>
          </>
-
-
       )
    }
 }

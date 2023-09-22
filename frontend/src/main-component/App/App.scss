@@ -105,8 +105,16 @@ input, select, .custom-date-input {
   height: 45px;
 }
 
-input.error{
-  border-color: red;
+input.error {
+  border: solid 1px red;
+}
+
+.field-wrapper {
+  border: solid 1px transparent;
+
+  &.error {
+    border-color: red;
+  }
 }
 
 textarea {
@@ -510,7 +518,7 @@ button.gauto-theme-btn:hover {
   transform: translate(-50%, -50%);
 }
 
-.react-datepicker__close-icon::after{
+.react-datepicker__close-icon::after {
   background-color: $color-orange;
 }
 
