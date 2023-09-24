@@ -76,17 +76,6 @@ class FindCar extends Component {
          .catch((error) => console.log(error));
    }
 
-   onPlaceChange = (e) => {
-      this.updateErrorsState([e.target]);
-      // let {name, value} = e.target;
-      // const form_data = {...this.state.form_data, [name]: value};
-      // this.setState({form_data},
-      //    // () => {
-      //    //    console.log(this.state.form_data);
-      //    // }
-      // );
-   };
-
    onDateChange = (dates, field) => {
       const form_data = {...this.state.form_data};
       if (Array.isArray(dates)) {
@@ -119,7 +108,7 @@ class FindCar extends Component {
       })
       this.setState({fields_errors},
          () => {
-            console.log(this.state.fields_errors);
+            // console.log(this.state.fields_errors);
          }
       );
    }
@@ -155,42 +144,66 @@ class FindCar extends Component {
 
    submitHandler = (e) => {
       e.preventDefault();
-      let fields_errors = {...this.state.fields_errors};
+      // let fields_errors = {...this.state.fields_errors};
+      // for (const field in this.state.form_data) {
+      //    fields_errors = this.checkFieldError({
+      //       name: field,
+      //       value: this.state.form_data[field],
+      //    }, fields_errors)
+      // }
+      const form_fields_list = [];
       for (const field in this.state.form_data) {
-         fields_errors = this.checkFieldError({
-            name: field,
-            value: this.state.form_data[field],
-         }, fields_errors)
+         form_fields_list.push({name: field, value: this.state.form_data[field]});
       }
 
-      this.setState({fields_errors})
+      this.updateErrorsState(form_fields_list);
 
-      if (this.hasErrors(fields_errors)) {
+      if (this.hasErrors(this.state.fields_errors)) {
          // If there are errors, return false and show them
          return false;
       }
-
-      const datesRange = formatDateRangeToAPIStandard(
-         this.state.form_data.rental_start_date,
-         this.state.form_data.rental_end_date
-      );
-
-      let params = {
-         dates: datesRange,
-         pickup_location: this.state.form_data.pickup_location,
-         return_location: this.state.form_data.return_location
-      };
-
-      console.log(params.dates);
-
-      this.props.navigate({
-         pathname: '/car-listing',
-         search: `?${this.props.createSearchParams(params)}`
-      });
+      console.log('go');
+      //
+      // const datesRange = formatDateRangeToAPIStandard(
+      //    this.state.form_data.rental_start_date,
+      //    this.state.form_data.rental_end_date
+      // );
+      //
+      // let params = {
+      //    dates: datesRange,
+      //    pickup_location: this.state.form_data.pickup_location,
+      //    return_location: this.state.form_data.return_location
+      // };
+      //
+      // console.log(params.dates);
+      //
+      // this.props.navigate({
+      //    pathname: '/car-listing',
+      //    search: `?${this.props.createSearchParams(params)}`
+      // });
    };
 
-   onPlaceSelected = (place, location) => {
-      console.log(place, location);
+   onPlaceChange = (e) => {
+      this.updateErrorsState([e.target]);
+      // Reset the value of place
+      const form_data = {...this.state.form_data, [e.target.name]: ''};
+      this.setState({form_data},
+         () => {
+            // console.log(this.state.form_data);
+         }
+      );
+   };
+
+   onPlaceSelected = (place, name) => {
+      const value = place['formatted_address']
+      this.updateErrorsState([{name: name, value: value}]);
+      const form_data = {...this.state.form_data, [name]: value};
+      this.setState({form_data},
+         () => {
+            // console.log(this.state.form_data);
+         }
+      );
+      console.log('selected');
    }
 
    render() {
@@ -210,7 +223,7 @@ class FindCar extends Component {
             <video autoPlay muted loop className='promo-video-wide'>
                <source src={video_wide} type="video/mp4"/>
             </video>
-            <video autoPlay muted loop className='promo-video-narrow'>
+            <video autoPlay muted loop playsInline className='promo-video-narrow'>
                <source src={video_narrow} type="video/mp4"/>
             </video>
             <div className="find-box-area-wrapper">
@@ -232,6 +245,7 @@ class FindCar extends Component {
                                     placeholder={t("from_address")}
                                     onPlaceChange={this.onPlaceChange}
                                     input_name='pickup_location'
+                                    id='pickup_location'
                                  />
                                  {/*   {this.renderFieldError('pickup_location')}*/}
                               </div>
@@ -261,6 +275,7 @@ class FindCar extends Component {
                                     css_class={this.fieldHasError('return_location') ? 'error' : ''}
                                     onPlaceChange={this.onPlaceChange}
                                     input_name='return_location'
+                                    id=''
                                  />
                               </div>
                               <div className={`field-wrapper order4 ${this.getErrorClass('rental_end_date')}`}>

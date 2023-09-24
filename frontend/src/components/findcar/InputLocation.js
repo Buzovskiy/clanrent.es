@@ -20,6 +20,7 @@ const InputLocation = (props) => {
          className={props.css_class}
          onChange={props.onPlaceChange}
          name={props.input_name}
+         id={props.id}
       />
    )
 }
