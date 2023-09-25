@@ -46,12 +46,6 @@ class FindCar extends Component {
             rental_end_date: [],
          },
          settings: {},
-         // css_classes: {
-         //    pickup_location: '',
-         //    return_location: '',
-         //    rental_start_date: '',
-         //    rental_end_date: '',
-         // }
       }
    }
 
@@ -60,18 +54,6 @@ class FindCar extends Component {
          .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`)
          .then((res) => {
             this.setState({settings: res.data});
-            // function initialize() {
-            //    var input = document.getElementById('autocomplete_search');
-            //    var autocomplete = new google.maps.places.Autocomplete(input);
-            //    autocomplete.addListener('place_changed', function () {
-            //       var place = autocomplete.getPlace();
-            //       // // place variable will have all the information you are looking for.
-            //       // let lat = $('#lat').val(place.geometry['location'].lat());
-            //       // let lng = $('#long').val(place.geometry['location'].lng());
-            //       // console.log(place.geometry['location'].lat());
-            //       // console.log(place.geometry['location'].lng());
-            //    });
-            // }
          })
          .catch((error) => console.log(error));
    }
@@ -90,7 +72,7 @@ class FindCar extends Component {
          form_data[field] = dates;
       }
       this.setState({form_data},
-         () => console.log(this.state.form_data)
+         // () => console.log(this.state.form_data)
       );
    }
 
@@ -144,13 +126,6 @@ class FindCar extends Component {
 
    submitHandler = (e) => {
       e.preventDefault();
-      // let fields_errors = {...this.state.fields_errors};
-      // for (const field in this.state.form_data) {
-      //    fields_errors = this.checkFieldError({
-      //       name: field,
-      //       value: this.state.form_data[field],
-      //    }, fields_errors)
-      // }
       const form_fields_list = [];
       for (const field in this.state.form_data) {
          form_fields_list.push({name: field, value: this.state.form_data[field]});
@@ -162,25 +137,22 @@ class FindCar extends Component {
          // If there are errors, return false and show them
          return false;
       }
-      console.log('go');
-      //
-      // const datesRange = formatDateRangeToAPIStandard(
-      //    this.state.form_data.rental_start_date,
-      //    this.state.form_data.rental_end_date
-      // );
-      //
-      // let params = {
-      //    dates: datesRange,
-      //    pickup_location: this.state.form_data.pickup_location,
-      //    return_location: this.state.form_data.return_location
-      // };
-      //
-      // console.log(params.dates);
-      //
-      // this.props.navigate({
-      //    pathname: '/car-listing',
-      //    search: `?${this.props.createSearchParams(params)}`
-      // });
+
+      const datesRange = formatDateRangeToAPIStandard(
+         this.state.form_data.rental_start_date,
+         this.state.form_data.rental_end_date
+      );
+
+      let params = {
+         dates: datesRange,
+         pickup_location: this.state.form_data.pickup_location,
+         return_location: this.state.form_data.return_location
+      };
+      // console.log(params);
+      this.props.navigate({
+         pathname: '/car-listing',
+         search: `?${this.props.createSearchParams(params)}`
+      });
    };
 
    onPlaceChange = (e) => {
@@ -195,6 +167,7 @@ class FindCar extends Component {
    };
 
    onPlaceSelected = (place, name) => {
+      if (!place) return false;
       const value = place['formatted_address']
       this.updateErrorsState([{name: name, value: value}]);
       const form_data = {...this.state.form_data, [name]: value};
@@ -203,7 +176,6 @@ class FindCar extends Component {
             // console.log(this.state.form_data);
          }
       );
-      console.log('selected');
    }
 
    render() {
@@ -254,6 +226,7 @@ class FindCar extends Component {
                                     selected={this.state.form_data.rental_start_date}
                                     onChange={(dates) => this.onDateChange(dates, 'rental_start_date')}
                                     selectsRange
+                                    // selectsStart
                                     startDate={this.state.form_data.rental_start_date}
                                     endDate={this.state.form_data.rental_end_date}
                                     dateFormat="yyyy-MM-dd HH:mm"
@@ -282,10 +255,12 @@ class FindCar extends Component {
                                  <DatePicker
                                     selected={this.state.form_data.rental_end_date}
                                     onChange={(date) => this.onDateChange(date, 'rental_end_date')}
-                                    selectsRange
+                                    // selectsRange
+                                    selectsEnd
                                     startDate={this.state.form_data.rental_start_date}
                                     endDate={this.state.form_data.rental_end_date}
-                                    minDate={this.state.form_data.rental_start_date ? this.state.form_data.rental_start_date : new Date()}
+                                    // minDate={this.state.form_data.rental_start_date ? this.state.form_data.rental_start_date : new Date()}
+                                    minDate={this.state.form_data.rental_start_date}
                                     dateFormat="yyyy-MM-dd HH:mm"
                                     showTimeSelect
                                     customInput={<RenderCustomDateInput

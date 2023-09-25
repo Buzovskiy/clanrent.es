@@ -121,6 +121,9 @@
 .find-form .date-value,
 .find-form .date-icon {
   margin: 0 15px;
+  @media (max-width: 767px){
+    margin: 0 9px;
+  }
 }
 
 .date-value {

@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Link, useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {Container, Row, Col} from "react-bootstrap";
+import CarOptions from "./CarOptions";
 import {
    FaStar,
    FaStarHalfAlt,
@@ -57,6 +58,9 @@ class CarDetails extends Component {
       bodyFormData.append('dates', this.state.dates);
       bodyFormData.append('pickup_location', this.state.pickup_location);
       bodyFormData.append('return_location', this.state.return_location);
+      for (const value of bodyFormData.values()) {
+         console.log(value);
+      }
       axios
          .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData)
          .then((res) => {
@@ -81,6 +85,7 @@ class CarDetails extends Component {
 
    render() {
       const {t} = this.props
+      const product = this.state.product;
       return (
          <>
             <section className="gauto-car-booking section_70 car-details">
@@ -88,17 +93,17 @@ class CarDetails extends Component {
                   <Row>
                      <Col lg={6}>
                         <div className="car-booking-image">
-                           <img src={this.state.product['thumbnail']} alt="car"/>
+                           <img src={product['thumbnail']} alt="car"/>
                         </div>
                      </Col>
                      <Col lg={6}>
                         <div className="car-booking-right">
                            <p className="rental-tag">{t("rental")}</p>
-                           <h3>mercedes S-class</h3>
+                           <h3>{product.brand} {product.mark}</h3>
                            <div className="price-rating">
                               <div className="price-rent">
                                  <h4>
-                                    $50.00<span>/ {t("day")}</span>
+                                    {product.price}{product.currency}<span>/ {t("day")}</span>
                                  </h4>
                               </div>
                               <div className="car-rating">
@@ -122,56 +127,20 @@ class CarDetails extends Component {
                                  <p>(123 {t("rating")})</p>
                               </div>
                            </div>
-                           <p>
-                              {" "}
-                              consectetur adipiscing elit. Donec luctus tincidunt aliquam.
-                              Aliquam gravida massa at sem vulputate interdum et vel eros.
-                              Maecenas eros enim, tincidunt vel turpis vel,dapibus tempus
-                              nulla. Donec vel nulla dui.
-                           </p>
-                           <div className="car-features clearfix">
-                              <ul>
-                                 <li>
-                                    <FaCar/> {t("model")}:2017
-                                 </li>
-                                 <li>
-                                    <FaCogs/> {t("automatic")}
-                                 </li>
-                                 <li>
-                                    <FaTachometerAlt/> 20kmpl
-                                 </li>
-                                 <li>
-                                    <FaEmpire/> V-6 Cylinder
-                                 </li>
-                              </ul>
-                              <ul>
-                                 <li>
-                                    <FaEye/> GPS Navigation
-                                 </li>
-                                 <li>
-                                    <FaLock/> Anti-Lock Brakes
-                                 </li>
-                                 <li>
-                                    <FaKey/> Remote Keyless
-                                 </li>
-                                 <li>
-                                    <FaDesktop/> Rear-Seat DVD
-                                 </li>
-                              </ul>
-                              <ul>
-                                 <li>
-                                    <FaCar/> {t("model")}:2017
-                                 </li>
-                                 <li>
-                                    <FaCogs/> {t("automatic")}
-                                 </li>
-                                 <li>
-                                    <FaTachometerAlt/> 20kmpl
-                                 </li>
-                                 <li>
-                                    <FaEmpire/> V-6 Cylinder
-                                 </li>
-                              </ul>
+                           {/*<p>*/}
+                           {/*   {" "}*/}
+                           {/*   consectetur adipiscing elit. Donec luctus tincidunt aliquam.*/}
+                           {/*   Aliquam gravida massa at sem vulputate interdum et vel eros.*/}
+                           {/*   Maecenas eros enim, tincidunt vel turpis vel,dapibus tempus*/}
+                           {/*   nulla. Donec vel nulla dui.*/}
+                           {/*</p>*/}
+                           <div className='car-options'>
+                              <h3>Car configuration</h3>
+                              <div className="options-container">
+                                 <div className="options-wrapper">
+                                    <CarOptions options={product.options}/>
+                                 </div>
+                              </div>
                            </div>
                         </div>
                      </Col>
