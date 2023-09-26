@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, useRef} from "react";
 import {Container, Row, Col} from "react-bootstrap";
 import axios from "axios";
 import DatePicker from "react-datepicker";
@@ -178,17 +178,20 @@ class FindCar extends Component {
       );
    }
 
+   RenderCustomDateInput = React.forwardRef(({value, onClick, input_name, date, showClearButton}, ref) => (
+      <CustomDateInput
+         onClick={onClick}
+         ref={ref}
+         value={value}
+         input_name={input_name}
+         date={date}
+         showClearButton={showClearButton}
+         t={this.props.t}/>
+   ));
+
    render() {
       const {t} = this.props;
-      const RenderCustomDateInput = React.forwardRef(({value, onClick, input_name, date}, ref) => (
-         <CustomDateInput
-            onClick={onClick}
-            ref={ref}
-            value={value}
-            input_name={input_name}
-            date={date}
-            t={t}/>
-      ));
+      const RenderCustomDateInput = this.RenderCustomDateInput;
 
       return (
          <section className="gauto-find-box-area">
@@ -232,11 +235,12 @@ class FindCar extends Component {
                                     dateFormat="yyyy-MM-dd HH:mm"
                                     minDate={new Date()}
                                     showTimeSelect
+                                    isClearable
                                     customInput={<RenderCustomDateInput
                                        input_name='rental_start_date'
                                        date={this.state.form_data.rental_start_date}
+                                       showClearButton={!!this.state.form_data.rental_start_date}
                                     />}
-                                    isClearable
                                  />
                               </div>
                               <div className='field-wrapper order2'>
@@ -263,11 +267,11 @@ class FindCar extends Component {
                                     minDate={this.state.form_data.rental_start_date}
                                     dateFormat="yyyy-MM-dd HH:mm"
                                     showTimeSelect
+                                    showClearButton={false}
                                     customInput={<RenderCustomDateInput
                                        input_name='rental_end_date'
                                        date={this.state.form_data.rental_end_date}
                                     />}
-                                    isClearable
                                  />
                               </div>
                            </div>

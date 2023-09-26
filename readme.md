@@ -13,3 +13,7 @@ answer:
 ```
 curl --location 'https://api.rentsyst.com/v1/company/settings' -H 'Authorization: Bearer access_token'
 ```
+
+##### localhost django superuser credentials
+user admin
+password  admin

@@ -23,16 +23,24 @@ class CustomDateInput extends React.Component {
                   className='date-value'
                   value={date}
                />
-
+               {this.props.showClearButton ? <ClearDateButton />: ''}
             </div>
-            <button
-               type="button"
-               className="react-datepicker__close-icon"
-               aria-label="Close"
-               tabIndex="-1"
-            >
-            </button>
+
          </>
+      )
+   }
+}
+
+const ClearDateButton = (clear) => {
+   if (clear) {
+      return (
+         <button
+            type="button"
+            className="react-datepicker__close-icon"
+            aria-label="Close"
+            tabIndex="-1"
+         >
+         </button>
       )
    }
 }
