@@ -1,25 +1,24 @@
 from django.contrib import admin, messages
 from django.http import HttpResponseRedirect
 from django.db import IntegrityError
+from django.db.models import Max
+from django.urls import path
+from django.utils.translation import gettext_lazy as _
+from adminsortable2.admin import SortableAdminMixin
 
 from .models import Product
-from django.urls import path
+from backend.api_request import ApiRequest
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
-    # change_list_template = "product/product_changelist.html"
-    def get_readonly_fields(self, request, obj=None):
-        if request.user.is_superuser:
-            return self.readonly_fields
-        return [field.name for field in self.opts.local_fields]
+class ProductAdmin(SortableAdminMixin, admin.ModelAdmin):
+    list_display = ('external_id', 'brand_and_mark', 'group', 'priority', 'priority_num')
 
-    actions = ["update_cars"]
+    def priority_num(self, obj):
+        return obj.priority
 
-    @admin.action(description="Make request to rentsyst and update cars list")
-    def update_cars(self, request, queryset):
-        # queryset.update(status="p")
-        print('update cars')
+    def brand_and_mark(self, obj):
+        return f'{obj.brand} {obj.mark}'
 
     def get_urls(self):
         urls = super().get_urls()
@@ -29,11 +28,25 @@ class ProductAdmin(admin.ModelAdmin):
         return my_urls + urls
 
     def get_cars_from_rentsyst(self, request):
-        # self.model.objects.all().update(is_immortal=True)
-        # self.message_user(request, "All heroes are now immortal")
-        obj = Product(external_id='1', brand='4', mark='2', group='3')
         try:
-            obj.save()
+            result = ApiRequest(request, url='https://api.rentsyst.com/v1/vehicle/index').get()
+            objects_added = 0
+            for car in result.json():
+                obj, created = Product.objects.update_or_create(
+                    external_id=car['id'],
+                    defaults={
+                        "external_id": car['id'],
+                        "brand": car['brand'],
+                        "mark": car['mark'],
+                        "group": car['group']
+                    }
+                )
+                if created:
+                    priority_max = Product.objects.aggregate(Max('priority'))['priority__max']
+                    obj.priority = priority_max + 1
+                    obj.save()
+                    objects_added += 1
+            messages.success(request, f'{objects_added} {_("objects added")}')
         except IntegrityError as e:
             print(e)
             messages.error(request, e)
