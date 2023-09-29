@@ -164,7 +164,7 @@ class CarBooking extends Component {
          })
          .catch((error) => { // error is handled in catch block
             console.log(error);
-            window.location.href = 'https://clanrent.es';
+            // window.location.href = 'https://clanrent.es';
          });
    }
 
