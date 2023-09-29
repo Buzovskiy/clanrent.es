@@ -28,6 +28,8 @@ class CarBooking extends Component {
    constructor(props) {
       super(props);
 
+      // todo: обработка ошибки email и телефон
+
       this.state = {
          product: {},
          pickup_location: '',
@@ -54,6 +56,13 @@ class CarBooking extends Component {
             // The values of these inputs are sent to API in a separate request.
             options: {},
             insurance: ''
+         },
+         fields_errors: {
+            first_name: [],
+            last_name: [],
+            email: [],
+            phone: [],
+            payment_method: [],
          },
          // form: {
          //    first_name: 'Vitalii',
@@ -115,8 +124,22 @@ class CarBooking extends Component {
    }
 
    bookingTheCar = () => {
-      let order_id = this.state.order.details.order_id;
-      let orderConfirmationFormData = new FormData();
+      const form_fields_list = [];
+      form_fields_list.push({name: 'first_name', value: this.state.form['first_name']});
+      form_fields_list.push({name: 'last_name', value: this.state.form['last_name']});
+      form_fields_list.push({name: 'email', value: this.state.form['email']});
+      form_fields_list.push({name: 'phone', value: this.state.form['phone']});
+      form_fields_list.push({name: 'payment_method', value: this.state.form['payment_method']});
+
+      this.updateErrorsState(form_fields_list);
+
+      if (this.hasErrors(this.state.fields_errors)) {
+         // If there are errors, return false and show them
+         return false;
+      }
+
+      const order_id = this.state.order.details.order_id;
+      const orderConfirmationFormData = new FormData();
       orderConfirmationFormData.append('driver[0][first_name]', this.state.form.first_name);
       orderConfirmationFormData.append('driver[0][last_name]', this.state.form.last_name);
       orderConfirmationFormData.append('driver[0][email]', this.state.form.email);
@@ -135,30 +158,14 @@ class CarBooking extends Component {
          .then((res) => {
             console.log(res);
             if (res.data.status === 'success') {
-               this.props.navigate({
-                  pathname: '/',
-               });
+               console.log(`${res.data.payment_link}?payment_id=${res.data.payment_id}`)
+               window.location.href = `${res.data.payment_link}?payment_id=${res.data.payment_id}`
             }
          })
          .catch((error) => { // error is handled in catch block
             console.log(error);
+            window.location.href = 'https://clanrent.es';
          });
-
-
-      // let order_id = res['data']['order_id'];
-      // let insurance_id = res['data']['insurances'][0].id;
-      // let option_id = res['data']['options'][0].id
-      // let orderUpdateFormData = new FormData();
-      // orderUpdateFormData.append('insurance', insurance_id);
-      // orderUpdateFormData.append(`extras[${option_id}]`, 1);
-      // axios
-      //    .post(`${process.env.REACT_APP_API_LINK}/v1/order/update/${order_id}/`, orderUpdateFormData)
-      //    .then((res) => {
-      //
-      //    })
-      //    .catch((error) => { // error is handled in catch block
-      //       console.log(error);
-      //    });
    }
 
    onClick = (e) => {
@@ -167,6 +174,7 @@ class CarBooking extends Component {
    };
 
    handleChange = (e) => {
+      this.updateErrorsState([e.target]);
       let {name, value} = e.target;
       if (e.target.type === "checkbox") {
          name = e.target.name;
@@ -180,6 +188,38 @@ class CarBooking extends Component {
          // console.log(this.state);
       });
    };
+
+   updateErrorsState = (fields_list) => {
+      const fields_errors = this.state.fields_errors;
+      fields_list.forEach((field) => {
+         let {name} = field;
+         fields_errors[name] = this.checkFieldError(field)
+      })
+      this.setState({fields_errors},
+         () => {
+            // console.log(this.state.fields_errors);
+         }
+      );
+   }
+
+   checkFieldError = (field) => {
+      let field_errors = []
+      if (!field.value) {
+         field_errors.push(this.props.t('this_field_may_not_be_blank'));
+      }
+      return field_errors
+   }
+
+   hasErrors = (fields_errors) => {
+      for (const field in fields_errors) {
+         if (fields_errors[field].length > 0) return true;
+      }
+      return false;
+   }
+
+   fieldHasError = (name) => this.state.fields_errors[name].length > 0;
+
+   getErrorClass = (name) => this.fieldHasError(name) ? 'error' : '';
 
    handleChangeEquipment = (e) => {
       let {name, value} = e.target;
@@ -323,18 +363,19 @@ class CarBooking extends Component {
                                     <Col md={6}>
                                        <p>
                                           <input
+                                             className={this.getErrorClass('first_name')}
                                              type="text"
                                              placeholder={t("car_booking.first_name")}
                                              name="first_name"
                                              value={this.state.form.first_name}
                                              onChange={this.handleChange}
-
                                           />
                                        </p>
                                     </Col>
                                     <Col md={6}>
                                        <p>
                                           <input
+                                             className={this.getErrorClass('last_name')}
                                              type="text"
                                              placeholder={t("car_booking.last_name")}
                                              name="last_name"
@@ -348,6 +389,7 @@ class CarBooking extends Component {
                                     <Col md={6}>
                                        <p>
                                           <input
+                                             className={this.getErrorClass('email')}
                                              type="email"
                                              placeholder={t("car_booking.email")}
                                              name="email"
@@ -359,6 +401,7 @@ class CarBooking extends Component {
                                     <Col md={6}>
                                        <p>
                                           <input
+                                             className={this.getErrorClass('phone')}
                                              type="tel"
                                              placeholder={t("car_booking.phn")}
                                              name="phone"
@@ -445,7 +488,7 @@ class CarBooking extends Component {
                      <Col lg={4}>
                         <div className="booking-right">
                            <h3>{t("car_booking.payment_method")}</h3>
-                           <div className="gauto-payment clearfix">
+                           <div className={`gauto-payment clearfix ${this.getErrorClass('payment_method')}`}>
                               {this.renderPaymentMethods()}
                            </div>
                            <h3>{t("booking_total")}</h3>

@@ -37,41 +37,38 @@ def confirm_view(request, order_id=None):
 
 
 # This is your test secret API key.
-stripe.api_key = decouple.config('STRIPE_API_KEY')
+# stripe.api_key = decouple.config('STRIPE_SECRET_KEY')
 
 
 @api_view(['POST'])
 def create_checkout_session(request):
-    """v1/order/create_checkout_session"""
+    # """v1/order/create_checkout_session"""
+    # data = request.data
+    # order_id = data['order_id']
+    # total_price = data['total_price']
+    #
     # try:
+    #     # Create product
+    #     product = stripe.Product.create(name=f"Order number: {order_id}")
+    #
+    #     price = stripe.Price.create(
+    #         unit_amount=2005,
+    #         currency="eur",
+    #         product=product.id,
+    #     )
+    #
     #     checkout_session = stripe.checkout.Session.create(
-    #         line_items=[
-    #             {
-    #                 # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-    #                 'price': 'price_1NvGjlABhNwAdaFhRUFTnsbk',
-    #                 'quantity': 1,
-    #             },
-    #         ],
+    #         line_items=[{'price': price.id, 'quantity': 1}],
     #         mode='payment',
-    #         success_url='weestep.pl' + '?success=true',
-    #         cancel_url='weestep.pl' + '?canceled=true',
+    #         success_url='http://localhost:3000' + '?success=true',
+    #         cancel_url='http://localhost:3000' + '?canceled=true',
     #         automatic_tax={'enabled': True},
     #     )
     # except Exception as e:
     #     return str(e)
-    checkout_session = stripe.checkout.Session.create(
-        line_items=[
-            {
-                # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                'price': 'price_1NvGjlABhNwAdaFhRUFTnsbk',
-                'quantity': 1,
-            },
-        ],
-        mode='payment',
-        success_url='https://weestep.pl' + '?success=true',
-        cancel_url='https://weestep.pl' + '?canceled=true',
-        automatic_tax={'enabled': True},
-    )
-
-    # return Response(data=checkout_session.url, status=200)
-    return Response(data=checkout_session.url)
+    #
+    # # return redirect(checkout_session.url, code=303)
+    #
+    # # return Response(data=checkout_session.url, status=200)
+    # return Response(data={'url': checkout_session.url})
+    pass
