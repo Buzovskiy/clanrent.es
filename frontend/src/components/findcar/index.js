@@ -69,6 +69,7 @@ class FindCar extends Component {
          form_data['rental_start_date'] = start;
          form_data['rental_end_date'] = end;
       } else if (dates instanceof Date) { // if time
+         this.updateErrorsState([{name: field, value: dates}]);
          form_data[field] = dates;
       }
       this.setState({form_data},
