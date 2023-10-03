@@ -27,7 +27,7 @@ jobs:
 
       - name: 🔨 Build Project
         run: |
-          npm ci
+          npm install
           npm run build      
       - name: List files in the repository
         run: |
