@@ -6,40 +6,37 @@ import {
    FaStar,
    FaStarHalfAlt,
 } from "react-icons/fa";
-import Error from "../Error";
-import {toggleBgLoader} from "../bgLoader";
-import DefaultPlaceholderImg from '../../img/default-placeholder.png'
-
 
 import axios from "axios";
+
 
 class CarDetails extends Component {
    constructor(props) {
       super(props);
 
       this.state = {
-         product: {
-            'thumbnail': DefaultPlaceholderImg
-         },
-         page_404: false,
-         show_loader: true
+         productId: 0,
+         cart: {},
+         product: {},
+         pickup_location: '',
+         return_location: '',
+         dates: '',
       }
    }
 
    componentDidMount() {
-      toggleBgLoader(this.state.show_loader);
+      let cart_storage = localStorage.getItem('cart');
       const {productId} = this.props.useParams;
-      axios
-         .get(`${process.env.REACT_APP_API_LINK}/v1/product/get_vehicle/${productId}/`)
-         .then((res) => {
-            this.setState({product: res.data});
-            this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));
-         })
-         .catch(error => {
-            if (error.response.status === 404) {
-               this.setState({page_404: true})
-            }
-         })
+      if (cart_storage === null) window.location.replace("/");
+      const cart = JSON.parse(cart_storage);
+      if (cart.hasOwnProperty(productId) === false) window.location.replace("/");
+      this.setState({
+         product: cart[productId].product,
+         dates: cart[productId].dates,
+         pickup_location: cart[productId].pickup_location,
+         return_location: cart[productId].return_location,
+         cart: cart
+      });
    }
 
    bookingTheCar = () => {
@@ -62,7 +59,7 @@ class CarDetails extends Component {
             cart[this.state.product.id]['order'] = order;
             localStorage.setItem('cart', JSON.stringify(cart));
             this.props.navigate({
-               pathname: '/car-booking/' + this.state.product.id,
+               pathname: '/car-booking/'+this.state.product.id,
             });
          })
          .catch((error) => { // error is handled in catch block
@@ -72,14 +69,12 @@ class CarDetails extends Component {
 
    onClick = (e) => {
       e.preventDefault();
+      this.bookingTheCar();
    };
 
    render() {
       const {t} = this.props
       const product = this.state.product;
-      if (this.state.page_404) {
-         return <Error/>
-      }
       return (
          <>
             <section className="gauto-car-booking section_70 car-details">
@@ -132,7 +127,7 @@ class CarDetails extends Component {
                               <h3>Car configuration</h3>
                               <div className="options-container">
                                  <div className="options-wrapper">
-                                    <CarOptions options={product.options} />
+                                    <CarOptions options={product.options}/>
                                  </div>
                               </div>
                            </div>
@@ -143,7 +138,9 @@ class CarDetails extends Component {
                <Container>
                   <Row>
                      <div className="action-btn">
-                        <a className="gauto-btn" href="/">{t("researve_now")}</a>
+                        <Link to="/" onClick={this.onClick} className="gauto-btn">
+                           {t("researve_now")}
+                        </Link>
                      </div>
                   </Row>
                </Container>

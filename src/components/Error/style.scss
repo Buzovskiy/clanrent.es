@@ -7,7 +7,7 @@
 
 .notfound-box h2 {
   font-size: 130px;
-  color: #001238;
+  color: $color-orange;
   letter-spacing: 1px;
   margin-bottom: 10px;
   -webkit-transition: all 0.4s ease 0s;
@@ -21,7 +21,7 @@
 
 .notfound-box h3 {
   font-size: 30px;
-  color: #001238;
+  color: $color-orange;
   letter-spacing: 1px;
   margin-bottom: 10px;
   -webkit-transition: all 0.4s ease 0s;

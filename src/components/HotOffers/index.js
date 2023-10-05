@@ -41,7 +41,7 @@ class HotOffers extends Component {
       e.preventDefault();
    };
 
-   RenderTabs() {
+   RenderTabs = () => {
       return Object.keys(this.state.carList).map((brand, ind) => (
          <Tab eventKey={brand} title={brand} key={ind}>
             {this.renderRow(brand)}
@@ -61,17 +61,9 @@ class HotOffers extends Component {
       const {t} = this.props;
       return row.map((item, ind) => (
          <Col key={ind} lg={4}>
-            <CategoryItem item={item} t={t} clickProduct={this.clickProduct}/>
+            <CategoryItem item={item} t={t} clickProduct={function(){}}/>
          </Col>
       ))
-   }
-
-   clickProduct = (e) => {
-      if (e.type === 'click') {
-         e.preventDefault();
-         const inputToTop = document.getElementById('pickup_location');
-         inputToTop.focus();
-      }
    }
 
    render() {

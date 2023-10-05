@@ -1,4 +1,3 @@
-import {Link} from "react-router-dom";
 import {FaCar, FaCogs} from "react-icons/fa";
 import React from "react";
 
@@ -19,7 +18,7 @@ export const CategoryItem = (props) => {
                <h3>{item.brand} {item.mark}</h3>
             </a>
             <h4>
-               {item.price}{item.currency}<span>/ {t("day")}</span>
+               {item['price']}{item.currency}<span>/ {t("day")}</span>
             </h4>
             <ul>
                <li>
@@ -28,11 +27,11 @@ export const CategoryItem = (props) => {
                </li>
                <li>
                   <FaCogs/>
-                  {item.transmission}
+                  {item['transmission']}
                </li>
                {/*<li>*/}
                {/*   <FaTachometerAlt/>*/}
-               {/*   20kmpl*/}
+               {/*   20km/pl*/}
                {/*</li>*/}
             </ul>
             <div className="offer-action">

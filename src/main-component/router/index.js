@@ -51,7 +51,7 @@ const AllRoute = () => {
                <Route path="/product-details/:productId" element={<CarDetailsPage />}/>
                <Route path="/privacy-policy" element={<PrivacyPage />}/>
                <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />}/>
-               <Route element={<ErrorPage/>}/>
+               <Route path="*" element={<ErrorPage/>}/>
             </Routes>
             <ScrollToTop/>
          </Router>

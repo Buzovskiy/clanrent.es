@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from backend.api_request import ApiRequest
@@ -38,3 +39,17 @@ def company_vehicles_info(request):
     products_remote_list.sort(key=lambda item: item['priority'], reverse=True)
 
     return Response(data=products_remote_list, status=r.status_code)
+
+
+@api_view(['GET'])
+def get_vehicle(request, external_id):
+    """v1/product/get_vehicle/<int:external_id>"""
+    r = ApiRequest(request, url='https://api.rentsyst.com/v1/vehicle/index').get()
+    vehicle = {}
+    for item in r.json():
+        if int(item['id']) == external_id:
+            vehicle = item
+            break
+    if bool(vehicle):
+        return Response(data=vehicle, status=status.HTTP_200_OK)
+    return Response(data={}, status=status.HTTP_404_NOT_FOUND)

@@ -8,8 +8,10 @@ import {
    FaTachometerAlt,
    FaAngleDoubleRight, FaAngleDoubleLeft,
 } from "react-icons/fa";
+// import {bgLoader} from "../bgLoader";
 import axios from "axios";
 import {CategoryItem} from "./categoryItem";
+import {toggleBgLoader} from "../bgLoader";
 
 
 class CarList extends Component {
@@ -23,13 +25,12 @@ class CarList extends Component {
          dates: '',
          page: 1,
          count_pages: 1,
+         show_loader: true
       }
    }
 
    componentDidMount() {
-      const bgLoader = document.getElementById('bgLoader');
-      bgLoader.style.display = 'block';
-      console.log(bgLoader);
+      toggleBgLoader(this.state.show_loader);
       const [searchParams] = this.props.searchParams
       let dates = searchParams.get('dates');
       let pickup_location = searchParams.get('pickup_location');
@@ -72,13 +73,10 @@ class CarList extends Component {
                product[item.id] = item;
             });
 
-            console.log(res.data);
-
-
             // this.setState({carList: car_list_two_dim_array});
             this.setState({carList: cars});
             this.setState({product: product});
-            bgLoader.style.display = 'none';
+            this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));
          })
          .catch((error) => { // error is handled in catch block
             console.log(error);
