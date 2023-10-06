@@ -1,17 +1,16 @@
-import React, {Component, useRef} from "react";
-import {Container, Row, Col} from "react-bootstrap";
+import React, {Component} from "react";
+import {Row, Col} from "react-bootstrap";
 import axios from "axios";
 import DatePicker from "react-datepicker";
+import Cookies from 'js-cookie'
 import {formatDateRangeToAPIStandard} from "../../main-component/utils";
 import CustomDateInput from "./date_input";
-import Autocomplete from "react-google-autocomplete";
 import {InputLocation} from "./InputLocation";
 
 
 import "react-datepicker/dist/react-datepicker.css";
 import video_wide from "../../img/video/video-wide.mp4";
 import video_narrow from "../../img/video/video-narrow.mp4";
-import button from "bootstrap/js/src/button";
 
 
 class FindCar extends Component {
@@ -34,8 +33,6 @@ class FindCar extends Component {
          form_data: {
             pickup_location: '',
             return_location: '',
-            // rental_start_date: new Date(tomorrow),
-            // rental_end_date: new Date(after_tomorrow),
             rental_start_date: null,
             rental_end_date: null,
          },
@@ -53,9 +50,62 @@ class FindCar extends Component {
       axios
          .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`)
          .then((res) => {
-            this.setState({settings: res.data});
+            this.setState({settings: res.data},
+               () => this.setDefaultFieldValues());
          })
          .catch((error) => console.log(error));
+   }
+
+   /**
+    * This method returns false in three cases:
+    * 1) the date object is not valid;
+    * 2) the date in cookie is less than current time;
+    * 3) the checked date is "rental_end_date" and "rental_start_date" is not valid
+    * @param cookie_name {string}
+    * @param cookie_value {string}
+    * @return {boolean}
+    */
+   dateIsValid = (cookie_name, cookie_value) => {
+      const date = new Date(cookie_value)
+      // Check if date is valid
+      if (isNaN(date.getTime()))
+         return false;
+
+      if (date.getTime() < (new Date()).getTime())
+         return false;
+
+      if (cookie_name === 'rental_end_date') {
+         const rentalStartDateIsValid = this.dateIsValid(
+            'rental_start_date', Cookies.get('rental_start_date'));
+         if (!rentalStartDateIsValid)
+            return false;
+         if (date.getTime() < (new Date(Cookies.get('rental_start_date'))).getTime())
+            return false;
+      }
+
+      return true;
+   }
+
+   setDefaultFieldValues = () => {
+      const form_data = {...this.state.form_data};
+      // Set defaults for dates
+      ['rental_start_date', 'rental_end_date'].forEach(item => {
+         let cookie_date = Cookies.get(item);
+         if (this.dateIsValid(item, cookie_date)) {
+            form_data[item] = new Date(cookie_date);
+         } else {
+            Cookies.remove(item);
+         }
+      });
+
+      ['pickup_location', 'return_location'].forEach(location_name => {
+         let location_in_cookie = Cookies.get(location_name);
+         if (location_in_cookie) form_data[location_name] = location_in_cookie;
+      });
+
+      this.setState({form_data},
+         // () => console.log(this.state.form_data)
+      );
    }
 
    onDateChange = (dates, field) => {
@@ -72,9 +122,17 @@ class FindCar extends Component {
          this.updateErrorsState([{name: field, value: dates}]);
          form_data[field] = dates;
       }
-      this.setState({form_data},
-         // () => console.log(this.state.form_data)
-      );
+      this.setState({form_data}, () => {
+         for (const property in form_data) {
+            if (form_data[property]) Cookies.set(property, form_data[property], {expires: 2});
+         }
+         const rental_start_date_is_null = Object.is(this.state.form_data.rental_start_date, null);
+         const rental_end_date_is_null = Object.is(this.state.form_data.rental_end_date, null);
+         if (rental_start_date_is_null && rental_end_date_is_null) {
+            Cookies.remove('rental_start_date');
+            Cookies.remove('rental_end_date');
+         }
+      })
    }
 
    /**
@@ -158,6 +216,8 @@ class FindCar extends Component {
 
    onPlaceChange = (e) => {
       this.updateErrorsState([e.target]);
+      console.log(e.target.value);
+      if (!e.target.value) Cookies.remove(e.target.name);
       // Reset the value of place
       const form_data = {...this.state.form_data, [e.target.name]: ''};
       this.setState({form_data},
@@ -169,12 +229,13 @@ class FindCar extends Component {
 
    onPlaceSelected = (place, name) => {
       if (!place) return false;
-      const value = place['formatted_address']
+      const value = place['formatted_address'];
+      // console.log(place);
       this.updateErrorsState([{name: name, value: value}]);
       const form_data = {...this.state.form_data, [name]: value};
       this.setState({form_data},
          () => {
-            // console.log(this.state.form_data);
+            if (form_data[name]) Cookies.set(name, form_data[name], {expires: 2});
          }
       );
    }
@@ -222,6 +283,7 @@ class FindCar extends Component {
                                     onPlaceChange={this.onPlaceChange}
                                     input_name='pickup_location'
                                     id='pickup_location'
+                                    defaultValue={this.state.form_data.pickup_location}
                                  />
                                  {/*   {this.renderFieldError('pickup_location')}*/}
                               </div>
@@ -254,6 +316,7 @@ class FindCar extends Component {
                                     onPlaceChange={this.onPlaceChange}
                                     input_name='return_location'
                                     id=''
+                                    defaultValue={this.state.form_data.return_location}
                                  />
                               </div>
                               <div className={`field-wrapper order4 ${this.getErrorClass('rental_end_date')}`}>

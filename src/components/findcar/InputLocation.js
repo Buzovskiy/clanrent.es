@@ -21,6 +21,7 @@ const InputLocation = (props) => {
          onChange={props.onPlaceChange}
          name={props.input_name}
          id={props.id}
+         defaultValue={props.defaultValue}
       />
    )
 }
