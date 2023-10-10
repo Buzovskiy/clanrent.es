@@ -42,34 +42,6 @@ class CarDetails extends Component {
          })
    }
 
-   bookingTheCar = () => {
-      let bodyFormData = new FormData();
-      const product = this.state.product;
-
-      bodyFormData.append('vehicle_id', product.id);
-      bodyFormData.append('dates', this.state.dates);
-      bodyFormData.append('pickup_location', this.state.pickup_location);
-      bodyFormData.append('return_location', this.state.return_location);
-      for (const value of bodyFormData.values()) {
-         console.log(value);
-      }
-      axios
-         .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData)
-         .then((res) => {
-            // when the order is created save it to localStorage
-            let order = {details: res['data'], creation_timestamp: Date.now()}
-            let cart = this.state.cart;
-            cart[this.state.product.id]['order'] = order;
-            localStorage.setItem('cart', JSON.stringify(cart));
-            this.props.navigate({
-               pathname: '/car-booking/' + this.state.product.id,
-            });
-         })
-         .catch((error) => { // error is handled in catch block
-            console.log(error);
-         });
-   }
-
    onClick = (e) => {
       e.preventDefault();
    };

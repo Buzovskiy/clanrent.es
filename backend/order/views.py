@@ -36,6 +36,13 @@ def confirm_view(request, order_id=None):
     return Response(data=r.json(), status=r.status_code)
 
 
+@api_view(['GET'])
+def get_order_info_view(request, order_id):
+    """v1/order/info/<int:order_id>"""
+    r = ApiRequest(request, url=f'https://api.rentsyst.com/v1/order/info/{order_id}').get()
+    return Response(data=r.json(), status=r.status_code)
+
+
 # This is your test secret API key.
 # stripe.api_key = decouple.config('STRIPE_SECRET_KEY')
 

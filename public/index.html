@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
     <meta charset="utf-8"/>
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico?v=1"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -31,19 +34,29 @@
     />
     <!-- Meta Pixel Code -->
     <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '684966893673923');
-      fbq('track', 'PageView');
+       !function (f, b, e, v, n, t, s) {
+          if (f.fbq) return;
+          n = f.fbq = function () {
+             n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+          };
+          if (!f._fbq) f._fbq = n;
+          n.push = n;
+          n.loaded = !0;
+          n.version = '2.0';
+          n.queue = [];
+          t = b.createElement(e);
+          t.async = !0;
+          t.src = v;
+          s = b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t, s)
+       }(window, document, 'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+       fbq('init', '684966893673923');
+       fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=684966893673923&ev=PageView&noscript=1"
+                   src="https://www.facebook.com/tr?id=684966893673923&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Meta Pixel Code -->
 </head>
@@ -60,8 +73,8 @@
   To begin the development, run `npm start` or `yarn start`.
   To create a production bundle, use `npm run build` or `yarn build`.
 -->
-    <div id="bgLoader">
-        <div class="bg-loader-wrapper"><span class="loader"></span></div>
-    </div>
+<div id="bgLoader">
+    <div class="bg-loader-wrapper"><span class="loader"></span></div>
+</div>
 </body>
 </html>

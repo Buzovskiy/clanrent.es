@@ -16,10 +16,17 @@ import {toggleBgLoader} from "../bgLoader";
 
 class CarList extends Component {
    constructor(props) {
+      window.addEventListener("pageshow", (event) => {
+         if (event.persisted) {
+            console.log('Эта страница была восстановлена из bfcache.');
+         } else {
+            console.log('Эта страница была загружена обычным способом.');
+         }
+      });
       super(props);
       this.state = {
          carList: [],
-         product: {},
+         products: {},
          pickup_location: '',
          return_location: '',
          dates: '',
@@ -64,18 +71,11 @@ class CarList extends Component {
             let cars = res.data['vehicles'];
             this.setState({page: res.data['pagination'].page})
             this.setState({count_pages: res.data['pagination'].count_pages})
-            let car_list_two_dim_array = []
-            let num_cols = 3 // The number of columns in a row
-            let product = {}
+            let products = {}
+            cars.forEach(item => products[item.id] = item);
 
-            cars.map(item => {
-               // car_list_two_dim_array = makeTwoDimensionalArr(car_list_two_dim_array, num_cols, item);
-               product[item.id] = item;
-            });
-
-            // this.setState({carList: car_list_two_dim_array});
             this.setState({carList: cars});
-            this.setState({product: product});
+            this.setState({products: products});
             this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));
          })
          .catch((error) => { // error is handled in catch block
@@ -144,21 +144,67 @@ class CarList extends Component {
       e.preventDefault();
    };
 
+   makeCarPreReservation = (vehicle_id) => {
+      const cart_storage = localStorage.getItem('cart');
+      const cart = cart_storage === null ? {} : JSON.parse(cart_storage);
+      if (cart.hasOwnProperty(vehicle_id)) {
+         // todo: do something if vehicle id already exists in storage
+      } else {
+         this.setState({show_loader: true}, () => toggleBgLoader(this.state.show_loader));
+         let bodyFormData = new FormData();
+         bodyFormData.append('vehicle_id', vehicle_id);
+         bodyFormData.append('dates', this.state.dates);
+         bodyFormData.append('pickup_location', this.state.pickup_location);
+         bodyFormData.append('return_location', this.state.return_location);
+         // for (const value of bodyFormData.values()) console.log(value);
+
+         axios
+            .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData)
+            .then((res) => {
+               // when the order is created save it to localStorage
+               const booking_info = {
+                  product: this.state.products[vehicle_id],
+                  pickup_location: this.state.pickup_location,
+                  return_location: this.state.return_location,
+                  dates: this.state.dates
+               }
+               cart[vehicle_id] = {...booking_info};
+               cart[vehicle_id]['order'] = {
+                  details: res['data'],
+                  creation_timestamp: Date.now()
+               };
+               localStorage.setItem('cart', JSON.stringify(cart));
+               window.location.href = '/car-booking/' + vehicle_id;
+            })
+            .catch((error) => { // error is handled in catch block
+               this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));
+               console.log(error);
+               // todo: do something if pre reservation was not successful
+            });
+      }
+
+      // cart[product_obj.id] = {...booking_info};
+      // localStorage.setItem('cart', JSON.stringify(cart));
+   }
+
    clickProduct = (e) => {
       // todo: add clean cart function
+      e.preventDefault();
+      const vehicle_id = e.target.closest('.single-offers').dataset.id;
+      this.makeCarPreReservation(vehicle_id);
 
-      let product_id = e.target.closest('.single-offers').dataset.id;
-      let product_obj = this.state.product[product_id];
-      let booking_info = {
-         product: product_obj,
-         pickup_location: this.state.pickup_location,
-         return_location: this.state.return_location,
-         dates: this.state.dates
-      }
-      let cart_storage = localStorage.getItem('cart');
-      let cart = cart_storage === null ? {} : JSON.parse(cart_storage);
-      cart[product_obj.id] = {...booking_info};
-      localStorage.setItem('cart', JSON.stringify(cart));
+
+      // let product_obj = this.state.products[product_id];
+      // let booking_info = {
+      //    product: product_obj,
+      //    pickup_location: this.state.pickup_location,
+      //    return_location: this.state.return_location,
+      //    dates: this.state.dates
+      // }
+      // let cart_storage = localStorage.getItem('cart');
+      // let cart = cart_storage === null ? {} : JSON.parse(cart_storage);
+      // cart[product_obj.id] = {...booking_info};
+      // localStorage.setItem('cart', JSON.stringify(cart));
    }
 
    renderCarList = () => {
