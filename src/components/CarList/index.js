@@ -16,13 +16,6 @@ import {toggleBgLoader} from "../bgLoader";
 
 class CarList extends Component {
    constructor(props) {
-      window.addEventListener("pageshow", (event) => {
-         if (event.persisted) {
-            console.log('Эта страница была восстановлена из bfcache.');
-         } else {
-            console.log('Эта страница была загружена обычным способом.');
-         }
-      });
       super(props);
       this.state = {
          carList: [],
@@ -149,42 +142,39 @@ class CarList extends Component {
       const cart = cart_storage === null ? {} : JSON.parse(cart_storage);
       if (cart.hasOwnProperty(vehicle_id)) {
          // todo: do something if vehicle id already exists in storage
-      } else {
-         this.setState({show_loader: true}, () => toggleBgLoader(this.state.show_loader));
-         let bodyFormData = new FormData();
-         bodyFormData.append('vehicle_id', vehicle_id);
-         bodyFormData.append('dates', this.state.dates);
-         bodyFormData.append('pickup_location', this.state.pickup_location);
-         bodyFormData.append('return_location', this.state.return_location);
-         // for (const value of bodyFormData.values()) console.log(value);
-
-         axios
-            .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData)
-            .then((res) => {
-               // when the order is created save it to localStorage
-               const booking_info = {
-                  product: this.state.products[vehicle_id],
-                  pickup_location: this.state.pickup_location,
-                  return_location: this.state.return_location,
-                  dates: this.state.dates
-               }
-               cart[vehicle_id] = {...booking_info};
-               cart[vehicle_id]['order'] = {
-                  details: res['data'],
-                  creation_timestamp: Date.now()
-               };
-               localStorage.setItem('cart', JSON.stringify(cart));
-               window.location.href = '/car-booking/' + vehicle_id;
-            })
-            .catch((error) => { // error is handled in catch block
-               this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));
-               console.log(error);
-               // todo: do something if pre reservation was not successful
-            });
       }
 
-      // cart[product_obj.id] = {...booking_info};
-      // localStorage.setItem('cart', JSON.stringify(cart));
+      this.setState({show_loader: true}, () => toggleBgLoader(this.state.show_loader));
+      let bodyFormData = new FormData();
+      bodyFormData.append('vehicle_id', vehicle_id);
+      bodyFormData.append('dates', this.state.dates);
+      bodyFormData.append('pickup_location', this.state.pickup_location);
+      bodyFormData.append('return_location', this.state.return_location);
+      // for (const value of bodyFormData.values()) console.log(value);
+
+      axios
+         .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData)
+         .then((res) => {
+            // when the order is created save it to localStorage
+            const booking_info = {
+               product: this.state.products[vehicle_id],
+               pickup_location: this.state.pickup_location,
+               return_location: this.state.return_location,
+               dates: this.state.dates
+            }
+            cart[vehicle_id] = {...booking_info};
+            cart[vehicle_id]['order'] = {
+               details: res['data'],
+               creation_timestamp: Date.now()
+            };
+            localStorage.setItem('cart', JSON.stringify(cart));
+            window.location.href = '/car-booking/' + vehicle_id;
+         })
+         .catch((error) => { // error is handled in catch block
+            this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));
+            console.log(error);
+            // todo: do something if pre reservation was not successful
+         });
    }
 
    clickProduct = (e) => {
