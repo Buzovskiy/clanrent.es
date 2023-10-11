@@ -22,7 +22,7 @@ body {
   height: 100%;
 }
 
-.all-pages-wrapper{
+.all-pages-wrapper,{
   width: 100%;
   overflow: hidden;
 }
@@ -454,6 +454,18 @@ button.gauto-theme-btn:hover {
   }
   .site-heading h2 {
     font-size: 30px;
+  }
+}
+
+@media (max-width: 420px) {
+  .gauto-header-top-area,
+  .gauto-main-header-area,
+  .gauto-mainmenu-area,
+  .gauto-breadcromb-area.section_70,
+  .gauto-car-listing.section_70,
+  .gauto-footer-area{
+    width: 100%;
+    overflow: hidden;
   }
 }
 
