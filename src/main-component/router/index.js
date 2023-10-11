@@ -26,7 +26,7 @@ import TermsAndConditionsPage from "../PagesPage/termsAndConditionsPage";
 
 const AllRoute = () => {
    return (
-      <div>
+      <div className='all-pages-wrapper'>
          <Router>
             <Routes>
                <Route exact path="/" element={<Homepage/>}/>
