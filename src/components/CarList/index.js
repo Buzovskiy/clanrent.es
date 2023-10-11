@@ -58,6 +58,7 @@ class CarList extends Component {
          params['page'] = +searchParams.get('page');
       }
 
+      params['timestamp'] = new Date().getTime();
       axios
          .get(`${process.env.REACT_APP_API_LINK}/v1/booking/search/`, {params: params})
          .then((res) => {
@@ -152,8 +153,9 @@ class CarList extends Component {
       bodyFormData.append('return_location', this.state.return_location);
       // for (const value of bodyFormData.values()) console.log(value);
 
+      const params = {'timestamp': new Date().getTime()}
       axios
-         .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData)
+         .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData, {params: params})
          .then((res) => {
             // when the order is created save it to localStorage
             const booking_info = {

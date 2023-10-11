@@ -41,14 +41,13 @@ const Footer = () => {
                            </Link>
                         </div>
                         <p>
-                           sed do eiusmod tempor incididunt ut labore et dolore magna as
-                           aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                           ullamco.
+                           Our mission is to provide instant access to the world of luxury and comfort, allowing our
+                           clients to focus on the most important things.
                         </p>
                         <div className="footer-address">
                            <h3>{t("footer.head_office")}</h3>
                            <p>
-                              C. Juan de Villanueva, 18, Elche, <span>Alicante, Spain</span>
+                              C. Juan de Villanueva, 8, Elche, <span>Alicante, Spain</span>
                            </p>
                            <ul>
                               <li>{t("footer.phone")}: +34 607 366 983</li>

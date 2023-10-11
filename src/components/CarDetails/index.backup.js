@@ -50,8 +50,10 @@ class CarDetails extends Component {
       for (const value of bodyFormData.values()) {
          console.log(value);
       }
+
+      const params = {timestamp: new Date().getTime()};
       axios
-         .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData)
+         .post(`${process.env.REACT_APP_API_LINK}/v1/order/create/`, bodyFormData, {params: params})
          .then((res) => {
             // when the order is created save it to localStorage
             let order = {details: res['data'], creation_timestamp: Date.now()}

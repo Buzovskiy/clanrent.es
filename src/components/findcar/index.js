@@ -44,11 +44,12 @@ class FindCar extends Component {
          },
          settings: {},
       }
-   }
+   };
 
    componentDidMount() {
+      const params = {timestamp: new Date().getTime()};
       axios
-         .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`)
+         .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`, {params: params})
          .then((res) => {
             this.setState({settings: res.data},
                () => this.setDefaultFieldValues());

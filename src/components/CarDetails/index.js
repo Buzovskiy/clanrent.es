@@ -29,8 +29,9 @@ class CarDetails extends Component {
    componentDidMount() {
       toggleBgLoader(this.state.show_loader);
       const {productId} = this.props.useParams;
+      const params = {timestamp: new Date().getTime()};
       axios
-         .get(`${process.env.REACT_APP_API_LINK}/v1/product/get_vehicle/${productId}/`)
+         .get(`${process.env.REACT_APP_API_LINK}/v1/product/get_vehicle/${productId}/`, {params: params})
          .then((res) => {
             this.setState({product: res.data});
             this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));

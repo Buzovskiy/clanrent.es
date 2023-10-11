@@ -15,8 +15,9 @@ class HotOffers extends Component {
    }
 
    componentDidMount() {
+      const params = {timestamp: new Date().getTime()};
       axios
-         .get(`${process.env.REACT_APP_API_LINK}/v1/vehicle/index/`)
+         .get(`${process.env.REACT_APP_API_LINK}/v1/vehicle/index/`, {params: params})
          .then((res) => {
                let cars = res.data;
                let cars_obj = {'All': []}

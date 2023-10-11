@@ -1,23 +1,10 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import {useTranslation} from "react-i18next";
 import {Container, Row, Col} from "react-bootstrap";
 import {
    FaStar,
    FaStarHalfAlt,
-   FaCar,
-   FaCogs,
-   FaTachometerAlt,
-   FaEmpire,
-   FaDesktop,
-   FaKey,
-   FaLock,
-   FaEye,
 } from "react-icons/fa";
-
-import img1 from "../../img/booking.jpg";
-import img2 from "../../img/master-card.jpg";
-import img3 from "../../img/paypal.jpg";
 import axios from "axios";
 
 import Timer from "./timer";
@@ -64,21 +51,6 @@ class CarBooking extends Component {
             phone: [],
             payment_method: [],
          },
-         // form: {
-         //    first_name: 'Vitalii',
-         //    last_name: 'Buzovskyi',
-         //    email: 'buzovskiy.v@gmail.com',
-         //    phone: '+34655973326',
-         //    country: 'Spain',
-         //    city: 'No specified',
-         //    address: 'No specified',
-         //    birthday: '1990-01-01',
-         //    payment_method: '',
-         //    comment: 'Hola',
-         //    // The values of these inputs are sent to API in a separate request.
-         //    options: {},
-         //    insurance: ''
-         // },
          settings: {payment_methods: []}, // settings from api
          timer: 'Time left: 00:00',
       }
@@ -93,8 +65,9 @@ class CarBooking extends Component {
       [rental_start_date, rental_end_date] = cart[productId].dates.split(' - ');
       let order = cart[productId].order;
 
+      const params = {timestamp: new Date().getTime()};
       axios
-         .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`)
+         .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`, {params: params})
          .then((res) => {
             this.setState({settings: res.data});
             let time_end = order.creation_timestamp + res.data.time_for_booking * 1000;
@@ -153,8 +126,9 @@ class CarBooking extends Component {
       // for (const value of orderConfirmationFormData.values()) {
       //    console.log(value);
       // }
+      const params = {timestamp: new Date().getTime()};
       axios
-         .post(`${process.env.REACT_APP_API_LINK}/v1/order/confirm/${order_id}/`, orderConfirmationFormData)
+         .post(`${process.env.REACT_APP_API_LINK}/v1/order/confirm/${order_id}/`, orderConfirmationFormData, {params: params})
          .then((res) => {
             console.log(res);
             if (res.data.status === 'success') {
@@ -240,10 +214,10 @@ class CarBooking extends Component {
          addEquipmentFormData.append('insurance', this.state.order.details.insurances[0].id);
          const order_id = this.state.order.details.order_id;
 
+         const params = {timestamp: new Date().getTime()};
          axios
-            .post(`${process.env.REACT_APP_API_LINK}/v1/order/update/${order_id}/`, addEquipmentFormData)
+            .post(`${process.env.REACT_APP_API_LINK}/v1/order/update/${order_id}/`, addEquipmentFormData, {params: params})
             .then((res) => {
-               console.log(res);
                const order = this.state.order;
                order.details = res['data']
                // Update order in state

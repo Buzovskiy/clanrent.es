@@ -1,4 +1,3 @@
-// import React from "react";
 import {getTimeRemainingString} from "../../main-component/utils";
 
 import React, {useState, useRef, useEffect} from 'react'
