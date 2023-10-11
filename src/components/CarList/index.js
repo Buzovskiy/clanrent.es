@@ -143,7 +143,7 @@ class CarList extends Component {
       const cart = cart_storage === null ? {} : JSON.parse(cart_storage);
       if (cart.hasOwnProperty(vehicle_id)) {
          // todo: do something if vehicle id already exists in storage
-      }
+       }
 
       this.setState({show_loader: true}, () => toggleBgLoader(this.state.show_loader));
       let bodyFormData = new FormData();
