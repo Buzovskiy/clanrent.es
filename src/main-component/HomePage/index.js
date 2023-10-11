@@ -24,7 +24,7 @@ const HomePage = () => {
          {/*<Service />*/}
          {/*<Promo/>*/}
          <HotOffers t={t} navigate={useNavigate()}/>
-         <Testimonial/>
+         {/*<Testimonial/>*/}
          {/*<Team/>*/}
          {/*<Help/>*/}
          {/*<Blog/>*/}
