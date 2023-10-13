@@ -9,6 +9,7 @@ import axios from "axios";
 
 import Timer from "./timer";
 import CarOptions from "../CarDetails/CarOptions";
+import {type} from "@testing-library/user-event/dist/type";
 
 
 class CarBooking extends Component {
@@ -58,9 +59,16 @@ class CarBooking extends Component {
 
    componentDidMount() {
       const {productId} = this.props.useParams;
-      let cart = localStorage.getItem('cart');
-      if (cart === null) window.location.replace("/");
-      cart = JSON.parse(cart);
+
+      let cart_raw = localStorage.getItem('cart');
+      if (cart_raw === null) {
+         window.location.replace("/");
+      }
+      const cart = JSON.parse(cart_raw);
+
+      if (!cart.hasOwnProperty(productId)) {
+         window.location.href = '/';
+      }
       let rental_start_date, rental_end_date;
       [rental_start_date, rental_end_date] = cart[productId].dates.split(' - ');
       let order = cart[productId].order;
@@ -72,8 +80,11 @@ class CarBooking extends Component {
             this.setState({settings: res.data});
             let time_end = order.creation_timestamp + res.data.time_for_booking * 1000;
             this.setState({time_end: time_end});
-            let timer = <Timer time_end={time_end}/>
+            let timer = <Timer time_end={time_end} removeBookingFromCart={this.removeBookingFromCart}/>
             this.setState({timer: timer});
+
+            // Notice that the cart object has been updated!
+            this.removeOldBookingsFromCart(+res.data.time_for_booking, cart);
          })
          // error is handled in catch block
          .catch((error) => console.log(error));
@@ -94,6 +105,41 @@ class CarBooking extends Component {
       }, () => {
          // console.log('in componentDidMount', this.state);
       });
+   }
+
+   /**
+    * Remove old bookings from cart in local storage and return updated cart object
+    * @param {int} time_for_booking
+    * @param {object} cart - cart object from localStorage
+    */
+   removeOldBookingsFromCart = (time_for_booking, cart) => {
+      for (const vehicle_id in cart){
+         const order = cart[vehicle_id].order;
+         const time_end = order.creation_timestamp + time_for_booking * 1000;
+         if (Date.now() > time_end){
+            delete cart[vehicle_id];
+         }
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      return cart;
+   }
+
+   /**
+    * Remove pre order from storage
+    * @return {boolean}
+    */
+   removeBookingFromCart = () => {
+      const cart_in_storage = localStorage.getItem('cart');
+      if (cart_in_storage === null) {
+         return false;
+      }
+      const cart = JSON.parse(cart_in_storage);
+      if (!cart.hasOwnProperty(this.state.product.id)) {
+         return false;
+      }
+      delete cart[this.state.product.id];
+      localStorage.setItem('cart', JSON.stringify(cart));
+      return true;
    }
 
    bookingTheCar = () => {
@@ -130,9 +176,8 @@ class CarBooking extends Component {
       axios
          .post(`${process.env.REACT_APP_API_LINK}/v1/order/confirm/${order_id}/`, orderConfirmationFormData, {params: params})
          .then((res) => {
-            console.log(res);
             if (res.data.status === 'success') {
-               console.log(`${res.data.payment_link}?payment_id=${res.data.payment_id}`)
+               this.removeBookingFromCart();
                window.location.href = `${res.data.payment_link}?payment_id=${res.data.payment_id}`
             }
          })

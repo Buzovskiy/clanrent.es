@@ -8,8 +8,11 @@ const Timer = (props) => {
    // The state for our timer
    const [timer, setTimer] = useState('00:00');
    let time_end = props.time_end;
-   // let time_end = props.time_end - 590 * 1000; // for development
    const startTimer = () => {
+      if (Date.now() > time_end){
+         props.removeBookingFromCart();
+         window.location.href = '/';
+      }
       const time = getTimeRemainingString(Date.now(), time_end);
       setTimer(time);
    }
