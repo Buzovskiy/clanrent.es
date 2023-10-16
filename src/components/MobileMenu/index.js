@@ -10,26 +10,26 @@ const menus = [
     link: "/home",
   },
 
-  {
-    id: 2,
-    title: "About",
-    link: "/about",
-  },
-  {
-    id: 4,
-    title: "Cars",
-    link: "/car-listing",
-  },
-  {
-    id: 5,
-    title: "Gallery",
-    link: "/gallery",
-  },
-  {
-    id: 8,
-    title: "Contact",
-    link: "/contact",
-  },
+  // {
+  //   id: 2,
+  //   title: "About",
+  //   link: "/about",
+  // },
+  // {
+  //   id: 4,
+  //   title: "Cars",
+  //   link: "/car-listing",
+  // },
+  // {
+  //   id: 5,
+  //   title: "Gallery",
+  //   link: "/gallery",
+  // },
+  // {
+  //   id: 8,
+  //   title: "Contact",
+  //   link: "/contact",
+  // },
 ];
 
 export default class MobileMenu extends Component {

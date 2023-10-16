@@ -21,7 +21,7 @@
 .header-top-left {
   position: relative;
   z-index: 1;
-  padding: 10px 0;
+  padding: 2px 0;
 }
 
 .header-top-left:before {
@@ -29,7 +29,7 @@
   background: $color-orange none repeat scroll 0 0;
   content: "";
   top: 0;
-  right: 37%;
+  right: 28%;
   width: 2030px;
   height: 120%;
   -webkit-transform: skewX(45deg);
@@ -42,7 +42,7 @@
   padding: 10px 0;
 }
 
-.header-top-left p {
+.header-top-left .phones-wrapper {
   position: relative;
   top: 5px;
   font-size: 14px;
@@ -50,9 +50,17 @@
   font-weight: 500;
   text-transform: capitalize;
   letter-spacing: 1px;
+  display: flex;
+  align-items: center;
 }
 
-.header-top-left p svg {
+.header-top-left .phones-container {
+  margin-left: 5px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.header-top-left .phones-wrapper .phone {
   width: 25px;
   text-align: center;
   height: 25px;
@@ -62,6 +70,14 @@
   border-radius: 50%;
   margin: 0 2px;
   padding: 5px;
+}
+
+.header-top-left .phones-wrapper .whatsapp {
+  background-color: green;
+  font-size: 18px;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .header-top-right > .dropdown {
@@ -516,10 +532,10 @@
 }
 
 @media (max-width: 1169px) {
-  .header-top-left p {
+  .header-top-left .phones-wrapper {
     letter-spacing: 0;
   }
-  .header-top-left p i {
+  .header-top-left .phones-wrapper i {
     height: 20px;
     width: 20px;
     line-height: 20px;
@@ -633,12 +649,12 @@
   .brochures a i {
     display: none;
   }
-  .header-top-left p,
+  .header-top-left .phones-wrapper,
   .header-top-right > a,
   .header-top-right > .dropdown button {
     color: #001238 !important;
   }
-  .header-top-left p i {
+  .header-top-left .phones-wrapper i {
     background: $color-orange none repeat scroll 0 0;
     color: #fff;
   }
@@ -727,12 +743,12 @@
     background: #fff none repeat scroll 0 0;
     border-bottom: 1px solid #eee;
   }
-  .header-top-left p,
+  .header-top-left .phones-wrapper,
   .header-top-right > a,
   .header-top-right > .dropdown button {
     color: #001238;
   }
-  .header-top-left p i {
+  .header-top-left .phones-wrapper i {
     background: $color-orange none repeat scroll 0 0;
     color: #fff;
   }

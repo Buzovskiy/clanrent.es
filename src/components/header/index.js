@@ -1,25 +1,21 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import i18next from "i18next";
-import {Col, Container, Row, Dropdown} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import {
    FaPhoneAlt,
-   FaSignInAlt,
-   FaUserAlt,
-   FaSearch,
-   FaGlobe,
+   FaWhatsapp
 } from "react-icons/fa";
 import {
    MdSchedule,
-   MdLanguage
+   MdLanguage,
 } from "react-icons/md"
 
 import MobileMenu from "../../components/MobileMenu";
+// import {CartHeader} from "./cartHeader";
+// import {CartContext} from "../Cart/CartContext";
 
 import Logo from "../../img/logo.png";
-import globe from "../../img/globe.png";
-import clock from "../../img/clock.png";
 import "flag-icon-css/css/flag-icons.min.css";
 
 const languages = [
@@ -58,10 +54,15 @@ const Header = () => {
                <Row>
                   <Col md={6}>
                      <div className="header-top-left">
-                        <p>
-                           {t("need_help")} <FaPhoneAlt/> {t("call")}: +34 607 366 983
+                        <p className='phones-wrapper'>
+                           <div>{t("need_help")} <FaPhoneAlt className='phone'/> {t("call")}:</div>
+                           <div className='phones-container'>
+                              <div>+34 621 621 652 (English)</div>
+                              <div>+34 670 244 611 (Spanish) <FaWhatsapp className='whatsapp' title='WhatsApp'/></div>
+                           </div>
                         </p>
                      </div>
+
                   </Col>
                   <Col md={6}>
                      <div className="mainmenu">
@@ -70,24 +71,33 @@ const Header = () => {
                               <li>
                                  <Link to="/">{t("header-navigation.home")}</Link>
                               </li>
-                              <li>
-                                 <Link to="/about">{t("header-navigation.about")}</Link>
-                              </li>
-                              <li>
-                                 <Link to="/" onClick={onClick}>
-                                    {t("header-navigation.cars")}
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/gallery">
-                                    {t("header-navigation.gallery")}
-                                 </Link>
-                              </li>
-                              <li>
-                                 <Link to="/contact">
-                                    {t("header-navigation.contact")}
-                                 </Link>
-                              </li>
+                              {/*<li>*/}
+                              {/*   <Link to='/'>*/}
+                              {/*      /!*<CartContext.Provider value={11}>*!/*/}
+                              {/*      /!*   <CartHeader/>*!/*/}
+                              {/*      /!*</CartContext.Provider>*!/*/}
+                              {/*      {color}*/}
+                              {/*      <CartHeader color={color} setColor={setColor}/>*/}
+                              {/*   </Link>*/}
+                              {/*</li>*/}
+                              {/*<li>*/}
+                              {/*   <Link to="/about">{t("header-navigation.about")}</Link>*/}
+                              {/*</li>*/}
+                              {/*<li>*/}
+                              {/*   <Link to="/" onClick={onClick}>*/}
+                              {/*      {t("header-navigation.cars")}*/}
+                              {/*   </Link>*/}
+                              {/*</li>*/}
+                              {/*<li>*/}
+                              {/*   <Link to="/gallery">*/}
+                              {/*      {t("header-navigation.gallery")}*/}
+                              {/*   </Link>*/}
+                              {/*</li>*/}
+                              {/*<li>*/}
+                              {/*   <Link to="/contact">*/}
+                              {/*      {t("header-navigation.contact")}*/}
+                              {/*   </Link>*/}
+                              {/*</li>*/}
                            </ul>
                         </nav>
                      </div>
@@ -144,7 +154,7 @@ const Header = () => {
                      </div>
                      <div className="header-promo-info">
                         <h3>Alicante, Spain</h3>
-                        <p>C. Juan de Villanueva, 18, Elche</p>
+                        <p>C. Juan de Villanueva, 8, Elche</p>
                      </div>
                   </Col>
                   <Col md={4} sm={9} className="header-promo single-header-promo">
