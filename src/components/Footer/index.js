@@ -50,7 +50,8 @@ const Footer = () => {
                               C. Juan de Villanueva, 8, Elche, <span>Alicante, Spain</span>
                            </p>
                            <ul>
-                              <li>{t("footer.phone")}: +34 607 366 983</li>
+                              <li>{t("footer.phone")} (English): +34 621 621 652</li>
+                              <li>{t("footer.phone")}, WhatsApp (Spanish): +34 670 244 611</li>
                               <li>{t("footer.email")}: office@clanrent.es</li>
                               <li>{t("footer.office_time")}: 9:00am - 6:00pm</li>
                            </ul>
