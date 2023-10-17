@@ -12,8 +12,7 @@ import {
 } from "react-icons/md"
 
 import MobileMenu from "../../components/MobileMenu";
-// import {CartHeader} from "./cartHeader";
-// import {CartContext} from "../Cart/CartContext";
+import {CartHeader} from "./cartHeader";
 
 import Logo from "../../img/logo.png";
 import "flag-icon-css/css/flag-icons.min.css";
@@ -54,15 +53,14 @@ const Header = () => {
                <Row>
                   <Col md={6}>
                      <div className="header-top-left">
-                        <p className='phones-wrapper'>
+                        <div className='phones-wrapper'>
                            <div>{t("need_help")} <FaPhoneAlt className='phone'/> {t("call")}:</div>
                            <div className='phones-container'>
                               <div>+34 621 621 652 (English)</div>
                               <div>+34 670 244 611 (Spanish) <FaWhatsapp className='whatsapp' title='WhatsApp'/></div>
                            </div>
-                        </p>
+                        </div>
                      </div>
-
                   </Col>
                   <Col md={6}>
                      <div className="mainmenu">
@@ -71,15 +69,11 @@ const Header = () => {
                               <li>
                                  <Link to="/">{t("header-navigation.home")}</Link>
                               </li>
-                              {/*<li>*/}
-                              {/*   <Link to='/'>*/}
-                              {/*      /!*<CartContext.Provider value={11}>*!/*/}
-                              {/*      /!*   <CartHeader/>*!/*/}
-                              {/*      /!*</CartContext.Provider>*!/*/}
-                              {/*      {color}*/}
-                              {/*      <CartHeader color={color} setColor={setColor}/>*/}
-                              {/*   </Link>*/}
-                              {/*</li>*/}
+                              <li>
+                                 <Link to='/'>
+                                    <CartHeader />
+                                 </Link>
+                              </li>
                               {/*<li>*/}
                               {/*   <Link to="/about">{t("header-navigation.about")}</Link>*/}
                               {/*</li>*/}
