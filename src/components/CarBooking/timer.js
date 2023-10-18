@@ -2,18 +2,18 @@ import {getTimeRemainingString} from "../../main-component/utils";
 
 import React, {useState, useRef, useEffect} from 'react'
 import {useTranslation} from "react-i18next";
+import Cart from '../Cart/utils'
 
 const Timer = (props) => {
    const {t} = useTranslation();
    // The state for our timer
    const [timer, setTimer] = useState('00:00');
-   let time_end = props.time_end;
    const startTimer = () => {
-      if (Date.now() > time_end){
-         props.removeBookingFromCart();
+      if (Date.now() > props.booking_info.expiration_timestamp){
+         new Cart().deleteBooking(props.booking_info.details['vehicle_id']);
          window.location.href = '/';
       }
-      const time = getTimeRemainingString(Date.now(), time_end);
+      const time = getTimeRemainingString(Date.now(), props.booking_info.expiration_timestamp);
       setTimer(time);
    }
 

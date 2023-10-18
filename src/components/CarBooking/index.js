@@ -9,7 +9,7 @@ import axios from "axios";
 
 import Timer from "./timer";
 import CarOptions from "../CarDetails/CarOptions";
-import {type} from "@testing-library/user-event/dist/type";
+import Cart from '../Cart/utils'
 
 
 class CarBooking extends Component {
@@ -60,86 +60,41 @@ class CarBooking extends Component {
    componentDidMount() {
       const {productId} = this.props.useParams;
 
-      let cart_raw = localStorage.getItem('cart');
-      if (cart_raw === null) {
-         window.location.replace("/");
-      }
-      const cart = JSON.parse(cart_raw);
-
-      if (!cart.hasOwnProperty(productId)) {
+      const CART = new Cart();
+      if (CART.cartIsEmpty() || !CART.bookingExists(productId)) {
          window.location.href = '/';
       }
-      let rental_start_date, rental_end_date;
-      [rental_start_date, rental_end_date] = cart[productId].dates.split(' - ');
-      let order = cart[productId].order;
 
+      const booking_info = CART.cart[productId];
+      const [rental_start_date, rental_end_date] = booking_info.dates.split(' - ');
       const params = {timestamp: new Date().getTime()};
+      let timer = <Timer booking_info={booking_info}/>
+      this.setState({timer: timer});
+
       axios
          .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`, {params: params})
          .then((res) => {
             this.setState({settings: res.data});
-            let time_end = order.creation_timestamp + res.data.time_for_booking * 1000;
-            this.setState({time_end: time_end});
-            let timer = <Timer time_end={time_end} removeBookingFromCart={this.removeBookingFromCart}/>
-            this.setState({timer: timer});
-
-            // Notice that the cart object has been updated!
-            this.removeOldBookingsFromCart(+res.data.time_for_booking, cart);
          })
          // error is handled in catch block
          .catch((error) => console.log(error));
 
       let form = {...this.state.form}
-      order.details.options.map(option => form[`extras[${option.id}]`] = option['quantity']);
-      form['insurance'] = order.details.insurances[0]['id'];
+      booking_info.details.options.map(option => form[`extras[${option.id}]`] = option['quantity']);
+      form['insurance'] = booking_info.details.insurances[0]['id'];
 
       this.setState({
-         product: cart[productId].product,
-         pickup_location: cart[productId].pickup_location,
-         return_location: cart[productId].return_location,
+         product: booking_info.product,
+         pickup_location: booking_info.pickup_location,
+         return_location: booking_info.return_location,
          rental_start_date: rental_start_date,
          rental_end_date: rental_end_date,
-         dates: cart[productId].dates,
-         order: order,
+         dates: booking_info.dates,
+         order: booking_info,
          form: form
       }, () => {
-         // console.log('in componentDidMount', this.state);
+         console.log('in componentDidMount', this.state.order);
       });
-   }
-
-   /**
-    * Remove old bookings from cart in local storage and return updated cart object
-    * @param {int} time_for_booking
-    * @param {object} cart - cart object from localStorage
-    */
-   removeOldBookingsFromCart = (time_for_booking, cart) => {
-      for (const vehicle_id in cart){
-         const order = cart[vehicle_id].order;
-         const time_end = order.creation_timestamp + time_for_booking * 1000;
-         if (Date.now() > time_end){
-            delete cart[vehicle_id];
-         }
-      }
-      localStorage.setItem('cart', JSON.stringify(cart));
-      return cart;
-   }
-
-   /**
-    * Remove pre order from storage
-    * @return {boolean}
-    */
-   removeBookingFromCart = () => {
-      const cart_in_storage = localStorage.getItem('cart');
-      if (cart_in_storage === null) {
-         return false;
-      }
-      const cart = JSON.parse(cart_in_storage);
-      if (!cart.hasOwnProperty(this.state.product.id)) {
-         return false;
-      }
-      delete cart[this.state.product.id];
-      localStorage.setItem('cart', JSON.stringify(cart));
-      return true;
    }
 
    bookingTheCar = () => {
@@ -177,7 +132,7 @@ class CarBooking extends Component {
          .post(`${process.env.REACT_APP_API_LINK}/v1/order/confirm/${order_id}/`, orderConfirmationFormData, {params: params})
          .then((res) => {
             if (res.data.status === 'success') {
-               this.removeBookingFromCart();
+               new Cart().deleteBooking(this.state.product.id);
                window.location.href = `${res.data.payment_link}?payment_id=${res.data.payment_id}`
             }
          })
@@ -263,16 +218,21 @@ class CarBooking extends Component {
          axios
             .post(`${process.env.REACT_APP_API_LINK}/v1/order/update/${order_id}/`, addEquipmentFormData, {params: params})
             .then((res) => {
-               const order = this.state.order;
-               order.details = res['data']
+               const order = {...this.state.order, details: res['data']};
                // Update order in state
                this.setState({order});
                // Update cart in local storage
-               let cart = localStorage.getItem('cart');
-               if (cart === null) window.location.replace("/");
-               cart = JSON.parse(cart);
-               cart[this.state.product.id].order = order;
-               localStorage.setItem('cart', JSON.stringify(cart));
+               if (new Cart().cartIsEmpty() || !new Cart().bookingExists(this.state.product.id)) {
+                  window.location.href = '/';
+               }
+               let booking_info = {...new Cart().cart[this.state.product.id], details: res['data']};
+               if (!(JSON.stringify(order) === JSON.stringify(booking_info))){
+                  // todo: compare booking information from state and storage. If they are not equal, something
+                  // went wrong
+                  console.log('error');
+               }
+               new Cart().addBooking(this.state.product.id, booking_info);
+
             })
             .catch((error) => { // error is handled in catch block
                console.log(error);

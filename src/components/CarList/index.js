@@ -1,19 +1,15 @@
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
-import {useTranslation} from "react-i18next";
 import {Container, Row, Col} from "react-bootstrap";
 import {
-   FaCar,
-   FaCogs,
-   FaTachometerAlt,
    FaAngleDoubleRight, FaAngleDoubleLeft,
 } from "react-icons/fa";
-// import {bgLoader} from "../bgLoader";
 import axios from "axios";
 import {CategoryItem} from "./categoryItem";
 import {toggleBgLoader} from "../bgLoader";
+import Cart from '../Cart/utils';
 
 
+// todo: rewrite class in order to avoid nested axios requests.
 class CarList extends Component {
    constructor(props) {
       super(props);
@@ -139,11 +135,10 @@ class CarList extends Component {
    };
 
    makeCarPreReservation = (vehicle_id) => {
-      const cart_storage = localStorage.getItem('cart');
-      const cart = cart_storage === null ? {} : JSON.parse(cart_storage);
-      if (cart.hasOwnProperty(vehicle_id)) {
+      const CART = new Cart();
+      if (CART.cart.hasOwnProperty(vehicle_id)) {
          // todo: do something if vehicle id already exists in storage
-       }
+      }
 
       this.setState({show_loader: true}, () => toggleBgLoader(this.state.show_loader));
       let bodyFormData = new FormData();
@@ -162,15 +157,20 @@ class CarList extends Component {
                product: this.state.products[vehicle_id],
                pickup_location: this.state.pickup_location,
                return_location: this.state.return_location,
-               dates: this.state.dates
-            }
-            cart[vehicle_id] = {...booking_info};
-            cart[vehicle_id]['order'] = {
+               dates: this.state.dates,
                details: res['data'],
-               creation_timestamp: Date.now()
-            };
-            localStorage.setItem('cart', JSON.stringify(cart));
-            window.location.href = '/car-booking/' + vehicle_id;
+               creation_timestamp: Date.now(),
+            }
+            /////////////////////////////
+            axios
+               .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`, {params: params})
+               .then((res) => {
+                  booking_info['expiration_timestamp'] = booking_info.creation_timestamp + res['data'].time_for_booking * 1000;
+                  CART.addBooking(vehicle_id, booking_info);
+                  window.location.href = '/car-booking/' + vehicle_id;
+               })
+               .catch((error) => console.log(error));
+            /////////////////////////////
          })
          .catch((error) => { // error is handled in catch block
             this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));

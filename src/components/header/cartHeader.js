@@ -7,7 +7,6 @@ export const CartHeader = (props) => {
    const {t} = useTranslation();
 
    const [cartCount, setCartCount] = useState(0);
-   new Cart().removeOldBookings(300);
 
    useEffect(() => {
       const params = {timestamp: new Date().getTime()};
