@@ -23,6 +23,7 @@ import ScrollToTop from "../../components/ScrollToTop";
 import CarDetailsPage from "../CarDetailsPage";
 import PrivacyPage from "../PagesPage/privacyPage";
 import TermsAndConditionsPage from "../PagesPage/termsAndConditionsPage";
+import FinishBookingPage from "../FinishBooking";
 
 const AllRoute = () => {
    return (
@@ -51,6 +52,7 @@ const AllRoute = () => {
                <Route path="/product-details/:productId" element={<CarDetailsPage />}/>
                <Route path="/privacy-policy" element={<PrivacyPage />}/>
                <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />}/>
+               <Route path="/finish-booking" element={<FinishBookingPage/>}/>
                <Route path="*" element={<ErrorPage/>}/>
             </Routes>
             <ScrollToTop/>

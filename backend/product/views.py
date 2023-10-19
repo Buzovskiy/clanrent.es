@@ -42,6 +42,19 @@ def company_vehicles_info(request):
 
 
 @api_view(['GET'])
+def get_vehicles_by_ids(request, ids):
+    """v1/vehicle/get-vehicles-by-ids/<str:ids>"""
+    r = ApiRequest(request, url='https://api.rentsyst.com/v1/vehicle/index').get()
+    ids_list = [vehicle_id.strip() for vehicle_id in ids.split(',')]
+    ids_list = [int(vehicle_id) for vehicle_id in ids_list]
+    products = []
+    for prod_remote in r.json():
+        if int(prod_remote['id']) in ids_list:
+            products.append(prod_remote)
+    return Response(data=products, status=r.status_code)
+
+
+@api_view(['GET'])
 def get_vehicle(request, external_id):
     """v1/product/get_vehicle/<int:external_id>"""
     r = ApiRequest(request, url='https://api.rentsyst.com/v1/vehicle/index').get()

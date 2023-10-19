@@ -70,7 +70,7 @@ const Header = () => {
                                  <Link to="/">{t("header-navigation.home")}</Link>
                               </li>
                               <li>
-                                 <Link to='/'>
+                                 <Link to='/finish-booking'>
                                     <CartHeader />
                                  </Link>
                               </li>

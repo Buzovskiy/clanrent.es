@@ -11,11 +11,12 @@ class Cart {
       if (cart_raw !== null) {
          this.cart = JSON.parse(cart_raw);
       }
+      this.deleteExpiredBookings();
    }
 
    /**
     *
-    * @param {int} vehicle_id
+    * @param booking_id
     * @param {object} booking_info
     * @param {object} booking_info.product - Object with product info
     * @param {string} booking_info.pickup_location
@@ -33,6 +34,10 @@ class Cart {
       this.commitChanges();
    }
 
+   /**
+    * Delete booking from storage by booking_id
+    * @param booking_id
+    */
    deleteBooking(booking_id) {
       delete this.cart[booking_id];
       this.commitChanges();
@@ -52,7 +57,6 @@ class Cart {
     * @return {boolean}
     */
    bookingExists(booking_id) {
-      this.deleteExpiredBookings();
       return this.cart.hasOwnProperty(booking_id);
    }
 
@@ -77,8 +81,17 @@ class Cart {
       return Date.now() > this.cart[booking_id].expiration_timestamp;
    }
 
+   getNumberOfBookings() {
+      return Object.keys(this.cart).length;
+   }
+
    commitChanges() {
       localStorage.setItem('cart', JSON.stringify(this.cart));
+      const cart_raw = localStorage.getItem('cart');
+      this.cart = {};
+      if (cart_raw !== null) {
+         this.cart = JSON.parse(cart_raw);
+      }
    }
 }
 

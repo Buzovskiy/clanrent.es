@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from company.views import settings_view
 from order.views import create_view, update_view, confirm_view, create_checkout_session, get_order_info_view
-from product.views import show_cars_view, company_vehicles_info, get_vehicle
+from product.views import show_cars_view, company_vehicles_info, get_vehicle, get_vehicles_by_ids
 
 
 urlpatterns = [
@@ -31,5 +31,6 @@ urlpatterns = [
     path('v1/order/create_checkout_session/', create_checkout_session),
     path('v1/booking/search/', show_cars_view),
     path('v1/vehicle/index/', company_vehicles_info),
+    path('v1/vehicle/index/<str:ids>/', get_vehicles_by_ids),
     path('v1/product/get_vehicle/<int:external_id>/', get_vehicle),
 ]

@@ -1,112 +1,119 @@
-import React, { Component } from "react";
-import { Collapse } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, {Component} from "react";
+import {Collapse} from "react-bootstrap";
+import {Link} from "react-router-dom";
+import {CartHeader} from "../header/cartHeader";
 
 
 const menus = [
-  {
-    id: 1,
-    title: "Home",
-    link: "/home",
-  },
+   {
+      id: 1,
+      title: "Home",
+      link: "/home",
+   },
+   {
+     id: 8,
+     title: <CartHeader />,
+     link: "/finish-booking",
+   },
 
-  // {
-  //   id: 2,
-  //   title: "About",
-  //   link: "/about",
-  // },
-  // {
-  //   id: 4,
-  //   title: "Cars",
-  //   link: "/car-listing",
-  // },
-  // {
-  //   id: 5,
-  //   title: "Gallery",
-  //   link: "/gallery",
-  // },
-  // {
-  //   id: 8,
-  //   title: "Contact",
-  //   link: "/contact",
-  // },
+
+   // {
+   //   id: 2,
+   //   title: "About",
+   //   link: "/about",
+   // },
+   // {
+   //   id: 4,
+   //   title: "Cars",
+   //   link: "/car-listing",
+   // },
+   // {
+   //   id: 5,
+   //   title: "Gallery",
+   //   link: "/gallery",
+   // },
+   // {
+   //   id: 8,
+   //   title: "Contact",
+   //   link: "/contact",
+   // },
 ];
 
 export default class MobileMenu extends Component {
-  state = {
-    isMenuShow: false,
-    isOpen: 0,
-  };
+   state = {
+      isMenuShow: false,
+      isOpen: 0,
+   };
 
-  menuHandler = () => {
-    this.setState({
-      isMenuShow: !this.state.isMenuShow,
-    });
-  };
+   menuHandler = () => {
+      this.setState({
+         isMenuShow: !this.state.isMenuShow,
+      });
+   };
 
-  setIsOpen = (id) => () => {
-    this.setState({
-      isOpen: id === this.state.isOpen ? 0 : id,
-    });
-  };
+   setIsOpen = (id) => () => {
+      this.setState({
+         isOpen: id === this.state.isOpen ? 0 : id,
+      });
+   };
 
-  render() {
-    const { isMenuShow, isOpen } = this.state;
-    return (
-      <div className="responsiveMenu">
-        <nav
-          id="mobileMenu"
-          className={`mobileMenu ${isMenuShow ? "active" : ""}`}
-        >
-          <ul className="responsivemenu">
-            {menus.map((item) => {
-              return (
-                <li key={item.id}>
-                  {item.submenu ? (
-                    <p
-                      onClick={this.setIsOpen(item.id)}
-                      aria-expanded={isMenuShow}
-                    >
-                      {item.title}
-                      {item.submenu ? "" : ""}
-                      <span>+</span>
-                    </p>
-                  ) : (
-                    <Link to={item.link}>{item.title}</Link>
-                  )}
+   render() {
+      const {isMenuShow, isOpen} = this.state;
+      return (
+         <div className="responsiveMenu">
+            <nav
+               id="mobileMenu"
+               className={`mobileMenu ${isMenuShow ? "active" : ""}`}
+            >
+               <ul className="responsivemenu">
+                  {menus.map((item) => {
+                     return (
+                        <li key={item.id}>
+                           {item.submenu ? (
+                              <p
+                                 onClick={this.setIsOpen(item.id)}
+                                 aria-expanded={isMenuShow}
+                              >
+                                 {item.title}
+                                 {item.submenu ? "" : ""}
+                                 <span>+</span>
+                              </p>
+                           ) : (
+                              <Link to={item.link}>{item.title}</Link>
+                           )}
 
-                  {item.submenu ? (
-                    <Collapse in={item.id === isOpen}>
-                      <ul className="sub-menu">
-                        {item.submenu.map((submenu) => (
-                          <li key={submenu.id}>
-                            <Link className="active" to={submenu.link}>
-                              {submenu.title}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </Collapse>
-                  ) : (
-                    ""
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+                           {item.submenu ? (
+                              <Collapse in={item.id === isOpen}>
+                                 <ul className="sub-menu">
+                                    {item.submenu.map((submenu) => (
+                                       <li key={submenu.id}>
+                                          <Link className="active" to={submenu.link}>
+                                             {submenu.title}
+                                          </Link>
+                                       </li>
+                                    ))}
+                                 </ul>
+                              </Collapse>
+                           ) : (
+                              ""
+                           )}
+                        </li>
+                     );
+                  })}
+               </ul>
+            </nav>
 
-        <div
-          className={`spinner-master ${isMenuShow ? "active" : ""}`}
-          onClick={this.menuHandler}
-        >
-          <div id="spinner-form" className="spinner-spin">
-            <div className="spinner diagonal part-1"></div>
-            <div className="spinner horizontal"></div>
-            <div className="spinner diagonal part-2"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+            <div
+               className={`spinner-master ${isMenuShow ? "active" : ""}`}
+               onClick={this.menuHandler}
+            >
+               <div id="spinner-form" className="spinner-spin">
+                  <div className="spinner diagonal part-1"></div>
+                  <div className="spinner horizontal"></div>
+                  <div className="spinner diagonal part-2"></div>
+               </div>
+            </div>
+         </div>
+      );
+   }
 }

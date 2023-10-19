@@ -7,6 +7,7 @@ import axios from "axios";
 import {CategoryItem} from "./categoryItem";
 import {toggleBgLoader} from "../bgLoader";
 import Cart from '../Cart/utils';
+import CarListRenderer from "./CarListRenderer";
 
 
 // todo: rewrite class in order to avoid nested axios requests.
@@ -208,7 +209,6 @@ class CarList extends Component {
    }
 
    render() {
-      const {t} = this.props
       return (
          <section className="gauto-car-listing section_70">
             <Container>
@@ -218,7 +218,9 @@ class CarList extends Component {
                         <div className="pagination-box-row">
                            <p>Page {this.state.page} of {this.state.count_pages}</p>
                         </div>
-                        <Row className='car-grid-list'>{this.renderCarList()}</Row>
+                        <Row className='car-grid-list'>
+                           <CarListRenderer carList={this.state.carList} clickProduct={this.clickProduct} />
+                        </Row>
                         <div className="pagination-box-row">
                            <p>Page {this.state.page} of {this.state.count_pages}</p>
                            <ul className="pagination">
