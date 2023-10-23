@@ -79,7 +79,7 @@ class Cart {
     */
    bookingIsExpired(booking_id) {
       if (!this.cart[booking_id].hasOwnProperty("expiration_timestamp")){
-         return false;
+         return true;
       }
       return Date.now() > this.cart[booking_id].expiration_timestamp;
    }
