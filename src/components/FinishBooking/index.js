@@ -10,6 +10,12 @@ import {toggleBgLoader} from "../bgLoader";
 const FinishBooking = () => {
    const {t} = useTranslation();
    const [carList, setCarList] = useState([])
+   // const [showLoader, setShowLoader] = useState(true);
+   const [requestIsDone, setRequestIsDone] = useState(false);
+
+   useEffect(() => {
+      toggleBgLoader(!requestIsDone);
+   }, [requestIsDone]);
 
    useEffect(() => {
       const cart = new Cart().cart;
@@ -24,28 +30,18 @@ const FinishBooking = () => {
          axios
             .get(`${process.env.REACT_APP_API_LINK}/v1/vehicle/index/${ids}/`, {params: params})
             .then((res) => {
-               console.log(res.data);
                setCarList(res.data);
-               // let cars = res.data['vehicles'];
-               // this.setState({page: res.data['pagination'].page})
-               // this.setState({count_pages: res.data['pagination'].count_pages})
-               // let products = {}
-               // cars.forEach(item => products[item.id] = item);
-               //
-               // this.setState({carList: cars});
-               // this.setState({products: products});
-               // this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));
+               setRequestIsDone(true);
             })
             .catch((error) => { // error is handled in catch block
+               setRequestIsDone(true);
                console.log(error);
             });
+      } else{
+         setRequestIsDone(true);
+         window.location.href = '/';
       }
    }, []);
-
-   const clickProduct = (e) => {
-      e.preventDefault();
-      console.log('click');
-   }
 
    return (
       <section className="gauto-car-listing section_70">
@@ -53,11 +49,13 @@ const FinishBooking = () => {
             <Row>
                <Col lg={12}>
                   <div className="car-listing-right">
-                     <div className="pagination-box-row">
-                        {/*<p>Page {this.state.page} of {this.state.count_pages}</p>*/}
-                     </div>
                      <Row className='car-grid-list'>
-                        <CarListRenderer carList={carList} t={t} clickProduct={clickProduct}/>
+                        <CarListRenderer
+                           button_title={t('continue_booking')}
+                           carList={carList}
+                           t={t}
+                           module='FinishBooking'
+                        />
                      </Row>
                   </div>
                </Col>

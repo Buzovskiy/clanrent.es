@@ -7,7 +7,13 @@ const CarListRenderer = (props) => {
    const {t} = useTranslation();
    return props.carList.map((item, ind) => (
       <Col key={ind} md={4}>
-         <CategoryItem item={item} t={t} clickProduct={props.clickProduct}/>
+         <CategoryItem
+            item={item}
+            t={t}
+            button_title={props.button_title}
+            clickProduct={props.clickProduct}
+            module={props.module}
+         />
       </Col>
    ))
 }
