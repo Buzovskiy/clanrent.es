@@ -61,35 +61,35 @@ const Footer = () => {
                   <Col lg={4}>
                      <div className="single-footer quick_links">
                         <h3>{t("footer.quick_links")}</h3>
+                        {/*<ul className="quick-links">*/}
+                        {/*   /!*<li>*!/*/}
+                        {/*   /!*   <Link to="/" onClick={onClick}>*!/*/}
+                        {/*   /!*      {" "}*!/*/}
+                        {/*   /!*      {t("footer.about_us")}*!/*/}
+                        {/*   /!*   </Link>*!/*/}
+                        {/*   /!*</li>*!/*/}
+                        {/*   /!*<li>*!/*/}
+                        {/*   /!*   <Link to="/" onClick={onClick}>*!/*/}
+                        {/*   /!*      {t("footer.our_service")}*!/*/}
+                        {/*   /!*   </Link>*!/*/}
+                        {/*   /!*</li>*!/*/}
+                        {/*   /!*<li>*!/*/}
+                        {/*   /!*   <Link to="/" onClick={onClick}>*!/*/}
+                        {/*   /!*      {t("footer.case_studies")}*!/*/}
+                        {/*   /!*   </Link>*!/*/}
+                        {/*   /!*</li>*!/*/}
+                        {/*   /!*<li>*!/*/}
+                        {/*   /!*   <Link to="/" onClick={onClick}>*!/*/}
+                        {/*   /!*      {t("footer.contact_us")}*!/*/}
+                        {/*   /!*   </Link>*!/*/}
+                        {/*   /!*</li>*!/*/}
+                        {/*</ul>*/}
                         <ul className="quick-links">
-                           <li>
-                              <Link to="/" onClick={onClick}>
-                                 {" "}
-                                 {t("footer.about_us")}
-                              </Link>
-                           </li>
-                           <li>
-                              <Link to="/" onClick={onClick}>
-                                 {t("footer.our_service")}
-                              </Link>
-                           </li>
-                           <li>
-                              <Link to="/" onClick={onClick}>
-                                 {t("footer.case_studies")}
-                              </Link>
-                           </li>
-                           <li>
-                              <Link to="/" onClick={onClick}>
-                                 {t("footer.contact_us")}
-                              </Link>
-                           </li>
-                        </ul>
-                        <ul className="quick-links">
-                           <li>
-                              <Link to="/" onClick={onClick}>
-                                 {t("footer.testimonials")}
-                              </Link>
-                           </li>
+                           {/*<li>*/}
+                           {/*   <Link to="/" onClick={onClick}>*/}
+                           {/*      {t("footer.testimonials")}*/}
+                           {/*   </Link>*/}
+                           {/*</li>*/}
                            <li>
                               <Link to="/privacy-policy">
                                  {t("footer.privacy")}
@@ -100,81 +100,81 @@ const Footer = () => {
                                  {t("terms-and-conditions")}
                               </Link>
                            </li>
-                           <li>
-                              <Link to="/" onClick={onClick}>
-                                 {t("footer.latest_news")}
-                              </Link>
-                           </li>
+                           {/*<li>*/}
+                           {/*   <Link to="/" onClick={onClick}>*/}
+                           {/*      {t("footer.latest_news")}*/}
+                           {/*   </Link>*/}
+                           {/*</li>*/}
                         </ul>
                      </div>
-                     <div className="single-footer newsletter_box">
-                        <h3>{t("footer.newsletter")}</h3>
-                        <form onSubmit={SubmitHandler}>
-                           <input type="email" placeholder="Email Address"/>
-                           <button type="submit">
-                              <FaPaperPlane/>
-                           </button>
-                        </form>
-                     </div>
+                     {/*<div className="single-footer newsletter_box">*/}
+                     {/*   <h3>{t("footer.newsletter")}</h3>*/}
+                     {/*   <form onSubmit={SubmitHandler}>*/}
+                     {/*      <input type="email" placeholder="Email Address"/>*/}
+                     {/*      <button type="submit">*/}
+                     {/*         <FaPaperPlane/>*/}
+                     {/*      </button>*/}
+                     {/*   </form>*/}
+                     {/*</div>*/}
                   </Col>
-                  <Col lg={4}>
-                     <div className="single-footer">
-                        <h3> {t("footer.recent_post")}</h3>
-                        <ul>
-                           <li>
-                              <div className="single-footer-post">
-                                 <div className="footer-post-image">
-                                    <Link to="/blog-single">
-                                       <img src={img1} alt="footer post"/>
-                                    </Link>
-                                 </div>
-                                 <div className="footer-post-text">
-                                    <h3>
-                                       <Link to="/blog-single">
-                                          Revealed: How to set goals for you and your team
-                                       </Link>
-                                    </h3>
-                                    <p>Posted on: Jan 12, 2019</p>
-                                 </div>
-                              </div>
-                           </li>
-                           <li>
-                              <div className="single-footer-post">
-                                 <div className="footer-post-image">
-                                    <Link to="/blog-single">
-                                       <img src={img2} alt="footer post"/>
-                                    </Link>
-                                 </div>
-                                 <div className="footer-post-text">
-                                    <h3>
-                                       <Link to="/blog-single">
-                                          Revealed: How to set goals for you and your team
-                                       </Link>
-                                    </h3>
-                                    <p>Posted on: Jan 12, 2019</p>
-                                 </div>
-                              </div>
-                           </li>
-                           <li>
-                              <div className="single-footer-post">
-                                 <div className="footer-post-image">
-                                    <Link to="/blog-single">
-                                       <img src={img3} alt="footer post"/>
-                                    </Link>
-                                 </div>
-                                 <div className="footer-post-text">
-                                    <h3>
-                                       <Link to="/blog-single">
-                                          apartment in the sky love three boys of his own.
-                                       </Link>
-                                    </h3>
-                                    <p>Posted on: Jan 12, 2019</p>
-                                 </div>
-                              </div>
-                           </li>
-                        </ul>
-                     </div>
-                  </Col>
+                  {/*<Col lg={4}>*/}
+                  {/*   <div className="single-footer">*/}
+                  {/*      <h3> {t("footer.recent_post")}</h3>*/}
+                  {/*      <ul>*/}
+                  {/*         <li>*/}
+                  {/*            <div className="single-footer-post">*/}
+                  {/*               <div className="footer-post-image">*/}
+                  {/*                  <Link to="/blog-single">*/}
+                  {/*                     <img src={img1} alt="footer post"/>*/}
+                  {/*                  </Link>*/}
+                  {/*               </div>*/}
+                  {/*               <div className="footer-post-text">*/}
+                  {/*                  <h3>*/}
+                  {/*                     <Link to="/blog-single">*/}
+                  {/*                        Revealed: How to set goals for you and your team*/}
+                  {/*                     </Link>*/}
+                  {/*                  </h3>*/}
+                  {/*                  <p>Posted on: Jan 12, 2019</p>*/}
+                  {/*               </div>*/}
+                  {/*            </div>*/}
+                  {/*         </li>*/}
+                  {/*         <li>*/}
+                  {/*            <div className="single-footer-post">*/}
+                  {/*               <div className="footer-post-image">*/}
+                  {/*                  <Link to="/blog-single">*/}
+                  {/*                     <img src={img2} alt="footer post"/>*/}
+                  {/*                  </Link>*/}
+                  {/*               </div>*/}
+                  {/*               <div className="footer-post-text">*/}
+                  {/*                  <h3>*/}
+                  {/*                     <Link to="/blog-single">*/}
+                  {/*                        Revealed: How to set goals for you and your team*/}
+                  {/*                     </Link>*/}
+                  {/*                  </h3>*/}
+                  {/*                  <p>Posted on: Jan 12, 2019</p>*/}
+                  {/*               </div>*/}
+                  {/*            </div>*/}
+                  {/*         </li>*/}
+                  {/*         <li>*/}
+                  {/*            <div className="single-footer-post">*/}
+                  {/*               <div className="footer-post-image">*/}
+                  {/*                  <Link to="/blog-single">*/}
+                  {/*                     <img src={img3} alt="footer post"/>*/}
+                  {/*                  </Link>*/}
+                  {/*               </div>*/}
+                  {/*               <div className="footer-post-text">*/}
+                  {/*                  <h3>*/}
+                  {/*                     <Link to="/blog-single">*/}
+                  {/*                        apartment in the sky love three boys of his own.*/}
+                  {/*                     </Link>*/}
+                  {/*                  </h3>*/}
+                  {/*                  <p>Posted on: Jan 12, 2019</p>*/}
+                  {/*               </div>*/}
+                  {/*            </div>*/}
+                  {/*         </li>*/}
+                  {/*      </ul>*/}
+                  {/*   </div>*/}
+                  {/*</Col>*/}
                </Row>
             </Container>
          </div>
@@ -191,32 +191,32 @@ const Footer = () => {
                         </p>
                      </div>
                   </Col>
-                  <Col md={6}>
-                     <div className="footer-social">
-                        <ul>
-                           <li>
-                              <Link to="/" onClick={onClick}>
-                                 <FaFacebookF/>
-                              </Link>
-                           </li>
-                           <li>
-                              <Link to="/" onClick={onClick}>
-                                 <FaTwitter/>
-                              </Link>
-                           </li>
-                           <li>
-                              <Link to="/" onClick={onClick}>
-                                 <FaLinkedinIn/>
-                              </Link>
-                           </li>
-                           <li>
-                              <Link to="/" onClick={onClick}>
-                                 <FaSkype/>
-                              </Link>
-                           </li>
-                        </ul>
-                     </div>
-                  </Col>
+                  {/*<Col md={6}>*/}
+                  {/*   <div className="footer-social">*/}
+                  {/*      <ul>*/}
+                  {/*         <li>*/}
+                  {/*            <Link to="/" onClick={onClick}>*/}
+                  {/*               <FaFacebookF/>*/}
+                  {/*            </Link>*/}
+                  {/*         </li>*/}
+                  {/*         <li>*/}
+                  {/*            <Link to="/" onClick={onClick}>*/}
+                  {/*               <FaTwitter/>*/}
+                  {/*            </Link>*/}
+                  {/*         </li>*/}
+                  {/*         <li>*/}
+                  {/*            <Link to="/" onClick={onClick}>*/}
+                  {/*               <FaLinkedinIn/>*/}
+                  {/*            </Link>*/}
+                  {/*         </li>*/}
+                  {/*         <li>*/}
+                  {/*            <Link to="/" onClick={onClick}>*/}
+                  {/*               <FaSkype/>*/}
+                  {/*            </Link>*/}
+                  {/*         </li>*/}
+                  {/*      </ul>*/}
+                  {/*   </div>*/}
+                  {/*</Col>*/}
                </Row>
             </Container>
          </div>
