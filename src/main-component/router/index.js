@@ -24,6 +24,7 @@ import CarDetailsPage from "../CarDetailsPage";
 import PrivacyPage from "../PagesPage/privacyPage";
 import TermsAndConditionsPage from "../PagesPage/termsAndConditionsPage";
 import FinishBookingPage from "../FinishBooking";
+import CookieAccept from "../../components/CookieAccept";
 
 const AllRoute = () => {
    return (
@@ -56,6 +57,7 @@ const AllRoute = () => {
                <Route path="*" element={<ErrorPage/>}/>
             </Routes>
             <ScrollToTop/>
+            <CookieAccept/>
          </Router>
       </div>
    );

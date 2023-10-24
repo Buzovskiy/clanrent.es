@@ -226,6 +226,18 @@ input[type="radio"]:checked ~ label {
   font-weight: bold;
 }
 
+.terms-and-conditions-wrapper{
+  margin-bottom: 13px;
+}
+
+.terms-and-conditions-wrapper .terms-and-conditions {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  grid-column-gap: 10px;
+  align-items: center;
+  font-weight: 500;
+}
+
 @media (min-width: 768px) {
   .car-booking-image img {
     width: 100%;

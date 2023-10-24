@@ -3,6 +3,7 @@ import {Row, Col} from "react-bootstrap";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import Cookies from 'js-cookie'
+import {getCookieConsentValue} from "react-cookie-consent";
 import {formatDateRangeToAPIStandard} from "../../main-component/utils";
 import CustomDateInput from "./date_input";
 import {InputLocation} from "./InputLocation";
@@ -43,10 +44,16 @@ class FindCar extends Component {
             rental_end_date: [],
          },
          settings: {},
+         cookieConsentValue: 'false',
       }
    };
 
    componentDidMount() {
+      this.setState({cookieConsentValue: getCookieConsentValue('CookieConsent')}, () => {
+         if (this.state.cookieConsentValue !== 'true') {
+            Object.keys(this.state.form_data).forEach(item => Cookies.remove(item));
+         }
+      })
       const params = {timestamp: new Date().getTime()};
       axios
          .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`, {params: params})
@@ -125,7 +132,9 @@ class FindCar extends Component {
       }
       this.setState({form_data}, () => {
          for (const property in form_data) {
-            if (form_data[property]) Cookies.set(property, form_data[property], {expires: 2});
+            if (form_data[property] && this.state.cookieConsentValue === 'true'){
+               Cookies.set(property, form_data[property], {expires: 2});
+            }
          }
          const rental_start_date_is_null = Object.is(this.state.form_data.rental_start_date, null);
          const rental_end_date_is_null = Object.is(this.state.form_data.rental_end_date, null);
@@ -236,7 +245,9 @@ class FindCar extends Component {
       const form_data = {...this.state.form_data, [name]: value};
       this.setState({form_data},
          () => {
-            if (form_data[name]) Cookies.set(name, form_data[name], {expires: 2});
+            if (form_data[name] && this.state.cookieConsentValue === 'true'){
+               Cookies.set(name, form_data[name], {expires: 2});
+            }
          }
       );
    }

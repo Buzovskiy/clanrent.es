@@ -43,7 +43,8 @@ class CarBooking extends Component {
             comment: '',
             // The values of these inputs are sent to API in a separate request.
             options: {},
-            insurance: ''
+            insurance: '',
+            terms_and_conditions: '',
          },
          fields_errors: {
             first_name: [],
@@ -51,6 +52,7 @@ class CarBooking extends Component {
             email: [],
             phone: [],
             payment_method: [],
+            terms_and_conditions: [],
          },
          settings: {payment_methods: []}, // settings from api
          timer: 'Time left: 00:00',
@@ -104,6 +106,7 @@ class CarBooking extends Component {
       form_fields_list.push({name: 'email', value: this.state.form['email']});
       form_fields_list.push({name: 'phone', value: this.state.form['phone']});
       form_fields_list.push({name: 'payment_method', value: this.state.form['payment_method']});
+      form_fields_list.push({name: 'terms_and_conditions', value: this.state.form['terms_and_conditions']});
 
       this.updateErrorsState(form_fields_list);
 
@@ -150,16 +153,19 @@ class CarBooking extends Component {
    handleChange = (e) => {
       this.updateErrorsState([e.target]);
       let {name, value} = e.target;
-      if (e.target.type === "checkbox") {
-         name = e.target.name;
-         // value = this.state.formFields.hasOwnProperty(name) ? this.state.formFields[name] : [];
-         // value = value.filter(item => item !== e.target.value);
-         // if (e.target.checked) value.push(e.target.value);
+      if (e.target.name === 'terms_and_conditions'){
+         value = e.target.checked ? '1' : '';
       }
+      // if (e.target.type === "checkbox") {
+      //    name = e.target.name;
+      //    // value = this.state.formFields.hasOwnProperty(name) ? this.state.formFields[name] : [];
+      //    // value = value.filter(item => item !== e.target.value);
+      //    // if (e.target.checked) value.push(e.target.value);
+      // }
 
       let form = {...this.state.form, [name]: value}
       this.setState({form}, () => {
-         // console.log(this.state);
+         console.log(this.state);
       });
    };
 
@@ -180,6 +186,10 @@ class CarBooking extends Component {
       let field_errors = []
       if (!field.value) {
          field_errors.push(this.props.t('this_field_may_not_be_blank'));
+      }
+      let re = /^\S+@\S+\.\S+$/;
+      if (field.name === 'email' && !re.test(field.value)) {
+         field_errors.push(this.props.t('enter_correct_email'));
       }
       return field_errors
    }
@@ -226,7 +236,7 @@ class CarBooking extends Component {
                   window.location.href = '/';
                }
                let booking_info = {...new Cart().cart[this.state.product.id], details: res['data']};
-               if (!(JSON.stringify(order) === JSON.stringify(booking_info))){
+               if (!(JSON.stringify(order) === JSON.stringify(booking_info))) {
                   // todo: compare booking information from state and storage. If they are not equal, something
                   // went wrong
                   console.log('error');
@@ -469,6 +479,20 @@ class CarBooking extends Component {
                            <h3>{t("car_booking.payment_method")}</h3>
                            <div className={`gauto-payment clearfix ${this.getErrorClass('payment_method')}`}>
                               {this.renderPaymentMethods()}
+                           </div>
+                           <div className='terms-and-conditions-wrapper'>
+                              <label className='terms-and-conditions' htmlFor="terms_and_conditions">
+                                 <input
+                                    id='terms_and_conditions'
+                                    name='terms_and_conditions'
+                                    type="checkbox"
+                                    onChange={this.handleChange}
+                                 />
+                                 <div className={this.getErrorClass('terms_and_conditions')}>
+                                    Accept <a href="/terms-and-conditions">terms and conditions</a> and <a
+                                    href="/privacy-policy">privacy policy</a>
+                                 </div>
+                              </label>
                            </div>
                            <h3>{t("booking_total")}</h3>
                            <div className="booking-total clearfix">
