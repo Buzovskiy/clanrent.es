@@ -18,6 +18,8 @@ const BookingTotal = (props) => {
       ))
    }
 
+   console.log(props.count_days);
+
    return (
       <div className='booking-details-wrapper'>
          <h3>{t("booking_total")}</h3>
@@ -28,7 +30,7 @@ const BookingTotal = (props) => {
                <span>{props.currency}{props.rental_price}</span>
             </div>
             <div className='price-details-item total'>
-               <span>Total Price For 2 Days</span>
+               <span>Total Price For {props.count_days} Days</span>
                <span>{props.currency}{props.total_price}</span>
             </div>
          </div>
