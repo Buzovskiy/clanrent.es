@@ -167,6 +167,7 @@ class CarList extends Component {
                .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`, {params: params})
                .then((res) => {
                   booking_info['expiration_timestamp'] = booking_info.creation_timestamp + res['data'].time_for_booking * 1000;
+                  // booking_info['expiration_timestamp'] = booking_info.creation_timestamp + 7200 * 1000;
                   CART.addBooking(vehicle_id, booking_info);
                   window.location.href = '/car-booking/' + vehicle_id;
                })

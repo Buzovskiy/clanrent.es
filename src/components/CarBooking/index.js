@@ -10,6 +10,7 @@ import axios from "axios";
 import Timer from "./timer";
 import CarOptions from "../CarDetails/CarOptions";
 import Cart from '../Cart/utils'
+import BookingTotal from "./BookingTotal";
 
 
 class CarBooking extends Component {
@@ -28,7 +29,11 @@ class CarBooking extends Component {
          time_end: 0, // timestamp in ms by which the reservation should be done
          order: {
             details: {options: []},
-            creation_timestamp: ''
+            creation_timestamp: '',
+            product: {
+               total_price: '',
+               count_days: '',
+            }
          }, // information about order from API with order creation timestamp
          form: {
             first_name: '',
@@ -95,7 +100,7 @@ class CarBooking extends Component {
          order: booking_info,
          form: form
       }, () => {
-         console.log('in componentDidMount', this.state.order);
+         // console.log('in componentDidMount', this.state.order);
       });
    }
 
@@ -153,7 +158,7 @@ class CarBooking extends Component {
    handleChange = (e) => {
       this.updateErrorsState([e.target]);
       let {name, value} = e.target;
-      if (e.target.name === 'terms_and_conditions'){
+      if (e.target.name === 'terms_and_conditions') {
          value = e.target.checked ? '1' : '';
       }
       // if (e.target.type === "checkbox") {
@@ -494,10 +499,13 @@ class CarBooking extends Component {
                                  </div>
                               </label>
                            </div>
-                           <h3>{t("booking_total")}</h3>
-                           <div className="booking-total clearfix">
-                              {this.state.order.details.total_price}{this.state.settings.currency}
-                           </div>
+                           <BookingTotal
+                              delivery_data={this.state.order.details.delivery_data}
+                              rental_price={this.state.order.product.total_price}
+                              total_price={this.state.order.details.total_price}
+                              count_days={this.state.order.product.count_days}
+                              currency={this.state.settings.currency}
+                           />
                            <div className="action-btn">
                               <Link to="/" onClick={this.onClick} className="gauto-btn">
                                  {t("researve_now")}

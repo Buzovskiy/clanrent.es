@@ -222,11 +222,22 @@ input[type="radio"]:checked ~ label {
 
 .booking-total {
   text-align: right;
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 15px;
 }
 
-.terms-and-conditions-wrapper{
+.booking-total .price-details-item {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+
+  &.total {
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
+
+
+.terms-and-conditions-wrapper {
   margin-bottom: 13px;
 }
 
