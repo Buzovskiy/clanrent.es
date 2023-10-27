@@ -1,14 +1,10 @@
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
 import {Container, Row, Col} from "react-bootstrap";
 import CarOptions from "./CarOptions";
-import {
-   FaStar,
-   FaStarHalfAlt,
-} from "react-icons/fa";
 import Error from "../Error";
 import {toggleBgLoader} from "../bgLoader";
 import DefaultPlaceholderImg from '../../img/default-placeholder.png'
+import ModalWindow from "./modalWindow";
 
 
 import axios from "axios";
@@ -22,7 +18,8 @@ class CarDetails extends Component {
             'thumbnail': DefaultPlaceholderImg
          },
          page_404: false,
-         show_loader: true
+         show_loader: true,
+         modal_show: false,
       }
    }
 
@@ -45,7 +42,14 @@ class CarDetails extends Component {
 
    onClick = (e) => {
       e.preventDefault();
+      this.setState({modal_show: true})
    };
+
+   onHide = () => {
+      this.setState({modal_show: false}, () => {
+         window.location.href = '/';
+      })
+   }
 
    render() {
       const {t} = this.props
@@ -73,26 +77,6 @@ class CarDetails extends Component {
                                     {product.price}{product.currency}<span>/ {t("day")}</span>
                                  </h4>
                               </div>
-                              <div className="car-rating">
-                                 <ul>
-                                    <li>
-                                       <FaStar/>
-                                    </li>
-                                    <li>
-                                       <FaStar/>
-                                    </li>
-                                    <li>
-                                       <FaStar/>
-                                    </li>
-                                    <li>
-                                       <FaStar/>
-                                    </li>
-                                    <li>
-                                       <FaStarHalfAlt/>
-                                    </li>
-                                 </ul>
-                                 <p>(123 {t("rating")})</p>
-                              </div>
                            </div>
                            {/*<p>*/}
                            {/*   {" "}*/}
@@ -116,11 +100,12 @@ class CarDetails extends Component {
                <Container>
                   <Row>
                      <div className="action-btn">
-                        <a className="gauto-btn" href="/">{t("researve_now")}</a>
+                        <a className="gauto-btn" onClick={this.onClick} href="/">{t("researve_now")}</a>
                      </div>
                   </Row>
                </Container>
             </section>
+            <ModalWindow show={this.state.modal_show} onHide={this.onHide} />
          </>
       )
    }

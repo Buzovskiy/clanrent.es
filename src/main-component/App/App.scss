@@ -550,3 +550,24 @@ button.gauto-theme-btn:hover {
   background-color: $color-orange;
 }
 
+.modal-content{
+  background-color: #2e2e2e;
+}
+
+.modal-header{
+  border-bottom: 1px solid grey;
+}
+
+.modal-footer{
+  border-top: 1px solid grey;
+}
+
+.btn-primary{
+  background-color: $color-orange;
+  border-color: $color-orange;
+}
+
+.modal-body p{
+  font-size: 15px;
+}
+
