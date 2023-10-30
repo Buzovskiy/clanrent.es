@@ -18,8 +18,6 @@ const BookingTotal = (props) => {
       ))
    }
 
-   console.log(props.count_days);
-
    return (
       <div className='booking-details-wrapper'>
          <h3>{t("booking_total")}</h3>

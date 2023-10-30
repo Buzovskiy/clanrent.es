@@ -11,6 +11,7 @@ import Timer from "./timer";
 import CarOptions from "../CarDetails/CarOptions";
 import Cart from '../Cart/utils'
 import BookingTotal from "./BookingTotal";
+import {toggleBgLoader} from "../bgLoader";
 
 
 class CarBooking extends Component {
@@ -61,6 +62,7 @@ class CarBooking extends Component {
          },
          settings: {payment_methods: []}, // settings from api
          timer: 'Time left: 00:00',
+         requestIsDone: false,
       }
    }
 
@@ -293,6 +295,8 @@ class CarBooking extends Component {
    render() {
       const {t} = this.props
       const product = this.state.product;
+      console.log(this.state.requestIsDone);
+      toggleBgLoader(this.state.requestIsDone);
       return (
          <>
             <section className="gauto-car-booking section_70">
