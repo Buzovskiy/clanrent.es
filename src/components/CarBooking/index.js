@@ -62,7 +62,7 @@ class CarBooking extends Component {
          },
          settings: {payment_methods: []}, // settings from api
          timer: 'Time left: 00:00',
-         requestIsDone: false,
+         showLoader: false,
       }
    }
 
@@ -122,6 +122,8 @@ class CarBooking extends Component {
          return false;
       }
 
+      this.setState({showLoader: true});
+
       const order_id = this.state.order.details.order_id;
       const orderConfirmationFormData = new FormData();
       orderConfirmationFormData.append('driver[0][first_name]', this.state.form.first_name);
@@ -141,12 +143,14 @@ class CarBooking extends Component {
       axios
          .post(`${process.env.REACT_APP_API_LINK}/v1/order/confirm/${order_id}/`, orderConfirmationFormData, {params: params})
          .then((res) => {
+            this.setState({showLoader: false});
             if (res.data.status === 'success') {
                new Cart().deleteBooking(this.state.product.id);
                window.location.href = `${res.data.payment_link}?payment_id=${res.data.payment_id}`
             }
          })
          .catch((error) => { // error is handled in catch block
+            this.setState({showLoader: false});
             console.log(error);
             // window.location.href = 'https://clanrent.es';
          });
@@ -295,8 +299,7 @@ class CarBooking extends Component {
    render() {
       const {t} = this.props
       const product = this.state.product;
-      console.log(this.state.requestIsDone);
-      toggleBgLoader(this.state.requestIsDone);
+      toggleBgLoader(this.state.showLoader);
       return (
          <>
             <section className="gauto-car-booking section_70">
