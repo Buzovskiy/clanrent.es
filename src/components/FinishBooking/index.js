@@ -9,7 +9,7 @@ import {toggleBgLoader} from "../bgLoader";
 
 const FinishBooking = () => {
    const {t} = useTranslation();
-   const [carList, setCarList] = useState([])
+   const [carList, setCarList] = useState([]);
    // const [showLoader, setShowLoader] = useState(true);
    const [requestIsDone, setRequestIsDone] = useState(false);
 
