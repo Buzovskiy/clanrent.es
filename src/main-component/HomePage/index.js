@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useContext, useState} from "react";
 import {useNavigate, createSearchParams} from 'react-router-dom';
 import {useTranslation} from "react-i18next";
 import Header from "../../components/header";
@@ -14,10 +14,12 @@ import Help from "../../components/Help";
 import Blog from "../../components/Blog";
 import Footer from "../../components/Footer";
 
-const HomePage = () => {
+const HomePage = (props) => {
    const {t} = useTranslation();
+
    return (
       <Fragment>
+         {/*<h1 onClick={() => setShow(true)}>Click</h1>*/}
          <Header/>
          <FindCar t={t} navigate={useNavigate()} createSearchParams={createSearchParams}/>
          {/*<Hero/>*/}
