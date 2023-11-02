@@ -13,15 +13,22 @@ import Team from "../../components/Team";
 import Help from "../../components/Help";
 import Blog from "../../components/Blog";
 import Footer from "../../components/Footer";
+import {ErrorModalWindowContext} from "../../components/Error/ErrorModalWindowContext";
 
 const HomePage = (props) => {
    const {t} = useTranslation();
+   const siteContext = useContext(ErrorModalWindowContext);
 
    return (
       <Fragment>
          {/*<h1 onClick={() => setShow(true)}>Click</h1>*/}
          <Header/>
-         <FindCar t={t} navigate={useNavigate()} createSearchParams={createSearchParams}/>
+         <FindCar
+            t={t}
+            navigate={useNavigate()}
+            createSearchParams={createSearchParams}
+            siteContext = {siteContext}
+         />
          {/*<Hero/>*/}
          {/*<Service />*/}
          {/*<Promo/>*/}

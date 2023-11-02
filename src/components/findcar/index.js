@@ -55,13 +55,24 @@ class FindCar extends Component {
          }
       })
       const params = {timestamp: new Date().getTime()};
+      let request = `${process.env.REACT_APP_API_LINK}/v1/company/settings00/`;
       axios
-         .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`, {params: params})
+         .get(request, {params: params})
          .then((res) => {
             this.setState({settings: res.data},
                () => this.setDefaultFieldValues());
          })
-         .catch((error) => console.log(error));
+         .catch((error) => {
+            const {showModalErrorValue, modalErrorContentValue} = this.props.siteContext;
+            const setShowModalError = showModalErrorValue[1];
+            const setModalErrorContent = modalErrorContentValue[1]
+            setShowModalError(true);
+            if (Object.hasOwn(error, 'message') && 0){
+               setModalErrorContent(error.message);
+            } else {
+               setModalErrorContent(`Error occurred during the request ${request}`);
+            }
+         });
    }
 
    /**

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react";
+import React from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 
 import Homepage from "../HomePage";
@@ -26,16 +26,12 @@ import TermsAndConditionsPage from "../PagesPage/termsAndConditionsPage";
 import FinishBookingPage from "../FinishBooking";
 import CookieAccept from "../../components/CookieAccept";
 import ErrorModalWindow from "../../components/Error/ErrorModalWindow";
-import {ErrorModalWindowContext} from '../../components/Error/ErrorModalWindowContext'
 
 
 const AllRoute = () => {
 
-   const {showErrorModal, setShowErrorModal} = useContext(ErrorModalWindowContext);
-
    return (
       <div className='all-pages-wrapper'>
-         <h1 onClick={() => setShowErrorModal(2)}>Hello 2: {showErrorModal}</h1>
          <Router>
             <Routes>
                <Route exact path="/" element={<Homepage/>}/>

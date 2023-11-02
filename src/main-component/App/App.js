@@ -4,12 +4,16 @@ import {ErrorModalWindowContext} from '../../components/Error/ErrorModalWindowCo
 
 const App = () => {
 
-   const [showErrorModal, setShowErrorModal] = useState(1);
+   const [showModalError, setShowModalError] = useState(false);
+   const [modalErrorContent, setModalErrorContent] = useState('');
+   const prov_value = {
+      showModalErrorValue: [showModalError, setShowModalError],
+      modalErrorContentValue: [modalErrorContent, setModalErrorContent],
+   }
 
    return (
       <Fragment>
-         <h1>Hello 1: {showErrorModal}</h1>
-         <ErrorModalWindowContext.Provider value={{showErrorModal, setShowErrorModal}}>
+         <ErrorModalWindowContext.Provider value={{...prov_value}}>
             <AllRoute/>
          </ErrorModalWindowContext.Provider>
       </Fragment>

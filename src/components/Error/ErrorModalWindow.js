@@ -1,16 +1,18 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import {useContext, useState} from 'react';
-import {ErrorModalWindowContext} from './ErrorModalWindowContext'
+import {useContext} from "react";
+import {ErrorModalWindowContext} from "./ErrorModalWindowContext";
 
+function ErrorModalWindow() {
 
-function ErrorModalWindow(props) {
-
-   // const [show, setShow] = useState(useContext(ErrorModalWindowContext));
+   const {showModalErrorValue, modalErrorContentValue} = useContext(ErrorModalWindowContext);
+   const [showModalError, setShowModalError] = showModalErrorValue;
+   const [modalErrorContent] = modalErrorContentValue;
 
    return (
       <Modal
-         {...props}
+         show={showModalError}
+         onHide={() => setShowModalError(false)}
          size="lg"
          aria-labelledby="contained-modal-title-vcenter"
          centered
@@ -21,11 +23,10 @@ function ErrorModalWindow(props) {
             </Modal.Title>
          </Modal.Header>
          <Modal.Body>
-            Error body
+            {modalErrorContent}
          </Modal.Body>
          <Modal.Footer>
-            {/*<Button onClick={() => setShow(false)}>Select dates</Button>*/}
-            {/*<ErrorModalWindowContext.Provider value={show}></ErrorModalWindowContext.Provider>*/}
+            <Button onClick={() => setShowModalError(false)}>Close</Button>
          </Modal.Footer>
       </Modal>
    );
