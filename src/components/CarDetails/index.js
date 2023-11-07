@@ -1,13 +1,13 @@
 import React, {Component} from "react";
 import {Container, Row, Col} from "react-bootstrap";
+import axios from "axios";
 import CarOptions from "./CarOptions";
 import Error from "../Error";
 import {toggleBgLoader} from "../bgLoader";
 import DefaultPlaceholderImg from '../../img/default-placeholder.png'
 import ModalWindow from "./modalWindow";
+import {showRequestError} from "../Error/requestError";
 
-
-import axios from "axios";
 
 class CarDetails extends Component {
    constructor(props) {
@@ -31,12 +31,16 @@ class CarDetails extends Component {
          .get(`${process.env.REACT_APP_API_LINK}/v1/product/get_vehicle/${productId}/`, {params: params})
          .then((res) => {
             this.setState({product: res.data});
-            this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));
          })
          .catch(error => {
             if (error.response.status === 404) {
                this.setState({page_404: true})
+            } else{
+               showRequestError(error, this.props.app_context);
             }
+         })
+         .finally(() => {
+            this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));
          })
    }
 

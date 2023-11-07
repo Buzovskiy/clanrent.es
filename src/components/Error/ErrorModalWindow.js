@@ -1,13 +1,13 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import {useContext} from "react";
-import {ErrorModalWindowContext} from "./ErrorModalWindowContext";
+import {AppContext} from "../AppContext";
 
 function ErrorModalWindow() {
 
-   const {showModalErrorValue, modalErrorContentValue} = useContext(ErrorModalWindowContext);
-   const [showModalError, setShowModalError] = showModalErrorValue;
-   const [modalErrorContent] = modalErrorContentValue;
+   const {modalErrorKey, modalErrorContentKey} = useContext(AppContext);
+   const [showModalError, setShowModalError] = modalErrorKey;
+   const [modalErrorContent] = modalErrorContentKey;
 
    return (
       <Modal

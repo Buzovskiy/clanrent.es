@@ -13,26 +13,29 @@ import Team from "../../components/Team";
 import Help from "../../components/Help";
 import Blog from "../../components/Blog";
 import Footer from "../../components/Footer";
-import {ErrorModalWindowContext} from "../../components/Error/ErrorModalWindowContext";
+import {AppContext} from "../../components/AppContext";
 
-const HomePage = (props) => {
+const HomePage = () => {
    const {t} = useTranslation();
-   const siteContext = useContext(ErrorModalWindowContext);
+   const app_context = useContext(AppContext);
 
    return (
       <Fragment>
-         {/*<h1 onClick={() => setShow(true)}>Click</h1>*/}
          <Header/>
          <FindCar
             t={t}
             navigate={useNavigate()}
             createSearchParams={createSearchParams}
-            siteContext = {siteContext}
+            app_context = {app_context}
          />
          {/*<Hero/>*/}
          {/*<Service />*/}
          {/*<Promo/>*/}
-         <HotOffers t={t} navigate={useNavigate()}/>
+         <HotOffers
+            t={t}
+            navigate={useNavigate()}
+            app_context = {app_context}
+         />
          {/*<Testimonial/>*/}
          {/*<Team/>*/}
          {/*<Help/>*/}

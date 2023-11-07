@@ -12,6 +12,7 @@ import CarOptions from "../CarDetails/CarOptions";
 import Cart from '../Cart/utils'
 import BookingTotal from "./BookingTotal";
 import {toggleBgLoader} from "../bgLoader";
+import {showRequestError} from "../Error/requestError";
 
 
 class CarBooking extends Component {
@@ -86,7 +87,7 @@ class CarBooking extends Component {
             this.setState({settings: res.data});
          })
          // error is handled in catch block
-         .catch((error) => console.log(error));
+         .catch((error) => showRequestError(error, this.props.app_context));
 
       let form = {...this.state.form}
       booking_info.details.options.map(option => form[`extras[${option.id}]`] = option['quantity']);
@@ -147,12 +148,13 @@ class CarBooking extends Component {
             if (res.data.status === 'success') {
                new Cart().deleteBooking(this.state.product.id);
                window.location.href = `${res.data.payment_link}?payment_id=${res.data.payment_id}`
+            } else{
+               throw res.data;
             }
          })
          .catch((error) => { // error is handled in catch block
             this.setState({showLoader: false});
-            console.log(error);
-            // window.location.href = 'https://clanrent.es';
+            showRequestError(error, this.props.app_context);
          });
    }
 
@@ -176,7 +178,7 @@ class CarBooking extends Component {
 
       let form = {...this.state.form, [name]: value}
       this.setState({form}, () => {
-         console.log(this.state);
+         // console.log(this.state);
       });
    };
 
@@ -248,15 +250,12 @@ class CarBooking extends Component {
                }
                let booking_info = {...new Cart().cart[this.state.product.id], details: res['data']};
                if (!(JSON.stringify(order) === JSON.stringify(booking_info))) {
-                  // todo: compare booking information from state and storage. If they are not equal, something
-                  // went wrong
-                  console.log('error');
+                  throw {message: 'State and storage are not equal'};
                }
                new Cart().addBooking(this.state.product.id, booking_info);
-
             })
             .catch((error) => { // error is handled in catch block
-               console.log(error);
+               showRequestError(error, this.props.app_context);
             });
       });
    }

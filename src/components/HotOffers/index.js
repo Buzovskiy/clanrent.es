@@ -1,9 +1,9 @@
-import React, {Component, ReactNode} from "react";
+import React, {Component} from "react";
 import makeTwoDimensionalArr from "../../main-component/utils";
 import {Container, Row, Col, Tabs, Tab} from "react-bootstrap";
-import {FaCar, FaCogs, FaTachometerAlt} from "react-icons/fa";
 import axios from "axios";
 import {CategoryItem} from "../CarList/categoryItem";
+import {showRequestError} from "../Error/requestError";
 
 
 class HotOffers extends Component {
@@ -34,7 +34,7 @@ class HotOffers extends Component {
             }
          )
          .catch((error) => { // error is handled in catch block
-            console.log(error);
+            showRequestError(error, this.props.app_context)
          });
    }
 

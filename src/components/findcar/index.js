@@ -7,6 +7,7 @@ import {getCookieConsentValue} from "react-cookie-consent";
 import {formatDateRangeToAPIStandard} from "../../main-component/utils";
 import CustomDateInput from "./date_input";
 import {InputLocation} from "./InputLocation";
+import {showRequestError} from "../Error/requestError";
 
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -55,23 +56,14 @@ class FindCar extends Component {
          }
       })
       const params = {timestamp: new Date().getTime()};
-      let request = `${process.env.REACT_APP_API_LINK}/v1/company/settings00/`;
       axios
-         .get(request, {params: params})
+         .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`, {params: params})
          .then((res) => {
             this.setState({settings: res.data},
                () => this.setDefaultFieldValues());
          })
          .catch((error) => {
-            const {showModalErrorValue, modalErrorContentValue} = this.props.siteContext;
-            const setShowModalError = showModalErrorValue[1];
-            const setModalErrorContent = modalErrorContentValue[1]
-            setShowModalError(true);
-            if (Object.hasOwn(error, 'message') && 0){
-               setModalErrorContent(error.message);
-            } else {
-               setModalErrorContent(`Error occurred during the request ${request}`);
-            }
+            showRequestError(error, this.props.app_context);
          });
    }
 

@@ -8,6 +8,7 @@ import {CategoryItem} from "./categoryItem";
 import {toggleBgLoader} from "../bgLoader";
 import Cart from '../Cart/utils';
 import CarListRenderer from "./CarListRenderer";
+import {showRequestError} from "../Error/requestError";
 
 
 // todo: rewrite class in order to avoid nested axios requests.
@@ -67,17 +68,13 @@ class CarList extends Component {
 
             this.setState({carList: cars});
             this.setState({products: products});
-            this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));
          })
          .catch((error) => { // error is handled in catch block
-            console.log(error);
-            // if (error.response) { // status code out of the range of 2xx
-            // } else {// Error on setting up the request
-            //    let form_errors = [...this.state.form_errors, error.message];
-            //    this.setState({form_errors});
-            // }
-         });
-
+            showRequestError(error, this.props.app_context);
+         })
+         .finally(() => {
+            this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));
+         })
    }
 
    renderPagination = () => {
@@ -162,6 +159,7 @@ class CarList extends Component {
                details: res['data'],
                creation_timestamp: Date.now(),
             }
+            this.setState({show_loader: true}, () => toggleBgLoader(this.state.show_loader));
             /////////////////////////////
             axios
                .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`, {params: params})
@@ -171,13 +169,17 @@ class CarList extends Component {
                   CART.addBooking(vehicle_id, booking_info);
                   window.location.href = '/car-booking/' + vehicle_id;
                })
-               .catch((error) => console.log(error));
+               .catch((error) => showRequestError(error, this.props.app_context))
+               .finally(() => {
+                  this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));
+               })
             /////////////////////////////
          })
          .catch((error) => { // error is handled in catch block
+            showRequestError(error, this.props.app_context);
+         })
+         .finally(() => {
             this.setState({show_loader: false}, () => toggleBgLoader(this.state.show_loader));
-            console.log(error);
-            // todo: do something if pre reservation was not successful
          });
    }
 
@@ -220,7 +222,7 @@ class CarList extends Component {
                            <p>Page {this.state.page} of {this.state.count_pages}</p>
                         </div>
                         <Row className='car-grid-list'>
-                           <CarListRenderer carList={this.state.carList} clickProduct={this.clickProduct} />
+                           <CarListRenderer carList={this.state.carList} clickProduct={this.clickProduct}/>
                         </Row>
                         <div className="pagination-box-row">
                            <p>Page {this.state.page} of {this.state.count_pages}</p>

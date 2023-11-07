@@ -1,11 +1,13 @@
 import {useTranslation} from "react-i18next";
 import {Col, Container, Row} from "react-bootstrap";
-import {Link} from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import CarListRenderer from '../CarList/CarListRenderer'
 import Cart from "../Cart/utils";
 import {toggleBgLoader} from "../bgLoader";
+import {showRequestError} from "../Error/requestError";
+import {AppContext} from "../AppContext";
+
 
 const FinishBooking = () => {
    const {t} = useTranslation();
@@ -16,6 +18,8 @@ const FinishBooking = () => {
    useEffect(() => {
       toggleBgLoader(!requestIsDone);
    }, [requestIsDone]);
+
+   const app_context = useContext(AppContext);
 
    useEffect(() => {
       const cart = new Cart().cart;
@@ -31,12 +35,13 @@ const FinishBooking = () => {
             .get(`${process.env.REACT_APP_API_LINK}/v1/vehicle/index/${ids}/`, {params: params})
             .then((res) => {
                setCarList(res.data);
-               setRequestIsDone(true);
             })
             .catch((error) => { // error is handled in catch block
+               showRequestError(error, app_context);
+            })
+            .finally(() => {
                setRequestIsDone(true);
-               console.log(error);
-            });
+            })
       } else{
          setRequestIsDone(true);
          window.location.href = '/';

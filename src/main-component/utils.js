@@ -90,20 +90,6 @@ const formatDateRangeToAPIStandard = (date_start, date_end) => {
    return formatted_date_start + ' - ' + formatted_date_end;
 }
 
-
-// const cleanCart = () => {
-//       axios
-//          .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`)
-//          .then((res) => {
-//             this.setState({settings: res.data});
-//             let time_end = order.creation_timestamp + res.data.time_for_booking * 1000;
-//             this.setState({time_end: time_end});
-//             let timer = <Timer time_end={time_end} t={this.props.t}/>
-//             this.setState({timer: timer});
-//          })
-//       .catch((error) => console.log(error));
-// }
-
 export {
    getTimeRemaining,
    getTimeRemainingString,
