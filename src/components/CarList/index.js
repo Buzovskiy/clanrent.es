@@ -188,19 +188,6 @@ class CarList extends Component {
       e.preventDefault();
       const vehicle_id = e.target.closest('.single-offers').dataset.id;
       this.makeCarPreReservation(vehicle_id);
-
-
-      // let product_obj = this.state.products[product_id];
-      // let booking_info = {
-      //    product: product_obj,
-      //    pickup_location: this.state.pickup_location,
-      //    return_location: this.state.return_location,
-      //    dates: this.state.dates
-      // }
-      // let cart_storage = localStorage.getItem('cart');
-      // let cart = cart_storage === null ? {} : JSON.parse(cart_storage);
-      // cart[product_obj.id] = {...booking_info};
-      // localStorage.setItem('cart', JSON.stringify(cart));
    }
 
    renderCarList = () => {
