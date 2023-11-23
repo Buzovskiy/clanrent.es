@@ -1,6 +1,7 @@
-import React, {Component} from "react";
+import React, {Component, useState, useEffect} from "react";
 import {Container, Row, Col} from "react-bootstrap";
 import axios from "axios";
+import {useTranslation} from "react-i18next";
 import CarOptions from "./CarOptions";
 import Error from "../Error";
 import {toggleBgLoader} from "../bgLoader";
@@ -9,7 +10,69 @@ import ModalWindow from "./modalWindow";
 import {showRequestError} from "../Error/requestError";
 
 
-class CarDetails extends Component {
+const CarDetails = (props) => {
+   const {t} = useTranslation();
+   const [product, setProduct] = useState([]);
+   const [page_404, set_page_404] = useState([]);
+
+   if (page_404) {
+      return <Error/>
+   }
+   return (
+      <>
+         <section className="gauto-car-booking section_70 car-details">
+            <Container>
+               <Row>
+                  <Col lg={6}>
+                     <div className="car-booking-image">
+                        <img src={product['thumbnail']} alt="car"/>
+                     </div>
+                  </Col>
+                  <Col lg={6}>
+                     <div className="car-booking-right">
+                        <p className="rental-tag">{t("rental")}</p>
+                        <h3>{product.brand} {product.mark}</h3>
+                        <div className="price-rating">
+                           <div className="price-rent">
+                              <h4>
+                                 {product.price}{product.currency}<span>/ {t("day")}</span>
+                              </h4>
+                           </div>
+                        </div>
+                        {/*<p>*/}
+                        {/*   {" "}*/}
+                        {/*   consectetur adipiscing elit. Donec luctus tincidunt aliquam.*/}
+                        {/*   Aliquam gravida massa at sem vulputate interdum et vel eros.*/}
+                        {/*   Maecenas eros enim, tincidunt vel turpis vel,dapibus tempus*/}
+                        {/*   nulla. Donec vel nulla dui.*/}
+                        {/*</p>*/}
+                        <div className='car-options'>
+                           <h3>Car configuration</h3>
+                           <div className="options-container">
+                              <div className="options-wrapper">
+                                 <CarOptions options={product.options}/>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </Col>
+               </Row>
+            </Container>
+            <Container>
+               <Row>
+                  <div className="action-btn">
+                     <a className="gauto-btn" onClick={this.onClick} href="/">{t("researve_now")}</a>
+                  </div>
+               </Row>
+            </Container>
+         </section>
+         <ModalWindow show={this.state.modal_show} onHide={this.onHide}/>
+      </>
+   )
+}
+
+
+class CarDetails11 extends Component {
    constructor(props) {
       super(props);
 
@@ -35,7 +98,7 @@ class CarDetails extends Component {
          .catch(error => {
             if (error.response.status === 404) {
                this.setState({page_404: true})
-            } else{
+            } else {
                showRequestError(error, this.props.app_context);
             }
          })
@@ -93,7 +156,7 @@ class CarDetails extends Component {
                               <h3>Car configuration</h3>
                               <div className="options-container">
                                  <div className="options-wrapper">
-                                    <CarOptions options={product.options} />
+                                    <CarOptions options={product.options}/>
                                  </div>
                               </div>
                            </div>
@@ -109,7 +172,7 @@ class CarDetails extends Component {
                   </Row>
                </Container>
             </section>
-            <ModalWindow show={this.state.modal_show} onHide={this.onHide} />
+            <ModalWindow show={this.state.modal_show} onHide={this.onHide}/>
          </>
       )
    }

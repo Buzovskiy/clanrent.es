@@ -26,6 +26,7 @@ import TermsAndConditionsPage from "../PagesPage/termsAndConditionsPage";
 import FinishBookingPage from "../FinishBooking";
 import CookieAccept from "../../components/CookieAccept";
 import ErrorModalWindow from "../../components/Error/ErrorModalWindow";
+import SimpleSlider from "../../components/slider";
 
 
 const AllRoute = () => {
@@ -58,6 +59,7 @@ const AllRoute = () => {
                <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />}/>
                <Route path="/finish-booking" element={<FinishBookingPage/>}/>
                <Route path="*" element={<ErrorPage/>}/>
+               <Route path="/slider" element={<SimpleSlider/>}/>
             </Routes>
             <ScrollToTop/>
             <CookieAccept/>
