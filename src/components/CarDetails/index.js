@@ -1,84 +1,57 @@
-import React, {Component, useState, useEffect} from "react";
+import React, {Component} from "react";
 import {Container, Row, Col} from "react-bootstrap";
 import axios from "axios";
-import {useTranslation} from "react-i18next";
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Keyboard, Pagination, Navigation, Zoom} from 'swiper/modules';
 import CarOptions from "./CarOptions";
 import Error from "../Error";
 import {toggleBgLoader} from "../bgLoader";
 import DefaultPlaceholderImg from '../../img/default-placeholder.png'
 import ModalWindow from "./modalWindow";
 import {showRequestError} from "../Error/requestError";
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/zoom';
+import 'swiper/css/navigation';
 
 
-const CarDetails = (props) => {
-   const {t} = useTranslation();
-   const [product, setProduct] = useState([]);
-   const [page_404, set_page_404] = useState([]);
+import img1 from "../../img/temp/48119.jpeg";
+import img2 from "../../img/temp/48121.jpeg";
+import img3 from "../../img/temp/48123.jpeg";
+import img4 from "../../img/temp/48125.jpeg";
+import img5 from "../../img/temp/48127.jpeg";
+import img6 from "../../img/temp/48129.jpeg";
+import img7 from "../../img/temp/52219.jpg";
 
-   if (page_404) {
-      return <Error/>
+
+const swiper_config = {
+   slidesPerView: 2,
+   grabCursor: true,
+   spaceBetween: 30,
+   centeredSlides: true,
+   zoom: true,
+   keyboard: {enabled: true},
+   pagination: {clickable: true},
+   navigation: true,
+   modules: [Keyboard, Pagination, Navigation, Zoom],
+   className: "mySwiper",
+   breakpoints: {
+      1024: {
+         slidesPerView: 2,
+         spaceBetween: 20,
+      },
    }
-   return (
-      <>
-         <section className="gauto-car-booking section_70 car-details">
-            <Container>
-               <Row>
-                  <Col lg={6}>
-                     <div className="car-booking-image">
-                        <img src={product['thumbnail']} alt="car"/>
-                     </div>
-                  </Col>
-                  <Col lg={6}>
-                     <div className="car-booking-right">
-                        <p className="rental-tag">{t("rental")}</p>
-                        <h3>{product.brand} {product.mark}</h3>
-                        <div className="price-rating">
-                           <div className="price-rent">
-                              <h4>
-                                 {product.price}{product.currency}<span>/ {t("day")}</span>
-                              </h4>
-                           </div>
-                        </div>
-                        {/*<p>*/}
-                        {/*   {" "}*/}
-                        {/*   consectetur adipiscing elit. Donec luctus tincidunt aliquam.*/}
-                        {/*   Aliquam gravida massa at sem vulputate interdum et vel eros.*/}
-                        {/*   Maecenas eros enim, tincidunt vel turpis vel,dapibus tempus*/}
-                        {/*   nulla. Donec vel nulla dui.*/}
-                        {/*</p>*/}
-                        <div className='car-options'>
-                           <h3>Car configuration</h3>
-                           <div className="options-container">
-                              <div className="options-wrapper">
-                                 <CarOptions options={product.options}/>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </Col>
-               </Row>
-            </Container>
-            <Container>
-               <Row>
-                  <div className="action-btn">
-                     <a className="gauto-btn" onClick={this.onClick} href="/">{t("researve_now")}</a>
-                  </div>
-               </Row>
-            </Container>
-         </section>
-         <ModalWindow show={this.state.modal_show} onHide={this.onHide}/>
-      </>
-   )
 }
 
 
-class CarDetails11 extends Component {
+class CarDetails extends Component {
    constructor(props) {
       super(props);
 
       this.state = {
          product: {
-            'thumbnail': DefaultPlaceholderImg
+            'thumbnail': DefaultPlaceholderImg,
+            'photos': []
          },
          page_404: false,
          show_loader: true,
@@ -129,12 +102,7 @@ class CarDetails11 extends Component {
             <section className="gauto-car-booking section_70 car-details">
                <Container>
                   <Row>
-                     <Col lg={6}>
-                        <div className="car-booking-image">
-                           <img src={product['thumbnail']} alt="car"/>
-                        </div>
-                     </Col>
-                     <Col lg={6}>
+                     <Col>
                         <div className="car-booking-right">
                            <p className="rental-tag">{t("rental")}</p>
                            <h3>{product.brand} {product.mark}</h3>
@@ -145,6 +113,58 @@ class CarDetails11 extends Component {
                                  </h4>
                               </div>
                            </div>
+                        </div>
+                     </Col>
+                  </Row>
+                  <Row>
+                     <Col>
+                        <Swiper
+                           slidesPerView={2}
+                           grabCursor={true}
+                           spaceBetween={30}
+                           centeredSlides={true}
+                           zoom={true}
+                           keyboard={{
+                              enabled: true,
+                           }}
+                           pagination={{
+                              clickable: true,
+                           }}
+                           navigation={true}
+                           modules={[Keyboard, Pagination, Navigation, Zoom]}
+                           className="mySwiper"
+                           // breakpoints={breakpoints}
+                        >
+                           {/*<CarouselImages product={product}/>*/}
+                           <SwiperSlide>
+                              <div className="swiper-zoom-container"><img src={img1} alt=""/></div>
+                           </SwiperSlide>
+                           <SwiperSlide>
+                              <div className="swiper-zoom-container"><img src={img2} alt=""/></div>
+                           </SwiperSlide>
+                           <SwiperSlide>
+                              <div className="swiper-zoom-container"><img src={img3} alt=""/></div>
+                           </SwiperSlide>
+                           <SwiperSlide>
+                              <div className="swiper-zoom-container"><img src={img4} alt=""/></div>
+                           </SwiperSlide>
+                           <SwiperSlide>
+                              <div className="swiper-zoom-container"><img src={img5} alt=""/></div>
+                           </SwiperSlide>
+                           <SwiperSlide>
+                              <div className="swiper-zoom-container"><img src={img6} alt=""/></div>
+                           </SwiperSlide>
+                           <SwiperSlide>
+                              <div className="swiper-zoom-container"><img src={img7} alt=""/></div>
+                           </SwiperSlide>
+                        </Swiper>
+                     </Col>
+                  </Row>
+                  <Row>
+                     <Col lg={6}>
+                        <div className="car-booking-right">
+                           <h3>{product.brand} {product.mark}</h3>
+
                            {/*<p>*/}
                            {/*   {" "}*/}
                            {/*   consectetur adipiscing elit. Donec luctus tincidunt aliquam.*/}
@@ -176,6 +196,14 @@ class CarDetails11 extends Component {
          </>
       )
    }
+}
+
+const CarouselImages = (props) => {
+   return props.product['photos'].map((photo, key) => (
+      <SwiperSlide key={key}>
+         <div className="swiper-zoom-container"><img src={photo} alt=""/></div>
+      </SwiperSlide>
+   ))
 }
 
 

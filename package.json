@@ -29,6 +29,8 @@
     "react-slick": "^0.29.0",
     "sass": "^1.62.1",
     "slick-carousel": "^1.8.1",
+    "swiper": "^11.0.5",
+    "tiny-slider-react": "^0.5.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

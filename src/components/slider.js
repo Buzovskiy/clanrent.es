@@ -1,7 +1,11 @@
 import React from "react";
-import OwlCarousel from 'react-owl-carousel';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Keyboard, Pagination, Navigation, Zoom} from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/zoom';
+import 'swiper/css/navigation';
+
 
 import img1 from "../img/temp/48119.jpeg";
 import img2 from "../img/temp/48121.jpeg";
@@ -13,32 +17,48 @@ import img7 from "../img/temp/52219.jpg";
 
 
 const SimpleSlider = () => {
-   const settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      rows: 1,
-      // centerMode: true,
+   const breakpoints = {
+      640: {
+         slidesPerView: 2,
+         spaceBetween: 20,
+      },
+      768: {
+         slidesPerView: 4,
+         spaceBetween: 40,
+      },
+      // 1024: {
+      //   slidesPerView: 5,
+      //   spaceBetween: 50,
+      // },
    };
    return (
-      <OwlCarousel
-         items={2}
-         className="owl-theme"
-         loop
-         margin={8}
-         center
+      <Swiper
+         slidesPerView={2}
+         grabCursor={true}
+         spaceBetween={30}
+         centeredSlides={true}
+         zoom={true}
+         keyboard={{
+            enabled: true,
+         }}
+         pagination={{
+            clickable: true,
+         }}
+         navigation={true}
+         modules={[Keyboard, Pagination, Navigation, Zoom]}
+         className="mySwiper"
+         // breakpoints={breakpoints}
       >
-         <div><img src={img1} alt=""/></div>
-         <div><img src={img2} alt=""/></div>
-         <div><img src={img3} alt=""/></div>
-         <div><img src={img4} alt=""/></div>
-         <div><img src={img5} alt=""/></div>
-         <div><img src={img6} alt=""/></div>
-         <div><img src={img7} alt=""/></div>
-      </OwlCarousel>
-   );
+         <SwiperSlide ><div className="swiper-zoom-container"><img src={img1} alt=""/></div></SwiperSlide>
+         <SwiperSlide ><div className="swiper-zoom-container"><img src={img2} alt=""/></div></SwiperSlide>
+         <SwiperSlide ><div className="swiper-zoom-container"><img src={img3} alt=""/></div></SwiperSlide>
+         <SwiperSlide ><div className="swiper-zoom-container"><img src={img4} alt=""/></div></SwiperSlide>
+         <SwiperSlide ><div className="swiper-zoom-container"><img src={img5} alt=""/></div></SwiperSlide>
+         <SwiperSlide ><div className="swiper-zoom-container"><img src={img6} alt=""/></div></SwiperSlide>
+         <SwiperSlide ><div className="swiper-zoom-container"><img src={img7} alt=""/></div></SwiperSlide>
+      </Swiper>
+   )
+      ;
 }
 
 export default SimpleSlider
