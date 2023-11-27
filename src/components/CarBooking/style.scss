@@ -1,6 +1,6 @@
 /* ===================== CAR BOOKING ======================*/
 .gauto-car-booking {
-  //background: #fbfbfb none repeat scroll 0 0;
+  margin-top: 5px;
 }
 
 .rental-tag, .time-left {
@@ -255,19 +255,16 @@ input[type="radio"]:checked ~ label {
   }
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
-  .car-booking-right {
-    margin-top: 30px;
-  }
-  .booking-right {
-    margin-top: 30px;
-  }
-}
+//@media (min-width: 768px) and (max-width: 991px) {
+//  .car-booking-right {
+//    margin-top: 30px;
+//  }
+//  .booking-right {
+//    margin-top: 30px;
+//  }
+//}
 
 @media (max-width: 767px) {
-  .car-booking-right {
-    margin-top: 30px;
-  }
   .car-booking-right h3,
   .product-details-text h3 {
     font-size: 28px;
@@ -282,9 +279,6 @@ input[type="radio"]:checked ~ label {
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
-  .car-booking-right {
-    margin-top: 30px;
-  }
   .car-booking-right h3,
   .product-details-text h3 {
     font-size: 28px;

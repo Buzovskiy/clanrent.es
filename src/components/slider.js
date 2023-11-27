@@ -36,8 +36,9 @@ const SimpleSlider = () => {
          slidesPerView={2}
          grabCursor={true}
          spaceBetween={30}
-         centeredSlides={true}
+         // centeredSlides={true}
          zoom={true}
+         freeMode={true}
          keyboard={{
             enabled: true,
          }}

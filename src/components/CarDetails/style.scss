@@ -1,8 +1,14 @@
-.car-details .action-btn{
+.car-details .action-btn {
   text-align: center;
 }
 
-.options-wrapper{
+.options-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+
+@media(min-width: 992px) {
+  .options-wrapper {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 }
