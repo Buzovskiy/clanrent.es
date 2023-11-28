@@ -369,8 +369,8 @@ button.gauto-theme-btn:hover {
   padding-bottom: 70px;
 }
 
-.section_70 {
-  padding: 70px 0;
+.section_t_70 {
+  padding-top: 70px;
 }
 
 .section_b_80 {
@@ -581,6 +581,10 @@ button.gauto-theme-btn:hover {
 
 .product-swiper-wrapper {
   margin-bottom: 10px;
+}
+
+.swiper {
+  overflow: unset;
 }
 
 @media (min-width: 480px) {

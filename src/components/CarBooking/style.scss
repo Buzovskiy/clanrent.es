@@ -1,6 +1,6 @@
 /* ===================== CAR BOOKING ======================*/
 .gauto-car-booking {
-  margin-top: 5px;
+  margin-top: 15px;
 }
 
 .rental-tag, .time-left {
@@ -290,4 +290,8 @@ input[type="radio"]:checked ~ label {
   .booking-right {
     margin-top: 30px;
   }
+}
+
+.car-options h3{
+  margin-bottom: 15px;
 }

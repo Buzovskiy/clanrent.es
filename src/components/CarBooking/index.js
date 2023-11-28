@@ -1,10 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import {Container, Row, Col} from "react-bootstrap";
-import {
-   FaStar,
-   FaStarHalfAlt,
-} from "react-icons/fa";
 import axios from "axios";
 
 import Timer from "./timer";
@@ -13,6 +9,7 @@ import Cart from '../Cart/utils'
 import BookingTotal from "./BookingTotal";
 import {toggleBgLoader} from "../bgLoader";
 import {showRequestError} from "../Error/requestError";
+import ProductSwiper from "../CarDetails/productSwiper";
 
 
 class CarBooking extends Component {
@@ -22,7 +19,9 @@ class CarBooking extends Component {
       // todo: обработка ошибки email и телефон
 
       this.state = {
-         product: {},
+         product: {
+            'photos': []
+         },
          pickup_location: '',
          return_location: '',
          rental_start_date: '',
@@ -148,7 +147,7 @@ class CarBooking extends Component {
             if (res.data.status === 'success') {
                new Cart().deleteBooking(this.state.product.id);
                window.location.href = `${res.data.payment_link}?payment_id=${res.data.payment_id}`
-            } else{
+            } else {
                throw res.data;
             }
          })
@@ -301,36 +300,35 @@ class CarBooking extends Component {
       toggleBgLoader(this.state.showLoader);
       return (
          <>
-            <section className="gauto-car-booking section_70">
+            <section className="gauto-car-booking booking-page">
                <Container>
                   <Row>
-                     <Col lg={6}>
-                        <div className="car-booking-image">
-                           <img src={this.state.product['thumbnail']} alt="car"/>
-                        </div>
-                     </Col>
-                     <Col lg={6}>
+                     <Col>
                         <div className="car-booking-right">
-                           <p className="rental-tag">{t("rental")}</p>
-                           <span className="time-left">{this.state.timer}</span>
                            <h3>{product.brand} {product.mark}</h3>
+                           <div className='rental-tag-wrapper'>
+                              <p className="rental-tag">{t("rental")}</p>
+                              <span className="time-left">{this.state.timer}</span>
+                           </div>
                            <div className="price-rating">
                               <div className="price-rent">
                                  <h4>
                                     {product.price}{product.currency}<span>/ {t("day")}</span>
                                  </h4>
                               </div>
-                              <div className="car-rating">
-                                 <ul>
-                                    <li><FaStar/></li>
-                                    <li><FaStar/></li>
-                                    <li><FaStar/></li>
-                                    <li><FaStar/></li>
-                                    <li><FaStarHalfAlt/></li>
-                                 </ul>
-                                 <p>(123 {t("rating")})</p>
-                              </div>
                            </div>
+                        </div>
+                     </Col>
+                  </Row>
+                  <Row>
+                     <Col className='product-swiper-wrapper'>
+                        <ProductSwiper product={this.state.product}/>
+                     </Col>
+                  </Row>
+
+                  <Row>
+                     <Col>
+                        <div>
                            {/*<p>*/}
                            {/*   {" "}*/}
                            {/*   consectetur adipiscing elit. Donec luctus tincidunt aliquam.*/}

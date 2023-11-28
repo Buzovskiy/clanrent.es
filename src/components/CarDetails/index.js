@@ -75,7 +75,7 @@ class CarDetails extends Component {
                      <Col>
                         <div className="car-booking-right">
                            <h3>{product.brand} {product.mark}</h3>
-                           <p className="rental-tag">{t("rental")}</p>
+                           <div className='rental-tag-wrapper'><p className="rental-tag">{t("rental")}</p></div>
                            <div className="price-rating">
                               <div className="price-rent">
                                  <h4>
@@ -92,15 +92,8 @@ class CarDetails extends Component {
                      </Col>
                   </Row>
                   <Row>
-                     <Col>
-                        <div className="car-booking-right">
-
-                        </div>
-                     </Col>
-                  </Row>
-                  <Row>
                      <Col lg={12}>
-                        <div className="car-booking-right">
+                        <div>
                            {/*<p>*/}
                            {/*   {" "}*/}
                            {/*   consectetur adipiscing elit. Donec luctus tincidunt aliquam.*/}

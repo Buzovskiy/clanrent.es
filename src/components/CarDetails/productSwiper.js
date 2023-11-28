@@ -7,7 +7,7 @@ const swiper_config = {
    slidesPerView: 1,
    grabCursor: true,
    spaceBetween: 30,
-   // centeredSlides: true,
+   centeredSlides: true,
    zoom: true,
    loop: true,
    keyboard: {enabled: true},
