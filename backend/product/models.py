@@ -7,6 +7,11 @@ class Product(models.Model):
     mark = models.CharField('Mark', max_length=255, null=True, blank=True)
     group = models.CharField('Group', max_length=255, null=True, blank=True)
     priority = models.PositiveIntegerField('Priority', null=False, blank=False, db_index=True, default=0)
+    thumbnail_small = models.CharField('Thumbnail_small', max_length=255, null=True, blank=True)
+    currency = models.CharField('Currency', max_length=255, null=True, blank=True)
+    year = models.IntegerField('Year', null=True, blank=True)
+    price = models.FloatField('Price', null=True, blank=True)
+    transmission = models.CharField('Transmission', null=True, blank=True)
 
     objects = models.Manager()
 

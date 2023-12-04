@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from backend.api_request import ApiRequest
 from product.models import Product
+from product.serializers import ProductSerializer
 
 
 @api_view(['GET'])
