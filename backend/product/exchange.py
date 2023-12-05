@@ -22,6 +22,7 @@ def product_exchange(request):
                 "brand": car['brand'],
                 "mark": car['mark'],
                 "group": car['group'],
+                "thumbnail": car['thumbnail'],
                 "thumbnail_small": thumbnail_small,
                 'currency': car['currency'],
                 'year': car['year'],
