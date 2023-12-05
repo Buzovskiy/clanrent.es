@@ -15,7 +15,7 @@ export const CategoryItem = (props) => {
          <div className="offer-image">
             <a href={productUrl}
                onClick={clickProduct} onContextMenu={clickProduct}>
-               <img src={item.thumbnail} alt="offer 1"/>
+               <img src={'thumbnail_small' in item ? item.thumbnail_small: item.thumbnail} alt="offer 1"/>
             </a>
          </div>
          <div className="offer-text">

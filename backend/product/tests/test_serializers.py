@@ -3,18 +3,19 @@ from django.test.client import RequestFactory
 from django.contrib.sessions.middleware import SessionMiddleware
 
 from product.models import Product
+from product.serializers import ProductSerializer
 from product.exchange import product_exchange
+
+from product.utils import create_products_for_testing
 
 
 class ProductSerializerTestCase(TestCase):
 
     def setUp(self):
         self.factory = RequestFactory()
-        request = self.factory.get(path='https://api.rentsyst.com/v1/vehicle/index')
-        middleware = SessionMiddleware(lambda x: None)
-        middleware.process_request(request)
-        request.session.save()
-        product_exchange(request)
+        create_products_for_testing()
 
     def test_product_serializer(self):
-        self.assertEqual(1, 1)
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        self.assertEqual(products.count(), len(serializer.data))

@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -24,22 +25,11 @@ def show_cars_view(request):
 @api_view(['GET'])
 def company_vehicles_info(request):
     """v1/vehicle/index/"""
-    r = ApiRequest(request, url='https://api.rentsyst.com/v1/vehicle/index').get()
-    products_dict = {}
-    for prod in Product.objects.all():
-        products_dict[prod.external_id] = {'priority': prod.priority}
-    products_remote_list = []
-    for prod_remote in r.json():
-        if prod_remote['id'] in products_dict:
-            priority = products_dict[prod_remote['id']]['priority']
-        else:
-            priority = 0
-        prod_remote['priority'] = priority
-        products_remote_list.append(prod_remote)
+    products = Product.objects.all()
 
-    products_remote_list.sort(key=lambda item: item['priority'], reverse=True)
+    serializer = ProductSerializer(products, many=True)
 
-    return Response(data=products_remote_list, status=r.status_code)
+    return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
 
 
 @api_view(['GET'])
