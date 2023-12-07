@@ -19,7 +19,7 @@ def get_cars_from_rentsyst(request):
 
 @admin.register(Product)
 class ProductAdmin(SortableAdminMixin, admin.ModelAdmin):
-    list_display = ('external_id', 'brand_and_mark', 'group', 'priority', 'priority_num')
+    list_display = ('external_id', 'brand_and_mark', 'group', 'priority', 'priority_num', 'active')
 
     def priority_num(self, obj):
         return obj.priority

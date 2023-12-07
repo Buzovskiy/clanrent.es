@@ -25,7 +25,7 @@ def show_cars_view(request):
 @api_view(['GET'])
 def company_vehicles_info(request):
     """v1/vehicle/index/"""
-    products = Product.objects.all()
+    products = Product.objects.filter(active=True).all()
 
     serializer = ProductSerializer(products, many=True)
 

@@ -11,6 +11,7 @@ def product_exchange(request):
     try:
         result = ApiRequest(request, url='https://api.rentsyst.com/v1/vehicle/index').get()
         objects_added = 0
+        external_ids_list = []
         for car in result.json():
             thumbnail_small = get_thumbnail_small(
                 external_id=car['id'],
@@ -27,7 +28,8 @@ def product_exchange(request):
                 'currency': car['currency'],
                 'year': car['year'],
                 'price': car['price'],
-                'transmission': car['transmission']
+                'transmission': car['transmission'],
+                'active': True
             }
 
             obj, created = Product.objects.update_or_create(
@@ -39,6 +41,11 @@ def product_exchange(request):
                 obj.priority = priority_max + 1
                 obj.save()
                 objects_added += 1
+            external_ids_list.append(car['id'])
+        # Look up objects which are not in external ids list and deactivate them
+        if len(external_ids_list) > 10:
+            Product.objects.exclude(external_id__in=external_ids_list).update(active=False)
+
         return {'success': f'{objects_added} {_("objects added")}'}
     except IntegrityError as e:
         return {'error': e}

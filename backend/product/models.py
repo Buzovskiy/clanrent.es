@@ -13,6 +13,7 @@ class Product(models.Model):
     year = models.IntegerField('Year', null=True, blank=True)
     price = models.FloatField('Price', null=True, blank=True)
     transmission = models.CharField('Transmission', null=True, blank=True)
+    active = models.BooleanField('Active', null=False, blank=False, default=True)
 
     objects = models.Manager()
 
