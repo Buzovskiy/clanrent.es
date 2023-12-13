@@ -6,7 +6,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import HttpApi from "i18next-http-backend";
 import {BrowserRouter} from "react-router-dom";
 import App from "./main-component/App/App";
-import AppSiteClosed from "./main-component/App/AppSiteClosed";
+// import AppSiteClosed from "./main-component/App/AppSiteClosed";
 import "./index.scss";
 
 i18n
@@ -31,8 +31,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
    <Suspense fallback={loadingMarkup}>
       <React.StrictMode>
-         {/*<App/>*/}
-         <AppSiteClosed/>
+         <App/>
+         {/*<AppSiteClosed/>*/}
       </React.StrictMode>
    </Suspense>
 );

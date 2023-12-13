@@ -9,6 +9,9 @@
             name="description"
             content="Web site created using create-react-app"
     />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png?v=1"/>
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -29,10 +32,19 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <script>
-        (function(w,d,s,r,n){w.TrustpilotObject=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)};
-            a=d.createElement(s);a.async=1;a.src=r;a.type='text/java'+s;f=d.getElementsByTagName(s)[0];
-            f.parentNode.insertBefore(a,f)})(window,document,'script', 'https://invitejs.trustpilot.com/tp.min.js', 'tp');
-            tp('register', 'sM5ooIcavuNPPyzk');
+       (function (w, d, s, r, n) {
+          w.TrustpilotObject = n;
+          w[n] = w[n] || function () {
+             (w[n].q = w[n].q || []).push(arguments)
+          };
+          a = d.createElement(s);
+          a.async = 1;
+          a.src = r;
+          a.type = 'text/java' + s;
+          f = d.getElementsByTagName(s)[0];
+          f.parentNode.insertBefore(a, f)
+       })(window, document, 'script', 'https://invitejs.trustpilot.com/tp.min.js', 'tp');
+       tp('register', 'sM5ooIcavuNPPyzk');
     </script>
 
     <!-- Meta Pixel Code -->
