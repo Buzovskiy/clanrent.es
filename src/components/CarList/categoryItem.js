@@ -3,19 +3,20 @@ import React, {useEffect, useState} from "react";
 
 export const CategoryItem = (props) => {
    const {t, item, clickProduct} = props
-   const [productUrl, setProductUrl] = useState(`/product-details/${item.id}`)
+   const external_id = 'external_id' in item ? item.external_id: item.id
+   const [productUrl, setProductUrl] = useState(`/product-details/${external_id}`)
    useEffect(() => {
       if (props.module === 'FinishBooking'){
-         setProductUrl(`/car-booking/${item.id}`);
+         setProductUrl(`/car-booking/${external_id}`);
       }
    }, []);
 
    return (
-      <div className="single-offers" data-url={productUrl} data-id={item.id}>
+      <div className="single-offers" data-url={productUrl} data-id={external_id}>
          <div className="offer-image">
             <a href={productUrl}
                onClick={clickProduct} onContextMenu={clickProduct}>
-               <img src={item.thumbnail} alt="offer 1"/>
+               <img src={'thumbnail_small' in item ? item.thumbnail_small: item.thumbnail} alt="offer 1"/>
             </a>
          </div>
          <div className="offer-text">

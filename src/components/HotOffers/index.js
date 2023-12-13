@@ -21,15 +21,19 @@ class HotOffers extends Component {
          .then((res) => {
                let cars = res.data;
                let cars_obj = {'All': []}
-               let num_cols = 3 // The number of columns in a row
+               // let num_cols = 3 // The number of columns in a row
 
                cars.forEach(car => {
                   if (!cars_obj.hasOwnProperty(car.brand)) {
                      cars_obj[car.brand] = [];
                   }
-                  cars_obj['All'] = makeTwoDimensionalArr(cars_obj['All'], num_cols, car);
-                  cars_obj[car.brand] = makeTwoDimensionalArr(cars_obj[car.brand], num_cols, car);
+                  // cars_obj['All'] = makeTwoDimensionalArr(cars_obj['All'], num_cols, car);
+                  // cars_obj[car.brand] = makeTwoDimensionalArr(cars_obj[car.brand], num_cols, car);
+
+                  cars_obj['All'].push(car);
+                  cars_obj[car.brand].push(car);
                })
+            console.log(cars_obj);
                this.setState({carList: cars_obj})
             }
          )
@@ -45,27 +49,32 @@ class HotOffers extends Component {
    RenderTabs = () => {
       return Object.keys(this.state.carList).map((brand, ind) => (
          <Tab eventKey={brand} title={brand} key={ind}>
-            {this.renderRow(brand)}
+            <Row>
+               {this.renderCarsList(brand)}
+            </Row>
          </Tab>
       ))
    }
 
-   renderRow(brand) {
-      return this.state.carList[brand].map((row, ind) => (
-         <Row key={ind}>
-            {this.renderCar(row)}
-         </Row>
-      ))
-   }
-
-   renderCar(row) {
+   renderCarsList(brand) {
       const {t} = this.props;
-      return row.map((item, ind) => (
+      return this.state.carList[brand].map((item, ind) => (
          <Col key={ind} lg={4}>
-            <CategoryItem item={item} t={t} clickProduct={function(){}}/>
+            <CategoryItem item={item} t={t} clickProduct={function () {
+            }}/>
          </Col>
       ))
    }
+
+   // renderCar(row) {
+   //    const {t} = this.props;
+   //    return row.map((item, ind) => (
+   //       <Col key={ind} lg={4}>
+   //          <CategoryItem item={item} t={t} clickProduct={function () {
+   //          }}/>
+   //       </Col>
+   //    ))
+   // }
 
    render() {
       const {t} = this.props
