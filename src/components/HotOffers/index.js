@@ -35,7 +35,7 @@ class HotOffers extends Component {
                      cars_obj[car.brand].push(car);
                   }
                })
-            console.log(cars_obj);
+            // console.log(cars_obj);
                this.setState({carList: cars_obj})
             }
          )
