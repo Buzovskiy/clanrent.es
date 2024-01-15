@@ -21,17 +21,19 @@ class HotOffers extends Component {
          .then((res) => {
                let cars = res.data;
                let cars_obj = {'All': []}
-               // let num_cols = 3 // The number of columns in a row
-
+               cars_obj['RANGE ROVER'] = []
                cars.forEach(car => {
-                  if (!cars_obj.hasOwnProperty(car.brand)) {
+                  if (!cars_obj.hasOwnProperty(car.brand) && car.brand !== 'LAND ROVER') {
                      cars_obj[car.brand] = [];
                   }
-                  // cars_obj['All'] = makeTwoDimensionalArr(cars_obj['All'], num_cols, car);
-                  // cars_obj[car.brand] = makeTwoDimensionalArr(cars_obj[car.brand], num_cols, car);
 
                   cars_obj['All'].push(car);
-                  cars_obj[car.brand].push(car);
+                  // Push the cars of brand LAND ROVER to the group of brand RANGE ROVER
+                  if (car.brand === 'LAND ROVER'){
+                     cars_obj['RANGE ROVER'].push(car);
+                  } else {
+                     cars_obj[car.brand].push(car);
+                  }
                })
             console.log(cars_obj);
                this.setState({carList: cars_obj})
