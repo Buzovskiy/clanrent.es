@@ -1,8 +1,8 @@
-from django.shortcuts import redirect
+from asgiref.sync import async_to_sync
+from django.conf import settings
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-import stripe
-import decouple
+from telegram import Bot
 
 from backend.api_request import ApiRequest
 
@@ -32,8 +32,41 @@ def update_view(request, order_id=None):
 def confirm_view(request, order_id=None):
     """v1/order/confirm/<int:order_id>"""
     data = request.data
+    try:
+        send_telegram_order_notification(request, order_id)
+    except:
+        pass
     r = ApiRequest(request, url=f'https://api.rentsyst.com/v1/order/confirm/{order_id}', data=data).post()
     return Response(data=r.json(), status=r.status_code)
+
+
+def send_telegram_order_notification(request, order_id):
+    order_info = ApiRequest(request, url=f'https://api.rentsyst.com/v1/order/info/{order_id}').get()
+    if order_info.status_code == 200:
+        order_info = order_info.json()
+
+        client = order_info['customer_data'].get('ReservedForm[title]')
+        vehicle = f"{order_info['vehicle'].get('brand')} {order_info['vehicle'].get('mark')}"
+
+        text = f"""
+            *Новый заказ!*\n
+            id заказа: *{order_info['id']}*;
+            продавец: *{'clanrent.es'}*;
+            сумма заказа: *{order_info['total_price']}*;
+            клиент: *{client}*;
+            автомобиль: *{vehicle}*;
+            место получения автомобиля: *{order_info['pickup_location']}*;
+            место возврата автомобиля: *{order_info['return_location']}*;
+            дата начала: *{order_info['pickup_date']}*;
+            дата окончания: *{order_info['return_date']}*;
+            период аренды: *{order_info['rental_period']}*.
+            """
+        bot = Bot(token=settings.TELEGRAM_BOT_TOKEN)
+        async_to_sync(bot.send_message)(
+            chat_id=settings.TELEGRAM_GROUP_CHAT_ID,
+            text=text,
+            parse_mode='markdown',
+        )
 
 
 @api_view(['GET'])

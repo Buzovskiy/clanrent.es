@@ -134,3 +134,7 @@ CORS_ALLOWED_ORIGINS = decouple.config('CORS_ALLOWED_ORIGINS', cast=lambda v: [s
 
 RENTSYST_CLIENT_ID = decouple.config('RENTSYST_CLIENT_ID')
 RENTSYST_CLIENT_SECRET = decouple.config('RENTSYST_CLIENT_SECRET')
+# Telegram bot token. Bot for notification about order
+TELEGRAM_BOT_TOKEN = decouple.config('TELEGRAM_BOT_TOKEN')
+# Group chat id, where bot sends notifications
+TELEGRAM_GROUP_CHAT_ID = decouple.config('TELEGRAM_GROUP_CHAT_ID')
