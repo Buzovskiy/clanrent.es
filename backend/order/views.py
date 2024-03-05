@@ -32,11 +32,11 @@ def update_view(request, order_id=None):
 def confirm_view(request, order_id=None):
     """v1/order/confirm/<int:order_id>"""
     data = request.data
+    r = ApiRequest(request, url=f'https://api.rentsyst.com/v1/order/confirm/{order_id}', data=data).post()
     try:
         send_telegram_order_notification(request, order_id)
     except:
         pass
-    r = ApiRequest(request, url=f'https://api.rentsyst.com/v1/order/confirm/{order_id}', data=data).post()
     return Response(data=r.json(), status=r.status_code)
 
 
