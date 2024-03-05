@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import {Container, Row, Col} from "react-bootstrap";
 import axios from "axios";
+import Cookies from 'js-cookie'
 
 import Timer from "./timer";
 import CarOptions from "../CarDetails/CarOptions";
@@ -136,6 +137,9 @@ class CarBooking extends Component {
       orderConfirmationFormData.append('driver[0][birthday]', this.state.form.birthday);
       orderConfirmationFormData.append('payment_method', this.state.form.payment_method);
       orderConfirmationFormData.append('comment', this.state.form.comment);
+      const vendor = Cookies.get('vendor') == null ? 'clanrent.es': Cookies.get('vendor')
+      orderConfirmationFormData.append('vendor', vendor);
+
       // for (const value of orderConfirmationFormData.values()) {
       //    console.log(value);
       // }

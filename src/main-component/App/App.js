@@ -3,7 +3,6 @@ import AllRoute from "../router";
 import {AppContext} from "../../components/AppContext";
 
 const App = () => {
-
    const [showModalError, setShowModalError] = useState(false);
    const [modalErrorContent, setModalErrorContent] = useState('');
    const prov_value = {

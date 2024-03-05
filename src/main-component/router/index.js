@@ -27,6 +27,7 @@ import FinishBookingPage from "../FinishBooking";
 import CookieAccept from "../../components/CookieAccept";
 import ErrorModalWindow from "../../components/Error/ErrorModalWindow";
 import SimpleSlider from "../../components/slider";
+import Vendor from "../../components/Vendor";
 
 
 const AllRoute = () => {
@@ -64,6 +65,7 @@ const AllRoute = () => {
             <ScrollToTop/>
             <CookieAccept/>
             <ErrorModalWindow />
+            <Vendor/>
          </Router>
       </div>
    );

@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from telegram import Bot
 
 from backend.api_request import ApiRequest
+from .serializers import OrderSerializer
 
 
 @api_view(['POST'])
@@ -37,13 +38,28 @@ def confirm_view(request, order_id=None):
         send_telegram_order_notification(request, order_id)
     except:
         pass
+
+    vendor = data.get('vendor')
+    serializer = OrderSerializer(data={'rentsyst_id': order_id, 'vendor': get_vendor(vendor)})
+    if serializer.is_valid():
+        serializer.save()
+
     return Response(data=r.json(), status=r.status_code)
+
+
+def get_vendor(vendor):
+    if vendor and vendor == 'entraymas':
+        return vendor
+    else:
+        return 'clanrent.es'
 
 
 def send_telegram_order_notification(request, order_id):
     order_info = ApiRequest(request, url=f'https://api.rentsyst.com/v1/order/info/{order_id}').get()
     if order_info.status_code == 200:
         order_info = order_info.json()
+        data = request.data
+        vendor = data.get('vendor')
 
         client = order_info['customer_data'].get('ReservedForm[title]')
         vehicle = f"{order_info['vehicle'].get('brand')} {order_info['vehicle'].get('mark')}"
@@ -51,7 +67,7 @@ def send_telegram_order_notification(request, order_id):
         text = f"""
             *Новый заказ!*\n
             id заказа: *{order_info['id']}*;
-            продавец: *{'clanrent.es'}*;
+            продавец: *{get_vendor(vendor)}*;
             сумма заказа: *{order_info['total_price']}*;
             клиент: *{client}*;
             автомобиль: *{vehicle}*;
