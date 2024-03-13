@@ -48,7 +48,7 @@ def confirm_view(request, order_id=None):
 
 
 def get_vendor(vendor):
-    if vendor and vendor == 'entraymas':
+    if vendor and (vendor == 'entraymas' or vendor == 'cyclingcalpe' or vendor == 'knelite'):
         return vendor
     else:
         return 'clanrent.es'
