@@ -78,6 +78,11 @@ def send_telegram_order_notification(request, order_id):
 
         for customer in order_info['customers_data']:
             try:
+                text += f"\nимя: *{customer['data']['ReservedForm[title]']}*;"
+            except KeyError:
+                pass
+
+            try:
                 text += f"\nтелефон: *{customer['data']['ReservedForm[phone]']}*;"
             except KeyError:
                 pass
