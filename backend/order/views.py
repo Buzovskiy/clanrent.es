@@ -64,19 +64,29 @@ def send_telegram_order_notification(request, order_id):
         client = order_info['customer_data'].get('ReservedForm[title]')
         vehicle = f"{order_info['vehicle'].get('brand')} {order_info['vehicle'].get('mark')}"
 
-        text = f"""
-            *Новый заказ!*\n
-            id заказа: *{order_info['id']}*;
-            продавец: *{get_vendor(vendor)}*;
-            сумма заказа: *{order_info['total_price']}*;
-            клиент: *{client}*;
-            автомобиль: *{vehicle}*;
-            место получения автомобиля: *{order_info['pickup_location']}*;
-            место возврата автомобиля: *{order_info['return_location']}*;
-            дата начала: *{order_info['pickup_date']}*;
-            дата окончания: *{order_info['return_date']}*;
-            период аренды: *{order_info['rental_period']}*.
-            """
+        text = "*Новый заказ!*\n"
+        text += f"\nid заказа: *{order_info['id']}*;"
+        text += f"\nпродавец: *{get_vendor(vendor)}*;"
+        text += f"\nсумма заказа: *{order_info['total_price']}*;"
+        text += f"\nклиент: *{client}*;"
+        text += f"\nавтомобиль: *{vehicle}*;"
+        text += f"\nместо получения автомобиля: *{order_info['pickup_location']}*;"
+        text += f"\nместо возврата автомобиля: *{order_info['return_location']}*;"
+        text += f"\nдата начала: *{order_info['pickup_date']}*;"
+        text += f"\nдата окончания: *{order_info['return_date']}*;"
+        text += f"\nпериод аренды: *{order_info['rental_period']}*."
+
+        for customer in order_info['customers_data']:
+            try:
+                text += f"\nтелефон: *{customer['data']['ReservedForm[phone]']}*;"
+            except KeyError:
+                pass
+
+            try:
+                text += f"\nemail: *{customer['data']['ReservedForm[email]']}*;"
+            except KeyError:
+                pass
+
         bot = Bot(token=settings.TELEGRAM_BOT_TOKEN)
         async_to_sync(bot.send_message)(
             chat_id=settings.TELEGRAM_GROUP_CHAT_ID,
