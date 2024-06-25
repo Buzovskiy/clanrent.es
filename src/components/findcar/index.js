@@ -56,15 +56,15 @@ class FindCar extends Component {
          }
       })
       const params = {timestamp: new Date().getTime()};
-      axios
-         .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`, {params: params})
-         .then((res) => {
-            this.setState({settings: res.data},
-               () => this.setDefaultFieldValues());
-         })
-         .catch((error) => {
-            showRequestError(error, this.props.app_context);
-         });
+      // axios
+      //    .get(`${process.env.REACT_APP_API_LINK}/v1/company/settings/`, {params: params})
+      //    .then((res) => {
+      //       this.setState({settings: res.data},
+      //          () => this.setDefaultFieldValues());
+      //    })
+      //    .catch((error) => {
+      //       showRequestError(error, this.props.app_context);
+      //    });
    }
 
    /**
@@ -279,88 +279,88 @@ class FindCar extends Component {
                <source src={video_narrow} type="video/mp4"/>
             </video>
             <div className="find-box-area-wrapper">
-               <div className="find-box">
-                  <Row className="align-items-center">
-                     <Col md={12}>
-                        <div className="find-text">
-                           <h3>{t("search_best_car")}</h3>
-                        </div>
-                     </Col>
-                     <Col md={12}>
-                        <form className="find-form" onSubmit={(e) => this.submitHandler(e)}>
-                           <div className="fields-container">
-                              <div className='field-wrapper order1'>
-                                 <InputLocation
-                                    css_class={this.getErrorClass('pickup_location')}
-                                    settings={this.state.settings}
-                                    onPlaceSelected={this.onPlaceSelected}
-                                    placeholder={t("from_address")}
-                                    onPlaceChange={this.onPlaceChange}
-                                    input_name='pickup_location'
-                                    id='pickup_location'
-                                    defaultValue={this.state.form_data.pickup_location}
-                                 />
-                                 {/*   {this.renderFieldError('pickup_location')}*/}
-                              </div>
-                              <div className={`field-wrapper order3 ${this.getErrorClass('rental_start_date')}`}>
-                                 <DatePicker
-                                    selected={this.state.form_data.rental_start_date}
-                                    onChange={(dates) => this.onDateChange(dates, 'rental_start_date')}
-                                    selectsRange
-                                    // selectsStart
-                                    startDate={this.state.form_data.rental_start_date}
-                                    endDate={this.state.form_data.rental_end_date}
-                                    dateFormat="yyyy-MM-dd HH:mm"
-                                    minDate={new Date()}
-                                    showTimeSelect
-                                    isClearable
-                                    customInput={<RenderCustomDateInput
-                                       input_name='rental_start_date'
-                                       date={this.state.form_data.rental_start_date}
-                                       showClearButton={!!this.state.form_data.rental_start_date}
-                                    />}
-                                 />
-                              </div>
-                              <div className='field-wrapper order2'>
-                                 <InputLocation
-                                    css_class={this.getErrorClass('return_location')}
-                                    settings={this.state.settings}
-                                    onPlaceSelected={this.onPlaceSelected}
-                                    placeholder={t("to_address")}
-                                    css_class={this.fieldHasError('return_location') ? 'error' : ''}
-                                    onPlaceChange={this.onPlaceChange}
-                                    input_name='return_location'
-                                    id=''
-                                    defaultValue={this.state.form_data.return_location}
-                                 />
-                              </div>
-                              <div className={`field-wrapper order4 ${this.getErrorClass('rental_end_date')}`}>
-                                 <DatePicker
-                                    selected={this.state.form_data.rental_end_date}
-                                    onChange={(date) => this.onDateChange(date, 'rental_end_date')}
-                                    // selectsRange
-                                    selectsEnd
-                                    startDate={this.state.form_data.rental_start_date}
-                                    endDate={this.state.form_data.rental_end_date}
-                                    // minDate={this.state.form_data.rental_start_date ? this.state.form_data.rental_start_date : new Date()}
-                                    minDate={this.state.form_data.rental_start_date}
-                                    dateFormat="yyyy-MM-dd HH:mm"
-                                    showTimeSelect
-                                    showClearButton={false}
-                                    customInput={<RenderCustomDateInput
-                                       input_name='rental_end_date'
-                                       date={this.state.form_data.rental_end_date}
-                                    />}
-                                 />
-                              </div>
-                           </div>
-                           <button type="submit" className="gauto-theme-btn">
-                              {t("find_car")}
-                           </button>
-                        </form>
-                     </Col>
-                  </Row>
-               </div>
+               {/*<div className="find-box">*/}
+               {/*   <Row className="align-items-center">*/}
+               {/*      <Col md={12}>*/}
+               {/*         <div className="find-text">*/}
+               {/*            <h3>{t("search_best_car")}</h3>*/}
+               {/*         </div>*/}
+               {/*      </Col>*/}
+               {/*      <Col md={12}>*/}
+               {/*         <form className="find-form" onSubmit={(e) => this.submitHandler(e)}>*/}
+               {/*            <div className="fields-container">*/}
+               {/*               <div className='field-wrapper order1'>*/}
+               {/*                  <InputLocation*/}
+               {/*                     css_class={this.getErrorClass('pickup_location')}*/}
+               {/*                     settings={this.state.settings}*/}
+               {/*                     onPlaceSelected={this.onPlaceSelected}*/}
+               {/*                     placeholder={t("from_address")}*/}
+               {/*                     onPlaceChange={this.onPlaceChange}*/}
+               {/*                     input_name='pickup_location'*/}
+               {/*                     id='pickup_location'*/}
+               {/*                     defaultValue={this.state.form_data.pickup_location}*/}
+               {/*                  />*/}
+               {/*                  /!*   {this.renderFieldError('pickup_location')}*!/*/}
+               {/*               </div>*/}
+               {/*               <div className={`field-wrapper order3 ${this.getErrorClass('rental_start_date')}`}>*/}
+               {/*                  <DatePicker*/}
+               {/*                     selected={this.state.form_data.rental_start_date}*/}
+               {/*                     onChange={(dates) => this.onDateChange(dates, 'rental_start_date')}*/}
+               {/*                     selectsRange*/}
+               {/*                     // selectsStart*/}
+               {/*                     startDate={this.state.form_data.rental_start_date}*/}
+               {/*                     endDate={this.state.form_data.rental_end_date}*/}
+               {/*                     dateFormat="yyyy-MM-dd HH:mm"*/}
+               {/*                     minDate={new Date()}*/}
+               {/*                     showTimeSelect*/}
+               {/*                     isClearable*/}
+               {/*                     customInput={<RenderCustomDateInput*/}
+               {/*                        input_name='rental_start_date'*/}
+               {/*                        date={this.state.form_data.rental_start_date}*/}
+               {/*                        showClearButton={!!this.state.form_data.rental_start_date}*/}
+               {/*                     />}*/}
+               {/*                  />*/}
+               {/*               </div>*/}
+               {/*               <div className='field-wrapper order2'>*/}
+               {/*                  <InputLocation*/}
+               {/*                     css_class={this.getErrorClass('return_location')}*/}
+               {/*                     settings={this.state.settings}*/}
+               {/*                     onPlaceSelected={this.onPlaceSelected}*/}
+               {/*                     placeholder={t("to_address")}*/}
+               {/*                     css_class={this.fieldHasError('return_location') ? 'error' : ''}*/}
+               {/*                     onPlaceChange={this.onPlaceChange}*/}
+               {/*                     input_name='return_location'*/}
+               {/*                     id=''*/}
+               {/*                     defaultValue={this.state.form_data.return_location}*/}
+               {/*                  />*/}
+               {/*               </div>*/}
+               {/*               <div className={`field-wrapper order4 ${this.getErrorClass('rental_end_date')}`}>*/}
+               {/*                  <DatePicker*/}
+               {/*                     selected={this.state.form_data.rental_end_date}*/}
+               {/*                     onChange={(date) => this.onDateChange(date, 'rental_end_date')}*/}
+               {/*                     // selectsRange*/}
+               {/*                     selectsEnd*/}
+               {/*                     startDate={this.state.form_data.rental_start_date}*/}
+               {/*                     endDate={this.state.form_data.rental_end_date}*/}
+               {/*                     // minDate={this.state.form_data.rental_start_date ? this.state.form_data.rental_start_date : new Date()}*/}
+               {/*                     minDate={this.state.form_data.rental_start_date}*/}
+               {/*                     dateFormat="yyyy-MM-dd HH:mm"*/}
+               {/*                     showTimeSelect*/}
+               {/*                     showClearButton={false}*/}
+               {/*                     customInput={<RenderCustomDateInput*/}
+               {/*                        input_name='rental_end_date'*/}
+               {/*                        date={this.state.form_data.rental_end_date}*/}
+               {/*                     />}*/}
+               {/*                  />*/}
+               {/*               </div>*/}
+               {/*            </div>*/}
+               {/*            <button type="submit" className="gauto-theme-btn">*/}
+               {/*               {t("find_car")}*/}
+               {/*            </button>*/}
+               {/*         </form>*/}
+               {/*      </Col>*/}
+               {/*   </Row>*/}
+               {/*</div>*/}
                <div className="slider-text">
                   <h2>{t("hero_slide_title")}</h2>
                   <p>{t("hero_slide_subtitle")}</p>

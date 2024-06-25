@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from company.views import settings_view
 from order.views import create_view, update_view, confirm_view, create_checkout_session, get_order_info_view
 from product.views import show_cars_view, company_vehicles_info, get_vehicle, get_vehicles_by_ids
@@ -34,3 +36,5 @@ urlpatterns = [
     path('v1/vehicle/index/<str:ids>/', get_vehicles_by_ids),
     path('v1/product/get_vehicle/<int:external_id>/', get_vehicle),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

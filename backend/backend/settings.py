@@ -122,8 +122,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-
 STATIC_ROOT = BASE_DIR / 'static'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -138,3 +140,5 @@ RENTSYST_CLIENT_SECRET = decouple.config('RENTSYST_CLIENT_SECRET')
 TELEGRAM_BOT_TOKEN = decouple.config('TELEGRAM_BOT_TOKEN')
 # Group chat id, where bot sends notifications
 TELEGRAM_GROUP_CHAT_ID = decouple.config('TELEGRAM_GROUP_CHAT_ID')
+
+BASE_URL = decouple.config('BASE_URL')

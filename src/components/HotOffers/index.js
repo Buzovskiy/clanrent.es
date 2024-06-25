@@ -62,7 +62,8 @@ class HotOffers extends Component {
       const {t} = this.props;
       return this.state.carList[brand].map((item, ind) => (
          <Col key={ind} lg={4}>
-            <CategoryItem item={item} t={t} clickProduct={function () {
+            <CategoryItem item={item} t={t} clickProduct={function (e) {
+               e.preventDefault()
             }}/>
          </Col>
       ))
