@@ -13,6 +13,7 @@ import Team from "../../components/Team";
 import Help from "../../components/Help";
 import Blog from "../../components/Blog";
 import Footer from "../../components/Footer";
+import PhoneCallBack from "../../components/PhoneCallBack";
 import {AppContext} from "../../components/AppContext";
 
 const HomePage = () => {
@@ -41,6 +42,7 @@ const HomePage = () => {
          {/*<Help/>*/}
          {/*<Blog/>*/}
          <About/>
+         <PhoneCallBack/>
          <Footer/>
       </Fragment>
    );
