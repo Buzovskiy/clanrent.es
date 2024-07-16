@@ -64,7 +64,7 @@ const PhoneCallBack = () => {
                      <Form.Control
                         required
                         type="text"
-                        placeholder="Enter phone number"
+                        placeholder="For example: (+34) 000 00 00 00"
                         onChange={(e) => setPhoneNumber(e.target.value)}
                      />
                      <Form.Control.Feedback type="invalid">
