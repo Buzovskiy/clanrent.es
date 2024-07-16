@@ -1,19 +1,21 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form'
+import {AppContext} from "../AppContext";
 import Thanks from "./thanks";
 
 import "./callback.css";
 
 
 const PhoneCallBack = () => {
-   const [show, setShow] = useState(true);
+   const {modalPhoneCallBack} = useContext(AppContext);
+   const [showModalPhoneCallBack, setModalPhoneCallBack] = modalPhoneCallBack;
    const [showThanks, setShowThanks] = useState(false);
    const [phoneNumber, setPhoneNumber] = useState("");
    const [validated, setValidated] = useState(true);
 
-   const handleClose = () => setShow(false);
+   const handleClose = () => setModalPhoneCallBack(false);
    const handleCloseThanks = () => setShowThanks(false);
 
    const handleSubmit = async (event) => {
@@ -35,7 +37,7 @@ const PhoneCallBack = () => {
             if (!response.ok) {
                console.log(response);
             } else {
-               setShow(false)
+               setModalPhoneCallBack(false)
                setShowThanks(true);
             }
 
@@ -50,7 +52,7 @@ const PhoneCallBack = () => {
    return (
       <>
          <Thanks showThanks={showThanks} handleCloseThanks={handleCloseThanks}/>
-         <Modal show={show} onHide={handleClose} centered className="dialog__callback">
+         <Modal show={showModalPhoneCallBack} onHide={handleClose} centered className="dialog__callback">
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                <Modal.Header closeButton>
                   <Modal.Title>Call me back</Modal.Title>

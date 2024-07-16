@@ -5,9 +5,11 @@ import {AppContext} from "../../components/AppContext";
 const App = () => {
    const [showModalError, setShowModalError] = useState(false);
    const [modalErrorContent, setModalErrorContent] = useState('');
+   const [modalPhoneCallBack, setModalPhoneCallBack] = useState(true);
    const prov_value = {
       modalErrorKey: [showModalError, setShowModalError],
       modalErrorContentKey: [modalErrorContent, setModalErrorContent],
+      modalPhoneCallBack: [modalPhoneCallBack, setModalPhoneCallBack],
    }
 
    return (
