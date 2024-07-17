@@ -4,6 +4,10 @@
     min-height: calc(100% - 1rem);
 }
 
+.dialog__callback .modal-dialog input{
+    width: 100%;
+}
+
 @media (max-width: 768px) {
     .dialog__callback .modal-dialog{
         align-items: end;

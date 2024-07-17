@@ -1,10 +1,12 @@
 import React, {useContext, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form'
+import Form from 'react-bootstrap/Form';
+import {PhoneInput} from 'react-international-phone';
 import {AppContext} from "../AppContext";
 import Thanks from "./thanks";
 
+import 'react-international-phone/style.css';
 import "./callback.css";
 
 
@@ -14,6 +16,7 @@ const PhoneCallBack = () => {
    const [showThanks, setShowThanks] = useState(false);
    const [phoneNumber, setPhoneNumber] = useState("");
    const [validated, setValidated] = useState(true);
+   const [validatedPhone, setValidatedPhone] = useState(false);
 
    const handleClose = () => setModalPhoneCallBack(false);
    const handleCloseThanks = () => setShowThanks(false);
@@ -49,6 +52,15 @@ const PhoneCallBack = () => {
       setValidated(true);
    }
 
+   const handlePhoneChange = (phone) => {
+      setPhoneNumber(phone)
+      if (phone.length > 9){
+         setValidatedPhone(true);
+      } else {
+         setValidatedPhone(false);
+      }
+   }
+
    return (
       <>
          <Thanks showThanks={showThanks} handleCloseThanks={handleCloseThanks}/>
@@ -63,15 +75,12 @@ const PhoneCallBack = () => {
                   </h4>
                   <Form.Group className="mb-3" controlId="formPhoneNumber">
                      <Form.Label>Phone number:</Form.Label>
-                     <Form.Control
-                        required
-                        type="text"
-                        placeholder="For example: (+34) 000 00 00 00"
-                        onChange={(e) => setPhoneNumber(e.target.value)}
+                     <PhoneInput
+                        defaultCountry="es"
+                        value={phoneNumber}
+                        onChange={handlePhoneChange}
                      />
-                     <Form.Control.Feedback type="invalid">
-                        Please choose a username.
-                     </Form.Control.Feedback>
+                     {!validatedPhone && <div className="text-danger">Please enter a phone number.</div>}
                      <Form.Text className="text-muted">
                         We'll never share your phone number with anyone else.
                      </Form.Text>
