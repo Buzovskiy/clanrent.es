@@ -24,7 +24,7 @@ const PhoneCallBack = () => {
    const handleSubmit = async (event) => {
       const form = event.currentTarget;
       event.preventDefault();
-      if (form.checkValidity() === true) {
+      if (form.checkValidity() === true && phoneLengthValid(phoneNumber)) {
          event.stopPropagation();
          const headers = new Headers();
          headers.append("Content-Type", "application/json");
@@ -52,9 +52,13 @@ const PhoneCallBack = () => {
       setValidated(true);
    }
 
+   const phoneLengthValid = (phone) => {
+      return phone.length > 9;
+   }
+
    const handlePhoneChange = (phone) => {
       setPhoneNumber(phone)
-      if (phone.length > 9){
+      if (phoneLengthValid(phone)){
          setValidatedPhone(true);
       } else {
          setValidatedPhone(false);
