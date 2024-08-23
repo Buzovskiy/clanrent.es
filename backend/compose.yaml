@@ -1,0 +1,12 @@
+services:
+  django:
+    build: .
+    ports:
+      - 8000:8000
+    env_file: "./.env"
+    environment:
+      - DEFAULT_DB_HOST=host.docker.internal
+    volumes:
+      - ./media:/app/media
+      - ./static:/app/static
+      - ./dumps:/app/dumps
