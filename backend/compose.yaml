@@ -12,3 +12,5 @@ services:
       - ./media:/app/media
       - ./static:/app/static
       - ./dumps:/app/dumps
+#    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --access-logfile - --workers 12 --reload --time 300
