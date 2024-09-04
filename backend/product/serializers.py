@@ -3,14 +3,15 @@ from rest_framework import serializers
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    image_thumbnail_url = serializers.SerializerMethodField()
+    imageThumbnailUrl = serializers.SerializerMethodField('get_image_thumbnail_url')
+    externalId = serializers.CharField(source='external_id')
 
     class Meta:
         model = Product
-        fields = ('external_id', 'brand', 'mark', 'group',
-                  'priority', 'image_original', 'image_thumbnail',
+        fields = ('externalId', 'brand', 'mark', 'group',
+                  'priority',
                   'currency', 'year', 'price', 'transmission',
-                  'active', 'image_thumbnail_url')
+                  'active', 'imageThumbnailUrl')
 
     def get_image_thumbnail_url(self, obj):
         return obj.get_absolute_image_url('image_thumbnail')
