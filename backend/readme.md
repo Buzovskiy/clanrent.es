@@ -4,7 +4,7 @@ Command rebuilds the image for django service and then stops, destroys,
 and recreates just the django service. The --no-deps flag prevents Compose 
 from also recreating any services which django depends on
 ```shell
-sudo docker compose up --no-deps -d django
+sudo docker compose up -d --no-deps --build django
 ```
 Start services
 ```shell
