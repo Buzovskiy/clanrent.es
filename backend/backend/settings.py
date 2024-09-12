@@ -134,6 +134,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = decouple.config('CORS_ALLOWED_ORIGINS', cast=lambda v: [s.strip() for s in v.split(',')])
+CSRF_TRUSTED_ORIGINS = decouple.config('CSRF_TRUSTED_ORIGINS', cast=lambda v: [s.strip() for s in v.split(',')])
 
 RENTSYST_CLIENT_ID = decouple.config('RENTSYST_CLIENT_ID')
 RENTSYST_CLIENT_SECRET = decouple.config('RENTSYST_CLIENT_SECRET')
