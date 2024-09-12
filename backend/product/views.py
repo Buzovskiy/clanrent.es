@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from backend.api_request import ApiRequest
@@ -57,3 +57,25 @@ def get_vehicle(request, external_id):
     if bool(vehicle):
         return Response(data=vehicle, status=status.HTTP_200_OK)
     return Response(data={}, status=status.HTTP_404_NOT_FOUND)
+
+
+# @api_view(['GET'])
+# def products(request, product_id):
+#     """products/<int:id>"""
+#     product = Product.objects.get(pk=product_id)
+#     serializer = ProductSerializer(product)
+#     return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class ProductList(generics.ListAPIView):
+    """v1/product/<slug:slug>"""
+    queryset = Product.objects.prefetch_related('images'). \
+        prefetch_related('options').filter(active=True).all()[:100]
+    serializer_class = ProductSerializer
+
+
+class ProductDetail(generics.RetrieveAPIView):
+    """v1/product/<slug:slug>"""
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'slug'

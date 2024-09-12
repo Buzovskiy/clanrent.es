@@ -1,4 +1,3 @@
-import stripe
 import requests
 import json
 import os
@@ -10,7 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.db.models import Sum
 from backend.api_request import ApiRequestFileStorage
-from product.models import Product
+from product.models import Product, ProductImage
 
 
 class Command(BaseCommand):
@@ -18,27 +17,21 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for product in Product.objects.all():
             path = settings.BASE_DIR / 'dumps/rentsyst/images' / product.external_id
-            original_filename = None
-            for (dirpath, dirnames, filenames) in os.walk(path / 'thumbnail'):
+
+            for (dirpath, dirnames, filenames) in os.walk(path / 'photos'):
                 if not len(filenames):
                     break
-                original_filename = filenames[0]
-                break
-            if original_filename is None:
-                continue
-
-            # Save original image
-            with open(path / 'thumbnail' / original_filename, 'rb') as original_img:
-                with ContentFile(original_img.read()) as new_image:
-                    product.image_original.save(original_filename, new_image)
-                    product.save()  # Save object
-
-            thumbnail_filename = 'vehicle_thumbnail_' + original_filename.split('_')[-1]
-            if not os.path.isfile(path / 'thumbnails' / thumbnail_filename):
-                continue
-
-            # Save thumbnail image
-            with open(path / 'thumbnails' / thumbnail_filename, 'rb') as original_img:
-                with ContentFile(original_img.read()) as new_image:
-                    product.image_thumbnail.save(thumbnail_filename, new_image)
-                    product.save()  # Save object
+                for filename in filenames:
+                    with open(path / 'photos' / filename, 'rb') as original_img:
+                        with ContentFile(original_img.read()) as new_image:
+                            product_image = ProductImage()
+                            product_image.product = product
+                            product_image.original.save(filename, new_image)
+                            first_product_image = ProductImage.objects.filter(product=product).\
+                                order_by('-display_order').first()
+                            if first_product_image:
+                                max_display_order = first_product_image.display_order + 1
+                            else:
+                                max_display_order = 1
+                            product_image.display_order = max_display_order
+                            product_image.save()

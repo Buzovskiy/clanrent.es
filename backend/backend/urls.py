@@ -20,7 +20,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from company.views import settings_view
 from order.views import create_view, update_view, confirm_view, create_checkout_session, get_order_info_view
-from product.views import show_cars_view, company_vehicles_info, get_vehicle, get_vehicles_by_ids
+from product.views import show_cars_view, company_vehicles_info, get_vehicle, get_vehicles_by_ids, \
+    ProductDetail, ProductList
 
 
 urlpatterns = [
@@ -35,6 +36,8 @@ urlpatterns = [
     path('v1/vehicle/index/', company_vehicles_info),
     path('v1/vehicle/index/<str:ids>/', get_vehicles_by_ids),
     path('v1/product/get_vehicle/<int:external_id>/', get_vehicle),
+    path('v1/products/<slug:slug>/', ProductDetail.as_view()),
+    path('v1/products/', ProductList.as_view()),
     path('v1/communication/', include('communication.urls')),
 ]
 
