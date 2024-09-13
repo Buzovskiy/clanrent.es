@@ -41,4 +41,5 @@ urlpatterns = [
     path('v1/communication/', include('communication.urls')),
 ]
 
+urlpatterns += [path("ckeditor5/", include('django_ckeditor_5.urls'))]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

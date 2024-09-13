@@ -39,10 +39,12 @@ INSTALLED_APPS = [
     "corsheaders",
     'rest_framework',
     'adminsortable2',
+    'django_ckeditor_5',
+
     'company',
     'order',
     'product',
-    'communication'
+    'communication',
 ]
 
 MIDDLEWARE = [
@@ -144,3 +146,10 @@ TELEGRAM_BOT_TOKEN = decouple.config('TELEGRAM_BOT_TOKEN')
 TELEGRAM_GROUP_CHAT_ID = decouple.config('TELEGRAM_GROUP_CHAT_ID')
 
 BASE_URL = decouple.config('BASE_URL')
+
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': ['bold', 'italic', 'link',
+                    'bulletedList', 'numberedList', 'sourceEditing', ],
+    },
+}

@@ -4,7 +4,9 @@ from django.dispatch import receiver
 from backend.utils import post_delete_image, pre_save_image
 from django.db.models.signals import post_delete, pre_save
 from django.utils.translation import gettext_lazy as _
+from django.utils.html import strip_tags
 from slugify import slugify
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 class Product(models.Model):
@@ -32,10 +34,13 @@ class Product(models.Model):
     volume_tank = models.PositiveSmallIntegerField('Volume tank', null=True, blank=True)
     volume_engine = models.FloatField('Volume engine', null=True, blank=True)
     transmission = models.CharField('Transmission', null=True, blank=True)
+    description = CKEditor5Field(blank=True, null=True)
 
     objects = models.Manager()
 
     def save(self, *args, **kwargs):
+        if strip_tags(self.description) == '&nbsp;':
+            self.description = ''
         super(Product, self).save(*args, **kwargs)
         if not self.slug:
             self.slug = slugify(f'{self.brand}-{self.mark}-{self.year}-id-{self.id}')

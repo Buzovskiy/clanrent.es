@@ -12,4 +12,4 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ('id', 'slug', 'brand', 'mark', 'group',
                   'priority',
                   'currency', 'year', 'price', 'transmission',
-                  'active', 'images', 'options')
+                  'active', 'description', 'images', 'options')
