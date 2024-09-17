@@ -63,7 +63,7 @@ class ProductImage(models.Model):
         related_name='images',
         verbose_name=_("Product"))
     original = models.ImageField(
-        _("Original"), upload_to='product_image/original/%Y/%m/%d', max_length=255, null=True, blank=True)
+        _("Original"), upload_to='product_image/original/%Y/%m/%d', max_length=255, null=True, blank=False)
     #: Use display_order to determine which is the "primary" image
     display_order = models.PositiveIntegerField(
         _("Display order"), default=0, db_index=True, blank=False, null=False,
