@@ -72,8 +72,8 @@ class ProductImage(models.Model):
     date_created = models.DateTimeField(_("Date created"), auto_now_add=True)
 
     def get_absolute_image_url(self, image_field):
-        url = getattr(self, image_field).url
         try:
+            url = getattr(self, image_field).url
             return "{0}{1}".format(settings.BASE_URL, url)
         except ValueError:
             return ''
@@ -94,6 +94,13 @@ class ProductImage(models.Model):
 class ProductOption(models.Model):
     product = models.ForeignKey('Product', related_name='options', on_delete=models.CASCADE)
     option = models.CharField('Option', max_length=255, null=False, blank=False)
+
+
+class Price(models.Model):
+    product = models.ForeignKey('Product', related_name='prices', on_delete=models.CASCADE)
+    price = models.FloatField('Price', null=False, blank=False)
+    days_min = models.SmallIntegerField('Days min', null=False, blank=False)
+    days_max = models.SmallIntegerField('Days max', null=True, blank=True)
 
 
 @receiver(post_delete, sender=ProductImage)
