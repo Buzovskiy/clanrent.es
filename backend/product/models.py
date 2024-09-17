@@ -26,7 +26,6 @@ class Product(models.Model):
     color_code = models.CharField('Color code', max_length=255, null=True, blank=True)
     type = models.CharField('Type (car, motorcycle, truck)', max_length=255, null=True, blank=True)
     body_type = models.CharField('Body type (sedan, hatchback)', max_length=255, null=True, blank=True)
-    price = models.FloatField('Price', null=True, blank=True)
     active = models.BooleanField('Active', null=False, blank=False, default=True)
     currency = models.CharField('Currency', max_length=255, null=True, blank=True)
     consumption = models.PositiveSmallIntegerField('Consumption', null=True, blank=True)
@@ -100,7 +99,7 @@ class Price(models.Model):
     product = models.ForeignKey('Product', related_name='prices', on_delete=models.CASCADE)
     price = models.FloatField('Price', null=False, blank=False)
     days_min = models.SmallIntegerField('Days min', null=False, blank=False)
-    days_max = models.SmallIntegerField('Days max', null=True, blank=True)
+    days_max = models.SmallIntegerField('Days max', null=False, blank=False)
 
 
 @receiver(post_delete, sender=ProductImage)

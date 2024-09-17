@@ -5,7 +5,7 @@ from django.utils.html import mark_safe
 from adminsortable2.admin import SortableAdminMixin, SortableTabularInline
 
 from .exchange import product_exchange
-from .models import Product, ProductImage, ProductOption
+from .models import Product, ProductImage, ProductOption, Price
 
 
 def get_cars_from_rentsyst(request):
@@ -20,11 +20,18 @@ def get_cars_from_rentsyst(request):
 
 class ProductOptionInline(admin.TabularInline):
     model = ProductOption
+    classes = ['collapse']
+    extra = 0
+
+
+class PriceInline(admin.TabularInline):
+    model = Price
     extra = 0
 
 
 class ProductImageInline(SortableTabularInline):
     model = ProductImage
+    classes = ['collapse']
     readonly_fields = ('image_original_preview',)
     extra = 0
 
@@ -37,7 +44,7 @@ class ProductImageInline(SortableTabularInline):
 
 @admin.register(Product)
 class ProductAdmin(SortableAdminMixin, admin.ModelAdmin):
-    inlines = [ProductImageInline, ProductOptionInline]
+    inlines = [PriceInline, ProductImageInline, ProductOptionInline]
     list_display = ('external_id', 'brand_and_mark', 'group', 'priority', 'priority_num', 'active')
     readonly_fields = ('slug',)
     list_per_page = 20
